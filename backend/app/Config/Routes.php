@@ -24,6 +24,17 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
     $routes->get('blogs/edit/(:num)', 'BlogController::edit/$1');  // form to edit
     $routes->post('blogs/update/(:num)', 'BlogController::update/$1'); // submit update
     $routes->get('blogs/delete/(:num)', 'BlogController::delete/$1');  // delete blog
+
+
+    //Projects Routes
+    $routes->get('projects', 'ProjectsController::index');
+    $routes->get('projects/create', 'ProjectsController::create');
+    $routes->post('projects/store', 'ProjectsController::store');
+    $routes->get('projects/edit/(:num)', 'ProjectsController::edit/$1');
+    $routes->post('projects/update/(:num)', 'ProjectsController::update/$1');
+    $routes->post('projects/delete/(:num)', 'ProjectsController::delete/$1');
+    $routes->post('projects/(:num)/addImage', 'ProjectsController::addImage/$1');
+    $routes->post('projects/deleteImage/(:num)', 'ProjectsController::deleteImage/$1');
 });
 
 //blogs
