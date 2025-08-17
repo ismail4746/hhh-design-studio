@@ -43,7 +43,7 @@ export default function Project() {
         {projects.length === 0 ? (
           <p className="text-gray-400">No projects found.</p>
         ) : (
-          <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-8">
             {projects.slice(0, 6).map((p, index) => (
               <motion.div
                 key={p.id}
@@ -51,25 +51,34 @@ export default function Project() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.08 }}
-                className="group relative rounded-3xl overflow-hidden bg-[#1a1a1a]/40 backdrop-blur-lg border border-gray-700 hover:border-[#D4AF37] hover:shadow-[0_0_25px_#D4AF37]/40 transition cursor-pointer"
-                onClick={() => setSelected(p)}  // <-- OPEN MODAL
+                className="group rounded-3xl overflow-hidden bg-[#1a1a1a]/40 backdrop-blur-lg border border-gray-700 hover:border-[#D4AF37] hover:shadow-[0_0_25px_#D4AF37]/40 transition"
               >
                 <div className="rounded-3xl overflow-hidden">
                   <img
                     src={p.images && p.images[0] ? `http://localhost:8080/${p.images[0].image_url}` : ""}
                     alt={p.name}
                     loading="lazy"
-                    className="w-full h-72 object-cover transform group-hover:scale-110 transition duration-500"
+                    className="w-full h-72 object-cover transform group-hover:scale-105 transition duration-500"
                   />
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition duration-500">
-                    <motion.h4 initial={{ y: 30, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }} className="text-2xl font-semibold text-white">
-                      {p.name}
-                    </motion.h4>
-                  </div>
+                </div>
+          
+                <div className="p-5">
+                  <h4 className="text-xl mb-1 font-semibold text-[#D4AF37]">{p.name}</h4>
+                  <p className="text-xs uppercase text-gray-500 mb-3">Status — {p.status}</p>
+          
+                  {/* Read More button */}
+                  <button
+                    onClick={() => setSelected(p)}
+                    className="mt-auto w-full px-6 py-2 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black font-semibold hover:scale-105 hover:shadow-[0_0_30px_#D4AF37]/40 transition"
+                  >
+                    Read More
+                  </button>
                 </div>
               </motion.div>
             ))}
           </div>
+          
+          
         )}
 
         <div className="text-center mt-16">
@@ -96,13 +105,15 @@ export default function Project() {
         className="bg-[#1a1a1a] max-w-lg w-full rounded-xl overflow-hidden"
       >
         {/* image at top */}
-        {selected.images && selected.images[0] && (
-          <img
-            src={`http://localhost:8080/${selected.images[0].image_url}`}
-            alt={selected.name}
-            className="w-full h-60 object-cover"
-          />
-        )}
+
+{selected.images && selected.images[0] && (
+  <img
+    src={`http://localhost:8080/${selected.images[0].image_url}`}
+    alt={selected.name}
+    className="w-full max-h-[400px] object-contain"
+  />
+)}
+
 
         <div className="p-8">
           <h3 className="text-2xl font-bold text-[#D4AF37] mb-2">{selected.name}</h3>
