@@ -6,6 +6,8 @@ import Portfolio from "./components/portfolio/Portfolio";
 import Blog from "./components/blog/Blog";
 import Project from "./components/projects/Project";
 import Contact from "./components/contact/Contact";
+import Store from "./components/store/Store";
+
 // import { Contact } from "lucide-react";
 
 export default function App() {
@@ -20,16 +22,18 @@ export default function App() {
           element={
             <>
               <Hero />
-              <About />
-              <Blog/>
+              <Store/>
               <Project />
+              <Blog/>
               <Contact />
+              
             </>
           }
         />
 
         {/* Portfolio Page */}
         <Route path="/portfolio" element={<Portfolio />} />
+        <Route path="/about" element={<About/>} />
       </Routes>
     </>
   );
