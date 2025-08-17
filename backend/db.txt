@@ -52,3 +52,28 @@ CREATE TABLE contact_messages (
     read_status BOOLEAN DEFAULT FALSE,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+17-08-2025
+CREATE TABLE projects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    start_date DATE,
+    end_date DATE,
+    status ENUM('planned', 'in_progress', 'completed', 'on_hold') DEFAULT 'planned',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE project_images
+ADD COLUMN updated_at DATETIME DEFAULT NULL AFTER created_at;
+
+
+ALTER TABLE project_images
+DROP FOREIGN KEY project_images_ibfk_1;  -- drop old FK referencing portfolio_projects
+
+ALTER TABLE project_images
+ADD CONSTRAINT project_images_ibfk_1
+FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;

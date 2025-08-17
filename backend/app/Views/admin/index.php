@@ -209,7 +209,7 @@
         <div class="row mt-5">
             <div class="col-md-6">
                 <div class="card p-4">
-                    <h5 class="section-title">Manage Portfolio Projects</h5>
+                    <h5 class="section-title">Manage Projects</h5>
                     <ul class="list-unstyled">
                         <li><a href="<?= base_url('admin/projects') ?>" class="text-primary">📂 View All Projects</a></li>
                         <li><a href="<?= base_url('admin/projects/create') ?>" class="text-primary">➕ Add New Project</a></li>

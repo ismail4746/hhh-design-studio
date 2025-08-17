@@ -21,17 +21,38 @@ class Auth extends BaseController
             return redirect()->to('/admin/login')->with('error', 'Please log in first.');
         }
 
+        $db = \Config\Database::connect();
+
+        // Count total projects from `projects` table
+        $total_projects = $db->table('projects')->countAllResults();
+
+        // Count total blog posts from `blog_posts` table
+        $total_posts = $db->table('blog_posts')->countAllResults();
+
+        // Count unread messages from `contact_messages` where read_status = 0 (false)
+        $unread_messages = $db->table('contact_messages')->where('read_status', false)->countAllResults();
+
+        // You don’t have a monthly projects count explicitly, but you can count projects created this month:
+        $monthly_projects = $db->table('projects')
+            ->where('created_at >=', date('Y-m-01'))  // first day of current month
+            ->countAllResults();
+
         $data = [
             'title' => 'Admin Dashboard',
             'admin_name' => session()->get('admin_name'),
+            'total_projects' => $total_projects,
+            'total_posts' => $total_posts,
+            'unread_messages' => $unread_messages,
+            'monthly_projects' => $monthly_projects,
         ];
 
         return view('admin/index', $data);
     }
-   
+
+
     public function register()
     {
-        return view('admin/register'); 
+        return view('admin/register');
     }
 
     public function submit()
@@ -97,6 +118,4 @@ class Auth extends BaseController
         session()->destroy();
         return redirect()->to('/admin/login')->with('success', 'Logged out successfully.');
     }
-
-    
 }
