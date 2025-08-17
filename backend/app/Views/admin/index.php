@@ -2,260 +2,389 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title><?= esc($title ?? 'Admin Panel') ?></title>
 
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 
     <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 0.95rem;
-            color: #343a40;
-            -webkit-font-smoothing: antialiased;
+        /* Base */
+        * {
+            box-sizing: border-box;
         }
 
-        .navbar {
-            background-color: #1f2d3d;
-            padding: 0.75rem 1.5rem;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: #f9fafb;
+            color: #374151;
         }
 
-        .navbar-brand {
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #2563eb;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 220px;
+            height: 100%;
+            background: #ffffff;
+            border-right: 1px solid #e5e7eb;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 1.8rem 1rem;
+            user-select: none;
+            z-index: 1000;
+        }
+
+        .sidebar .brand {
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            color: #2563eb;
+            text-align: center;
+            margin-bottom: 2rem;
+            user-select: none;
+        }
+
+        .sidebar nav {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .sidebar nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #4b5563;
             font-weight: 600;
-            font-size: 1.35rem;
-            color: #fff !important;
+            border-radius: 8px;
+            transition: background-color 0.25s ease, color 0.25s ease;
+            font-size: 1rem;
         }
 
-        .navbar-nav .nav-link {
-            color: #ced4da !important;
-            font-weight: 500;
-            transition: 0.3s;
+        .sidebar nav a i {
+            font-size: 1.25rem;
+            color: #60a5fa;
+            transition: color 0.25s ease;
+            width: 20px;
+            text-align: center;
         }
 
-        .navbar-nav .nav-link:hover,
-        .navbar-nav .nav-link.active {
-            color: #fff !important;
-            background-color: rgba(255, 255, 255, 0.08);
-            border-radius: 4px;
+        .sidebar nav a.active,
+        .sidebar nav a:hover {
+            background-color: #2563eb;
+            color: white;
         }
 
-        .logout-btn {
-            background-color: #dc3545;
-            color: #fff;
-            font-weight: 500;
-            font-size: 0.875rem;
-            border-radius: 4px;
-            transition: background 0.3s ease;
+        .sidebar nav a.active i,
+        .sidebar nav a:hover i {
+            color: white;
         }
 
-        .logout-btn:hover {
-            background-color: #bd2130;
-            color: #fff;
+        .sidebar .logout-btn {
+            padding: 12px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            user-select: none;
+            margin-top: 1rem;
+            transition: background-color 0.25s ease;
+        }
+
+        .sidebar .logout-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* Main content */
+        .main-content {
+            margin-left: 220px;
+            padding: 2rem 2.5rem;
+            min-height: 100vh;
         }
 
         .dashboard-header {
-            font-size: 1.75rem;
-            font-weight: 600;
-            color: #2c3e50;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #1f2937;
+            user-select: none;
         }
 
+        /* Cards grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Card */
         .card {
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgb(0 0 0 / 0.05);
+            padding: 1.5rem 1.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: default;
+            transition: box-shadow 0.3s ease;
+            user-select: none;
         }
 
         .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 6px 16px rgb(37 99 235 / 0.3);
+        }
+
+        .card .text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card .label {
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #6b7280;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.3rem;
+            user-select: text;
+        }
+
+        .card .value {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #1e40af;
+            user-select: text;
         }
 
         .card .icon {
-            font-size: 2rem;
-            opacity: 0.8;
+            font-size: 2.4rem;
+            color: #2563eb;
+            user-select: none;
         }
 
-        .card-body {
-            padding: 1.25rem 1.5rem;
+        /* Sections below cards */
+        .sections {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
         }
 
-        .list-unstyled li {
-            margin-bottom: 0.5rem;
+        .section-card {
+            flex: 1 1 280px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgb(0 0 0 / 0.05);
+            padding: 2rem;
+            user-select: none;
+            transition: box-shadow 0.3s ease;
         }
 
-        .list-unstyled li a {
-            font-weight: 500;
-            transition: color 0.2s ease;
+        .section-card:hover {
+            box-shadow: 0 8px 20px rgb(37 99 235 / 0.3);
         }
 
-        .list-unstyled li a:hover {
-            text-decoration: underline;
+        .section-card h5 {
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+            color: #2563eb;
+            user-select: none;
         }
 
-        .alert-success {
-            border-left: 5px solid #28a745;
-            font-weight: 500;
+        .section-card ul {
+            list-style: none;
+            padding-left: 0;
         }
 
-        .text-uppercase {
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
+        .section-card ul li {
+            margin-bottom: 1rem;
         }
 
-        .section-title {
-            font-size: 1.1rem;
+        .section-card ul li a {
             font-weight: 600;
-            margin-bottom: 0.75rem;
+            color: #374151;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            user-select: text;
+            transition: color 0.25s ease;
+        }
+
+        .section-card ul li a:hover {
+            color: #2563eb;
+            transform: translateX(5px);
+        }
+
+        /* Alert */
+        .alert-success {
+            margin-top: 2rem;
+            background: #d1fae5;
+            border-left: 6px solid #10b981;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            color: #065f46;
+            box-shadow: 0 0 8px #10b981aa;
+            user-select: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                padding: 1rem;
+                border-right: none;
+                border-bottom: 1px solid #e5e7eb;
+                box-shadow: none;
+            }
+
+            .sidebar nav {
+                flex-direction: row;
+                gap: 1rem;
+                overflow-x: auto;
+            }
+
+            .sidebar nav a {
+                margin-bottom: 0;
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem 1rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 1rem;
+            }
+
+            .sections {
+                flex-direction: column;
+            }
+
+            .section-card {
+                width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Sidebar navigation">
+        <div class="brand">ADMIN PANEL</div>
+        <nav>
+            <a href="<?= base_url('admin/dashboard') ?>" class="<?= uri_string() == 'admin/dashboard' ? 'active' : '' ?>"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="<?= base_url('admin/projects') ?>" class="<?= uri_string() == 'admin/projects' ? 'active' : '' ?>"><i class="fas fa-folder-open"></i> Projects</a>
+            <a href="<?= base_url('admin/blogs') ?>" class="<?= uri_string() == 'admin/blogs' ? 'active' : '' ?>"><i class="fas fa-blog"></i> Blogs</a>
+            <a href="<?= base_url('admin/messages') ?>" class="<?= uri_string() == 'admin/contacts' ? 'active' : '' ?>"><i class="fas fa-envelope"></i> Messages</a>
+        </nav>
+        <button onclick="window.location='<?= base_url('admin/logout') ?>'" class="logout-btn" aria-label="Logout">Logout</button>
+    </aside>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Admin Panel</a>
-            <div class="collapse navbar-collapse justify-content-end">
-                <ul class="navbar-nav mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="<?= base_url('admin/dashboard') ?>">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('admin/projects') ?>">Projects</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('admin/blogs') ?>">Blogs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('admin/contacts') ?>">Messages</a>
-                    </li>
-                </ul>
-                <a href="<?= base_url('admin/logout') ?>" class="btn logout-btn ms-3">Logout</a>
-            </div>
-        </div>
-    </nav>
 
     <!-- Main Content -->
-    <div class="container mt-5">
-        <div class="dashboard-header mb-4">Welcome, <?= esc($admin_name) ?>!</div>
+    <main class="main-content">
+        <h1 class="dashboard-header">Welcome, <?= esc($admin_name) ?>!</h1>
 
         <?php if (session()->getFlashdata('success')): ?>
-            <div class="alert alert-success" id="autoDismissAlert">
+            <div class="alert-success" role="alert">
                 <?= session()->getFlashdata('success') ?>
             </div>
         <?php endif; ?>
 
-
-        <!-- Dashboard Stats -->
-        <div class="row g-4">
-            <div class="col-md-6 col-xl-3">
-                <div class="card border-start border-primary">
-                    <div class="card-body d-flex align-items-center justify-content-between">
-                        <div>
-                            <div class="text-uppercase text-primary small mb-1">Monthly Projects</div>
-                            <div class="h5 fw-bold"><?= $monthly_projects ?? '0' ?></div>
-                        </div>
-                        <i class="fas fa-project-diagram icon text-primary"></i>
-                    </div>
+        <section class="cards-grid" aria-label="Dashboard statistics">
+            <article class="card" aria-labelledby="monthly-projects-title">
+                <div class="text">
+                    <div id="monthly-projects-title" class="label">Monthly Projects</div>
+                    <div class="value"><?= $monthly_projects ?? '0' ?></div>
                 </div>
+                <i class="fas fa-project-diagram icon" aria-hidden="true"></i>
+            </article>
+
+            <article class="card" aria-labelledby="total-projects-title">
+                <div class="text">
+                    <div id="total-projects-title" class="label">Total Projects</div>
+                    <div class="value"><?= $total_projects ?? '0' ?></div>
+                </div>
+                <i class="fas fa-archive icon" aria-hidden="true"></i>
+            </article>
+
+            <article class="card" aria-labelledby="blog-posts-title">
+                <div class="text">
+                    <div id="blog-posts-title" class="label">Blog Posts</div>
+                    <div class="value"><?= $total_posts ?? '0' ?></div>
+                </div>
+                <i class="fas fa-blog icon" aria-hidden="true"></i>
+            </article>
+
+            <article class="card" aria-labelledby="unread-messages-title">
+                <div class="text">
+                    <div id="unread-messages-title" class="label">Unread Messages</div>
+                    <div class="value"><?= $unread_messages ?? '0' ?></div>
+                </div>
+                <i class="fas fa-envelope icon" aria-hidden="true"></i>
+            </article>
+        </section>
+
+        <section class="sections" aria-label="Management links">
+            <div class="section-card">
+                <h5>Manage Projects</h5>
+                <ul>
+                    <li><a href="<?= base_url('admin/projects') ?>">📂 View All Projects</a></li>
+                    <li><a href="<?= base_url('admin/projects/create') ?>">➕ Add New Project</a></li>
+                </ul>
             </div>
 
-            <div class="col-md-6 col-xl-3">
-                <div class="card border-start border-success">
-                    <div class="card-body d-flex align-items-center justify-content-between">
-                        <div>
-                            <div class="text-uppercase text-success small mb-1">Total Projects</div>
-                            <div class="h5 fw-bold"><?= $total_projects ?? '0' ?></div>
-                        </div>
-                        <i class="fas fa-archive icon text-success"></i>
-                    </div>
-                </div>
+            <div class="section-card">
+                <h5>Manage Blog Posts</h5>
+                <ul>
+                    <li><a href="<?= base_url('admin/blogs') ?>">📝 View All Blogs</a></li>
+                    <li><a href="<?= base_url('admin/blogs/create') ?>">➕ Add New Blog</a></li>
+                </ul>
             </div>
 
-            <div class="col-md-6 col-xl-3">
-                <div class="card border-start border-info">
-                    <div class="card-body d-flex align-items-center justify-content-between">
-                        <div>
-                            <div class="text-uppercase text-info small mb-1">Blog Posts</div>
-                            <div class="h5 fw-bold"><?= $total_posts ?? '0' ?></div>
-                        </div>
-                        <i class="fas fa-blog icon text-info"></i>
-                    </div>
-                </div>
+            <div class="section-card" style="flex-basis: 100%;">
+                <h5>Contact Messages</h5>
+                <ul>
+                    <li><a href="<?= base_url('admin/messages') ?>">📩 View Messages</a></li>
+                </ul>
             </div>
-
-            <div class="col-md-6 col-xl-3">
-                <div class="card border-start border-warning">
-                    <div class="card-body d-flex align-items-center justify-content-between">
-                        <div>
-                            <div class="text-uppercase text-warning small mb-1">Unread Messages</div>
-                            <div class="h5 fw-bold"><?= $unread_messages ?? '0' ?></div>
-                        </div>
-                        <i class="fas fa-envelope icon text-warning"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section Links -->
-        <div class="row mt-5">
-            <div class="col-md-6">
-                <div class="card p-4">
-                    <h5 class="section-title">Manage Projects</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="<?= base_url('admin/projects') ?>" class="text-primary">📂 View All Projects</a></li>
-                        <li><a href="<?= base_url('admin/projects/create') ?>" class="text-primary">➕ Add New Project</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="card p-4">
-                    <h5 class="section-title">Manage Blog Posts</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="<?= base_url('admin/blogs') ?>" class="text-info">📝 View All Blogs</a></li>
-                        <li><a href="<?= base_url('admin/blogs/create') ?>" class="text-info">➕ Add New Blog</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-md-12 mt-4">
-                <div class="card p-4">
-                    <h5 class="section-title">Contact Messages</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="<?= base_url('admin/contacts') ?>" class="text-warning">📩 View Messages</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
-
-
-    <script>
-        // Auto dismiss alert after 10 seconds
-        setTimeout(function() {
-            const alertBox = document.getElementById('autoDismissAlert');
-            if (alertBox) {
-                alertBox.style.transition = 'opacity 0.5s ease';
-                alertBox.style.opacity = '0';
-                setTimeout(() => alertBox.remove(), 500); // remove after fade out
-            }
-        }, 10000); // 10 seconds = 10000 ms
-    </script>
-
+        </section>
+    </main>
 </body>
 
 </html>

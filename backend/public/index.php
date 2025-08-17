@@ -1,5 +1,16 @@
 <?php
 
+// CORS headers to allow requests from React app
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Accept');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+// rest of your existing code
 use CodeIgniter\Boot;
 use Config\Paths;
 

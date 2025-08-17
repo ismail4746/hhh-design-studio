@@ -5,6 +5,8 @@ import About from "./components/about/About";
 import Portfolio from "./components/portfolio/Portfolio";
 import Blog from "./components/blog/Blog";
 import Project from "./components/projects/Project";
+import Contact from "./components/contact/Contact";
+// import { Contact } from "lucide-react";
 
 export default function App() {
   return (
@@ -21,6 +23,7 @@ export default function App() {
               <About />
               <Blog/>
               <Project />
+              <Contact />
             </>
           }
         />
