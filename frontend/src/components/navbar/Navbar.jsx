@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, Sun, Moon } from "lucide-react";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logomm.png";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
