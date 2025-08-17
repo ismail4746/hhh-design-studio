@@ -35,13 +35,10 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
     $routes->post('projects/delete/(:num)', 'ProjectsController::delete/$1');
     $routes->post('projects/(:num)/addImage', 'ProjectsController::addImage/$1');
     $routes->post('projects/deleteImage/(:num)', 'ProjectsController::deleteImage/$1');
-});
 
-//blogs
-// $routes->group('blog', ['namespace' => 'App\Controllers'], function($routes) {
-//     $routes->get('blogs', 'BlogController::index');           // GET all blogs
-//     $routes->get('blogs/(:num)', 'BlogController::show/$1');  // GET blog by ID
-//     $routes->post('blogs', 'BlogController::create');         // POST create blog
-//     $routes->put('blogs/(:num)', 'BlogController::update/$1');// PUT update blog
-//     $routes->delete('blogs/(:num)', 'BlogController::delete/$1'); // DELETE blog
-// });
+
+    //Contact Messages
+    $routes->post('contact/submit', 'ContactController::submitMessage');
+    $routes->get('messages', 'ContactController::messages');
+    $routes->post('messages/reply/(:num)', 'ContactController::reply/$1');
+});
