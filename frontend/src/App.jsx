@@ -5,10 +5,11 @@ import About from "./components/about/About";
 import Portfolio from "./components/portfolio/Portfolio";
 import Blog from "./components/blog/Blog";
 import Project from "./components/projects/Project";
-import Contact from "./components/contact/Contact";
 import Store from "./components/store/Store";
-
-// import { Contact } from "lucide-react";
+import ContactDetails from "./components/contact/ContactDetails";
+import ProjectDetails from "./components/ProjectsDetails/ProjectsDetails";
+import Footer from "./components/Footer/Footer";
+import Projectsmain from "./components/ProjectsDetails/Projectsmain";
 
 export default function App() {
   return (
@@ -25,7 +26,6 @@ export default function App() {
               <Store/>
               <Project />
               <Blog/>
-              <Contact />
               
             </>
           }
@@ -34,7 +34,10 @@ export default function App() {
         {/* Portfolio Page */}
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/about" element={<About/>} />
+        <Route path="/contactDetails" element={<ContactDetails/>} />
+        <Route path="/project" element={<Projectsmain/>} />
       </Routes>
+      <Footer/>
     </>
   );
 }

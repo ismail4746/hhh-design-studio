@@ -1,0 +1,76 @@
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import logo from "../../assets/logomm.png";
+
+export default function Footer() {
+    const navigate = useNavigate();
+
+    return (
+        <footer className="bg-black/90 text-white relative overflow-hidden">
+            {/* Decorative Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#0a1f2f] via-transparent to-[#0d2a45] opacity-70 pointer-events-none"></div>
+
+            <div className="relative max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-10">
+                {/* Logo and Description */}
+                <div className="flex flex-col space-y-4">
+                    <div className="flex items-center space-x-3">
+                        <img src={logo} alt="Logo" className="h-10 w-auto" />
+                        <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>
+                            HHH Design
+                        </span>
+                    </div>
+                    <p className="text-gray-300 text-sm leading-relaxed">
+                        Crafting architectural and interior designs that transform spaces into experiences. Premium, elegant, and timeless.
+                    </p>
+
+                    {/* Social Media Links */}
+                    <div className="flex space-x-4 mt-4">
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-white transition">
+                            <Facebook />
+                        </a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-white transition">
+                            <Instagram />
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-white transition">
+                            <Linkedin />
+                        </a>
+                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-white transition">
+                            <Twitter />
+                        </a>
+                    </div>
+                </div>
+
+                {/* Quick Links */}
+                <div className="flex flex-col space-y-2">
+                    <h4 className="text-yellow-400 font-semibold mb-4">Quick Links</h4>
+                    <a href="/" className="text-gray-300 hover:text-yellow-400 transition">Home</a>
+                    <a href="/about" className="text-gray-300 hover:text-yellow-400 transition">About</a>
+                    <a href="/services" className="text-gray-300 hover:text-yellow-400 transition">Services</a>
+                    <a href="/portfolio" className="text-gray-300 hover:text-yellow-400 transition">Portfolio</a>
+                    <a href="/project" className="text-gray-300 hover:text-yellow-400 transition">Projects</a>
+                </div>
+
+                {/* Contact Info */}
+                <div className="flex flex-col space-y-2">
+                    <h4 className="text-yellow-400 font-semibold mb-4">Contact</h4>
+                    <p className="text-gray-300 text-sm">123 Premium Avenue, City, Country</p>
+                    <p className="text-gray-300 text-sm">Email: contact@hhhdesign.com</p>
+                    <p className="text-gray-300 text-sm">Phone: +123 456 7890</p>
+                    <button
+                        onClick={() => navigate("/contactDetails")}
+                        className="mt-8 px-3 py-1.5 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-semibold hover:scale-105 hover:shadow-lg transition-all duration-300"
+                    >
+                        Contact Us
+                    </button>
+                </div>
+
+
+            </div>
+
+            {/* Bottom Bar */}
+            <div className="border-t border-gray-700/30 mt-8 py-4 text-center text-gray-400 text-sm">
+                &copy; {new Date().getFullYear()} HHH Design Studio. All rights reserved.
+            </div>
+        </footer>
+    );
+}

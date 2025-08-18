@@ -10,9 +10,9 @@ const About = () => {
     <>
     <HeroAbout/>
     <AboutStore/>
-    <Why/>
     <Ceo/>
     <AboutEX/>
+    <Why/>
     
     </>
   )
