@@ -59,7 +59,7 @@ function Navbar() {
             onClick={() => navigate("/contactDetails")}
             className="px-5 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-semibold hover:scale-105 hover:shadow-lg transition-all duration-300"
           >
-            Book a Consultation
+            Design Your Vision
           </button>
         </div>
 
@@ -100,7 +100,7 @@ function Navbar() {
               }}
               className="px-5 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-semibold hover:scale-105 hover:shadow-lg transition-all duration-300"
             >
-              Book a Consultation
+              Design Your Vision
             </button>
           </div>
         </div>

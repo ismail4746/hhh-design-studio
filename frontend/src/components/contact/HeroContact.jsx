@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import heroImg from "../../assets/2.jpg";
+import { ChevronDown } from "lucide-react";
 
 export default function HeroContact() {
   return (
@@ -50,6 +51,15 @@ export default function HeroContact() {
           & interior design consultation. We’ll craft spaces that inspire and 
           bring your vision to life.
         </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6, repeat: Infinity, repeatType: "mirror" }}
+          className="flex justify-center"
+        >
+          <ChevronDown className="text-white w-8 h-8 animate-bounce" />
+        </motion.div>
       </motion.div>
     </section>
   );

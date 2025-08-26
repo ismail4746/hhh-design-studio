@@ -1,5 +1,6 @@
 import React from "react";
 import { FaAward, FaBriefcase, FaLeaf } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function AboutEX() {
   return (
@@ -38,7 +39,7 @@ export default function AboutEX() {
             our portfolio captures innovation, craftsmanship and timeless beauty.
           </p>
           <button className="w-full sm:w-auto mt-auto px-6 py-2 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black font-semibold hover:opacity-90 transition">
-            Visit Projects
+           <Link to="/project">Visit Projects</Link>
           </button>
         </div>
 

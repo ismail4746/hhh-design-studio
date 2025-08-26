@@ -10,6 +10,7 @@ import ContactDetails from "./components/contact/ContactDetails";
 import ProjectDetails from "./components/ProjectsDetails/ProjectsDetails";
 import Footer from "./components/Footer/Footer";
 import Projectsmain from "./components/ProjectsDetails/Projectsmain";
+import ServicesMain from "./components/services/ServicesMain";
 
 export default function App() {
   return (
@@ -36,6 +37,8 @@ export default function App() {
         <Route path="/about" element={<About/>} />
         <Route path="/contactDetails" element={<ContactDetails/>} />
         <Route path="/project" element={<Projectsmain/>} />
+        <Route path="/services" element={<ServicesMain/>} />
+
       </Routes>
       <Footer/>
     </>

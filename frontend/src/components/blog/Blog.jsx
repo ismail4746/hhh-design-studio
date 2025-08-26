@@ -37,7 +37,7 @@ const Blog = () => {
   }
 
   return (
-    <div className="min-h-screen p-10 bg-gradient-to-tr from-black via-[#0a1f3f]/50 to-[#02101f]">
+    <div className="min-h-screen p-10 bg-gradient-to-tr from-black via-[#0a1f3f]/50 to-[#02101f]"> 
       {/* Heading */}
       <div className="text-center mb-14">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-[#D4AF37] to-[#b8902d] bg-clip-text text-transparent inline-block">Latest Blogs</h1>

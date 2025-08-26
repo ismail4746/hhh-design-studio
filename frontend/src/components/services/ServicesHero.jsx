@@ -1,20 +1,20 @@
 import React from "react";
 import { motion } from "framer-motion";
-import heroImg from "../../assets/hero.jpg";
-import { Link } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
+import heroImg from "../../assets/services.jpg";
 
-export default function Hero() {
+export default function ServicesHero() {
   return (
     <section className="relative h-screen flex items-center justify-center bg-black overflow-hidden">
       {/* Background Image */}
       <img
         src={heroImg}
-        alt="Hero"
+        alt="Services Hero"
         className="absolute inset-0 w-full h-full object-cover"
       />
 
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/25"></div>
+      <div className="absolute inset-0 bg-black/40"></div>
 
       {/* Content */}
       <motion.div
@@ -35,7 +35,7 @@ export default function Hero() {
           className="text-4xl md:text-6xl font-bold text-white tracking-wide mb-4"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
-          Crafting <span className="text-yellow-500">Spaces</span> That Inspire
+          Our <span className="text-yellow-400"> Services </span>
         </motion.h1>
 
         <motion.p
@@ -43,25 +43,23 @@ export default function Hero() {
             hidden: { opacity: 0, y: 40, scale: 0.95 },
             visible: { opacity: 1, y: 0, scale: 1 },
           }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-6"
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+          className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-8"
           style={{ fontFamily: "'Poppins', sans-serif" }}
         >
-          Premium Architecture & Interior Design solutions tailored for
-          elegance, functionality, and timeless appeal.
+          Delivering premium architecture and interior design solutions — 
+          blending elegance, functionality, and timeless appeal for every space.
         </motion.p>
 
-        <motion.button
-          variants={{
-            hidden: { opacity: 0, y: 40, scale: 0.95 },
-            visible: { opacity: 1, y: 0, scale: 1 },
-          }}
-          
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-6 py-3 rounded-lg transition transform hover:scale-105"
+        {/* Scroll Down Indicator */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6, repeat: Infinity, repeatType: "mirror" }}
+          className="flex justify-center"
         >
-          <Link to="/project">Explore Our Work</Link>
-        </motion.button>
+          <ChevronDown className="text-white w-8 h-8 animate-bounce" />
+        </motion.div>
       </motion.div>
     </section>
   );

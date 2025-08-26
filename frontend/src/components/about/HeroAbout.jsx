@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import heroImg from "../../assets/abouthero.jpg";
+import heroImg from "../../assets/lc2.jpg";
+import { ChevronDown } from "lucide-react";
 
 export default function HeroAbout() {
   return (
@@ -76,6 +77,14 @@ export default function HeroAbout() {
           execution — every detail is designed with heart, precision and
           uncompromising elegance.
         </motion.p>
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6, repeat: Infinity, repeatType: "mirror" }}
+          className="flex justify-center"
+        >
+          <ChevronDown className="text-white w-8 h-8 animate-bounce" />
+        </motion.div>
       </motion.div>
     </section>
   );

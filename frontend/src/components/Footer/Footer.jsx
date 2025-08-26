@@ -1,4 +1,5 @@
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
+import { FaTiktok, FaYoutube } from "react-icons/fa"; // Added for TikTok & YouTube
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logomm.png";
 
@@ -24,18 +25,55 @@ export default function Footer() {
                     </p>
 
                     {/* Social Media Links */}
-                    <div className="flex space-x-4 mt-4">
-                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-white transition">
+                    <div className="flex space-x-4 mt-4 text-xl">
+                        {/* Facebook */}
+                        <a 
+                            href="https://www.facebook.com/share/1AygEBaNnx/" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-yellow-400 hover:text-white transition"
+                        >
                             <Facebook />
                         </a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-white transition">
+
+                        {/* Instagram */}
+                        <a 
+                            href="https://www.instagram.com/hhhdesign_studio1?igsh=a3cycThveGVhc2k%3D&utm_source=qr" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-yellow-400 hover:text-white transition"
+                        >
                             <Instagram />
                         </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-white transition">
+
+                        {/* LinkedIn */}
+                        <a 
+                            href="http://www.linkedin.com/in/hhh-design-studio-083619379" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-yellow-400 hover:text-white transition"
+                        >
                             <Linkedin />
                         </a>
-                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-white transition">
-                            <Twitter />
+
+                        {/* TikTok */}
+                        <a 
+                            href="https://www.tiktok.com/@hhh.design.studio?_t=ZS-8yz7zVfTR4S&_r=1" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-yellow-400 hover:text-white transition"
+                        >
+                            <FaTiktok />
+                        </a>
+
+                        {/* YouTube */}
+                        <a 
+                            href="https://youtube.com/@hhhdesignstudio01?si=3_LGtAyGCgM-iIpc" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-yellow-400 hover:text-white transition"
+                        >
+                            <FaYoutube />
                         </a>
                     </div>
                 </div>
@@ -53,9 +91,9 @@ export default function Footer() {
                 {/* Contact Info */}
                 <div className="flex flex-col space-y-2">
                     <h4 className="text-yellow-400 font-semibold mb-4">Contact</h4>
-                    <p className="text-gray-300 text-sm">123 Premium Avenue, City, Country</p>
-                    <p className="text-gray-300 text-sm">Email: contact@hhhdesign.com</p>
-                    <p className="text-gray-300 text-sm">Phone: +123 456 7890</p>
+                    <p className="text-gray-300 text-sm">Address: FF 138,139 First Floor Defence Shopping Mall Main Boulevard Dha Lahore Pakistan</p>
+                    <p className="text-gray-300 text-sm">Email: hhhdesignstudio@outlook.com</p>
+                    <p className="text-gray-300 text-sm">Phone: +92302-4599748</p>
                     <button
                         onClick={() => navigate("/contactDetails")}
                         className="mt-8 px-3 py-1.5 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-semibold hover:scale-105 hover:shadow-lg transition-all duration-300"
@@ -63,8 +101,6 @@ export default function Footer() {
                         Contact Us
                     </button>
                 </div>
-
-
             </div>
 
             {/* Bottom Bar */}
