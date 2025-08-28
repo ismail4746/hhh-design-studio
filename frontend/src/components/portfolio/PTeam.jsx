@@ -1,52 +1,54 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import member1 from "../../assets/team2.jpg";
 import member2 from "../../assets/draft2.jpg";
 import member3 from "../../assets/interiorDesign.jpg";
 import member4 from "../../assets/site.jpg";
 import member5 from "../../assets/architect.jpg";  
+import { X } from "lucide-react";
 
 const teamMembers = [
-    {
-        name: "MUHAMMAD MATEEN",
-        role: "3D Designer",
-        desc: "Specializes in creating photorealistic 3D models, walkthroughs, and architectural visualizations.",
-        img: member1,
-      },
-      {
-        name: "MUHAMMAD AHMAD",
-        role: "Draftsman",
-        desc: "Expert in preparing precise technical drawings, detailed layouts, and construction-ready plans.",
-        img: member2,
-      },
-      {
-        name: "MUHAMMAD AWAIS",
-        role: "Interior Designer",
-        desc: "Designs modern and functional interior spaces with creative 3D concepts and detailed layouts.",
-        img: member3,
-      },
-      {
-        name: "AHAD SADDIQUE",
-        role: "Site Incharge",
-        desc: "Supervises on-site activities, ensuring quality control, safety, and timely project completion.",
-        img: member4,
-      },
-      {
-        name: "NOMAN WARIS",
-        role: "Architect",
-        desc: "Creates innovative architectural concepts, balancing aesthetics, functionality, and sustainability.",
-        img: member5,
-      },
-      
+  {
+    name: "MUHAMMAD MATEEN",
+    role: "3D Designer",
+    desc: "Specializes in creating photorealistic 3D models, walkthroughs, and architectural visualizations.",
+    img: member1,
+  },
+  {
+    name: "MUHAMMAD AHMAD",
+    role: "Draftsman",
+    desc: "Expert in preparing precise technical drawings, detailed layouts, and construction-ready plans.",
+    img: member2,
+  },
+  {
+    name: "MUHAMMAD AWAIS",
+    role: "Interior Designer",
+    desc: "Designs modern and functional interior spaces with creative 3D concepts and detailed layouts.",
+    img: member3,
+  },
+  {
+    name: "AHAD SADDIQUE",
+    role: "Site Incharge",
+    desc: "Supervises on-site activities, ensuring quality control, safety, and timely project completion.",
+    img: member4,
+  },
+  {
+    name: "NOMAN WARIS",
+    role: "Architect",
+    desc: "Creates innovative architectural concepts, balancing aesthetics, functionality, and sustainability.",
+    img: member5,
+  },
 ];
 
 export default function PTeam() {
+  const [selected, setSelected] = useState(null);
+
   return (
     <section
       id="team"
       className="py-24 bg-gradient-to-b from-[#0a0a0a] to-[#1a1a1a] text-white relative overflow-hidden"
     >
-      {/* Soft golden grid background */}
+      {/* Background texture */}
       <div className="absolute inset-0 pointer-events-none opacity-5 bg-[url('https://www.transparenttextures.com/patterns/gold-fibers.png')]"></div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -102,8 +104,60 @@ export default function PTeam() {
                   {member.desc}
                 </p>
 
-                {/* Social Links Dummy */}
-                <div className="mt-6 flex gap-4">
+                {/* Button */}
+                <button
+                  onClick={() => setSelected(member)}
+                  className="mt-6 px-5 py-2 bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black font-semibold rounded-full shadow-lg hover:scale-105 transition"
+                >
+                  More Details
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {selected && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-6"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-[#101010] rounded-3xl shadow-2xl overflow-hidden max-w-4xl w-full grid grid-cols-1 md:grid-cols-2"
+            >
+              {/* Left - Image */}
+              <div className="relative">
+                <img
+                  src={selected.img}
+                  alt={selected.name}
+                  className="w-full h-full object-cover"
+                />
+                <button
+                  onClick={() => setSelected(null)}
+                  className="absolute top-4 right-4 bg-black/70 hover:bg-black text-white rounded-full p-2"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Right - Details */}
+              <div className="p-8 flex flex-col justify-center">
+                <h2 className="text-2xl font-bold text-[#D4AF37]">{selected.name}</h2>
+                <p className="uppercase text-gray-400 tracking-[3px] text-sm mb-4">
+                  {selected.role}
+                </p>
+                <p className="text-gray-300 leading-relaxed mb-6">{selected.desc}</p>
+
+                {/* Social Links */}
+                <div className="flex gap-4 mt-auto">
                   <a href="#" className="text-gray-400 hover:text-[#D4AF37] transition">
                     <i className="fab fa-facebook-f"></i>
                   </a>
@@ -116,9 +170,9 @@ export default function PTeam() {
                 </div>
               </div>
             </motion.div>
-          ))}
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

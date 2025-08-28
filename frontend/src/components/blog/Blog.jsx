@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(2);
+  const [visibleCount, setVisibleCount] = useState(2); 
   const [selectedBlog, setSelectedBlog] = useState(null);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const Blog = () => {
       });
   }, []);
 
-  const showMore = () => setVisibleCount((prev) => prev + 2);
+  const showMore = () => setVisibleCount((prev) => prev + 2); 
   const closeModal = () => setSelectedBlog(null);
 
   if (loading) {
@@ -37,26 +37,34 @@ const Blog = () => {
   }
 
   return (
-    <div className="min-h-screen p-10 bg-gradient-to-tr from-black via-[#0a1f3f]/50 to-[#02101f]"> 
+    <div className="min-h-screen p-10 bg-gradient-to-tr from-black via-[#0a1f3f]/50 to-[#02101f]">
       {/* Heading */}
       <div className="text-center mb-14">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-[#D4AF37] to-[#b8902d] bg-clip-text text-transparent inline-block">Latest Blogs</h1>
-        <div className="w-24 mx-auto mt-2 h-[3px] rounded-full bg-gradient-to-r from-[#D4AF37] to-[#b8902d]" />
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-[#D4AF37] to-[#b8902d] bg-clip-text text-transparent inline-block">
+          Premium Blogs
+        </h1>
+        <div className="w-28 mx-auto mt-2 h-[3px] rounded-full bg-gradient-to-r from-[#D4AF37] to-[#b8902d]" />
       </div>
 
       {/* Blogs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
         {blogs.slice(0, visibleCount).map((blog, i) => (
           <motion.div
             key={blog.id}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false}}
+            viewport={{ once: false }}
             transition={{ delay: i * 0.1, duration: 0.6, ease: "easeOut" }}
-            className="rounded-3xl overflow-hidden bg-[#2b2b2b] border border-[#3d3d3d] shadow-xl transition hover:-translate-y-3 hover:shadow-2xl duration-500"
+            className="rounded-3xl overflow-hidden bg-[#1a1a1a] border border-[#3d3d3d] shadow-2xl transition hover:-translate-y-3 hover:shadow-[0_0_40px_#D4AF37]/40 duration-500"
           >
             {blog.thumbnail && (
-              <img src={blog.thumbnail} alt={blog.title} className="w-full h-60 object-cover" />
+              <div className="w-full h-72 flex justify-center items-center bg-black">
+                <img
+                  src={blog.thumbnail}
+                  alt={blog.title}
+                  className="max-h-72 w-auto object-contain" // <-- image crop nahi hogi
+                />
+              </div>
             )}
 
             <div className="p-6 space-y-3">
@@ -67,14 +75,16 @@ const Blog = () => {
                   year: "numeric",
                 })}
               </p>
-              <h2 className="text-lg font-semibold text-white leading-snug">{blog.title}</h2>
+              <h2 className="text-xl font-semibold text-white leading-snug">
+                {blog.title}
+              </h2>
               <p className="text-xs uppercase text-gray-400">
-                  Category: {blog.category || "N/A"} | Tags: {blog.tags || "N/A"}
-                </p>
-              
+                Category: {blog.category || "N/A"} | Tags: {blog.tags || "N/A"}
+              </p>
+
               <button
                 onClick={() => setSelectedBlog(blog)}
-                className="mt-4 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gray-400 text-white text-xs hover:bg-white hover:text-black transition"
+                className="mt-4 inline-flex items-center gap-2 px-6 py-2 rounded-full border border-gray-400 text-white text-sm hover:bg-white hover:text-black transition"
               >
                 Read more <span>➝</span>
               </button>
@@ -94,7 +104,7 @@ const Blog = () => {
           </button>
         ) : (
           <button
-            onClick={() => setVisibleCount(2)}
+            onClick={() => setVisibleCount(1)} // reset to sirf 1 blog
             className="px-8 py-3 rounded-full bg-gradient-to-r from-[#b8902d] to-[#D4AF37] text-white font-medium tracking-wide hover:scale-105 hover:shadow-[0_0_30px_#D4AF37]/50 transition"
           >
             Show Less
@@ -109,26 +119,35 @@ const Blog = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 flex justify-center items-center bg-black/70 p-4 z-[999]"
+            className="fixed inset-0 flex justify-center items-center bg-black/80 backdrop-blur-sm p-4 z-[999]"
           >
             <motion.div
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
               transition={{ duration: 0.3 }}
-              className="bg-[#2b2b2b] max-w-xl w-full rounded-xl overflow-hidden"
+              className="bg-[#1a1a1a] max-w-3xl w-full rounded-2xl overflow-hidden shadow-2xl"
             >
               {/* modal image */}
               {selectedBlog.thumbnail && (
-                <img src={selectedBlog.thumbnail} alt="" className="w-full h-64 object-cover" />
+                <div className="w-full flex justify-center items-center bg-black">
+                  <img
+                    src={selectedBlog.thumbnail}
+                    alt=""
+                    className="max-h-[500px] w-auto object-contain" // <-- crop nahi hoga
+                  />
+                </div>
               )}
 
               <div className="p-6 space-y-3 text-white">
                 <h2 className="text-2xl font-bold">{selectedBlog.title}</h2>
                 <p className="text-xs uppercase text-gray-400">
-                  Category: {selectedBlog.category || "N/A"} | Tags: {selectedBlog.tags || "N/A"}
+                  Category: {selectedBlog.category || "N/A"} | Tags:{" "}
+                  {selectedBlog.tags || "N/A"}
                 </p>
-                <p className="text-gray-300 text-sm">{selectedBlog.content}</p>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  {selectedBlog.content}
+                </p>
 
                 <button
                   onClick={closeModal}
