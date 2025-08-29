@@ -86,18 +86,22 @@ class ProjectsController extends BaseController
         $projectId = $this->projectModel->insert($projectData);
 
         $images = $this->request->getFiles();
+        $imageTypes = $this->request->getPost('image_types'); // Get image types from form
 
         if (isset($images['images']) && is_array($images['images'])) {
-            foreach ($images['images'] as $image) {
+            foreach ($images['images'] as $index => $image) {
                 if ($image->isValid() && !$image->hasMoved()) {
                     $mimeType = $image->getMimeType();
                     if (in_array($mimeType, ['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
                         $newName = $image->getRandomName();
                         $image->move(FCPATH . 'uploads/projects', $newName);
 
+                        $imageType = isset($imageTypes[$index]) ? $imageTypes[$index] : null;
+
                         $this->projectImageModel->insert([
                             'project_id' => $projectId,
                             'image_url'  => 'uploads/projects/' . $newName,
+                            'image_type' => $imageType,
                         ]);
                     }
                 }
@@ -114,6 +118,7 @@ class ProjectsController extends BaseController
 
         return redirect()->to(site_url('admin/projects'))->with('success', 'Project created successfully!');
     }
+
 
     // Show edit form
     public function edit($id)
@@ -218,6 +223,58 @@ class ProjectsController extends BaseController
     }
 
     // Upload and add image for project
+    // public function addImage($projectId)
+    // {
+    //     $project = $this->projectModel->find($projectId);
+    //     if (!$project) {
+    //         if ($this->isApiRequest()) {
+    //             return $this->response->setStatusCode(404)->setJSON([
+    //                 'status' => false,
+    //                 'message' => 'Project not found',
+    //             ]);
+    //         }
+    //         throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Project not found");
+    //     }
+
+    //     $validationRule = [
+    //         'image' => [
+    //             'label' => 'Image File',
+    //             'rules' => 'uploaded[image]|is_image[image]|max_size[image,2048]',
+    //         ],
+    //     ];
+
+    //     if (!$this->validate($validationRule)) {
+    //         if ($this->isApiRequest()) {
+    //             return $this->response->setStatusCode(422)->setJSON(['status' => false, 'errors' => $this->validator->getErrors()]);
+    //         }
+    //         return redirect()->back()->with('errors', $this->validator->getErrors());
+    //     }
+
+    //     $img = $this->request->getFile('image');
+
+    //     if ($img->isValid() && !$img->hasMoved()) {
+    //         $newName = $img->getRandomName();
+    //         $img->move(FCPATH . 'uploads/projects', $newName);
+
+    //         $this->projectImageModel->save([
+    //             'project_id' => $projectId,
+    //             'image_url' => 'uploads/projects/' . $newName,
+    //             'caption' => $this->request->getPost('caption'),
+    //         ]);
+
+    //         if ($this->isApiRequest()) {
+    //             return $this->response->setJSON(['status' => true, 'message' => 'Image uploaded successfully']);
+    //         }
+
+    //         return redirect()->back()->with('success', 'Image uploaded successfully');
+    //     } else {
+    //         if ($this->isApiRequest()) {
+    //             return $this->response->setStatusCode(500)->setJSON(['status' => false, 'message' => 'Failed to upload image']);
+    //         }
+    //         return redirect()->back()->with('error', 'Failed to upload image');
+    //     }
+    // }
+
     public function addImage($projectId)
     {
         $project = $this->projectModel->find($projectId);
@@ -246,6 +303,7 @@ class ProjectsController extends BaseController
         }
 
         $img = $this->request->getFile('image');
+        $imageType = $this->request->getPost('image_type'); // New: get image type
 
         if ($img->isValid() && !$img->hasMoved()) {
             $newName = $img->getRandomName();
@@ -253,8 +311,9 @@ class ProjectsController extends BaseController
 
             $this->projectImageModel->save([
                 'project_id' => $projectId,
-                'image_url' => 'uploads/projects/' . $newName,
-                'caption' => $this->request->getPost('caption'),
+                'image_url'  => 'uploads/projects/' . $newName,
+                'caption'    => $this->request->getPost('caption'),
+                'image_type' => $imageType, // New: store image type
             ]);
 
             if ($this->isApiRequest()) {
@@ -269,6 +328,7 @@ class ProjectsController extends BaseController
             return redirect()->back()->with('error', 'Failed to upload image');
         }
     }
+
 
     // Delete image
     public function deleteImage($imageId)

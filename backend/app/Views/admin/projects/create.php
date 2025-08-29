@@ -123,10 +123,32 @@
         </div>
 
         <div class="mb-3 mt-3">
-            <label for="images" class="form-label">Project Images</label>
-            <input type="file" name="images[]" id="images" class="form-control" multiple>
-            <small class="text-muted">You can select multiple images</small>
+            <label class="form-label">Project Images & Types</label>
+            <div id="image-upload-wrapper">
+                <div class="row g-2 mb-2 image-upload-group">
+                    <div class="col-md-7">
+                        <input type="file" name="images[]" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <select name="image_types[]" class="form-control" required>
+                            <option value="">Select Type</option>
+                            <option value="lobby">Lobby</option>
+                            <option value="bedrooms">Bedrooms</option>
+                            <option value="kitchen">Kitchen</option>
+                            <option value="interior">Interior</option>
+                            <option value="landscape">Landscape</option>
+                            <option value="elevation">Elevation</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-1 d-flex align-items-center">
+                        <button type="button" class="btn btn-danger btn-sm remove-image">✕</button>
+                    </div>
+                </div>
+            </div>
+            <button type="button" id="add-image" class="btn btn-secondary btn-sm mt-2">+ Add Another Image</button>
         </div>
+
 
         <div class="mb-3">
             <label for="status" class="form-label">Status</label>
@@ -143,6 +165,40 @@
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('add-image').addEventListener('click', function() {
+            const wrapper = document.getElementById('image-upload-wrapper');
+            const newGroup = document.createElement('div');
+            newGroup.classList.add('row', 'g-2', 'mb-2', 'image-upload-group');
+            newGroup.innerHTML = `
+            <div class="col-md-7">
+                <input type="file" name="images[]" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <select name="image_types[]" class="form-control" required>
+                    <option value="">Select Type</option>
+                    <option value="lobby">Lobby</option>
+                    <option value="bedrooms">Bedrooms</option>
+                    <option value="kitchen">Kitchen</option>
+                    <option value="interior">Interior</option>
+                    <option value="landscape">Landscape</option>
+                    <option value="elevation">Elevation</option>
+                </select>
+            </div>
+            <div class="col-md-1 d-flex align-items-center">
+                <button type="button" class="btn btn-danger btn-sm remove-image">✕</button>
+            </div>
+        `;
+            wrapper.appendChild(newGroup);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('remove-image')) {
+                e.target.closest('.image-upload-group').remove();
+            }
+        });
+    </script>
+
 </body>
 
 </html>

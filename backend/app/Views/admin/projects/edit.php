@@ -205,9 +205,23 @@
         </div>
 
         <div class="mb-3">
+            <label for="type" class="form-label">Image Type</label>
+            <select name="image_type" id="type" class="form-control" required>
+                <option value="">-- Select Type --</option>
+                <option value="Lobby">Lobby</option>
+                <option value="Bedrooms">Bedrooms</option>
+                <option value="Kitchen">Kitchen</option>
+                <option value="Interior">Interior</option>
+                <option value="Elevation">Elevation</option>
+                <option value="Landscape">Landscape</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
             <label for="caption" class="form-label">Caption (optional)</label>
             <input type="text" name="caption" id="caption" class="form-control" placeholder="Enter image caption">
         </div>
+
 
         <button type="submit" class="btn btn-success">Upload Image</button>
     </form>
@@ -216,6 +230,7 @@
         <thead>
             <tr>
                 <th>Image</th>
+                <th>Type</th>
                 <th>Caption</th>
                 <th>Actions</th>
             </tr>
@@ -224,6 +239,7 @@
             <?php foreach ($images as $image): ?>
                 <tr>
                     <td><img src="<?= base_url($image['image_url']) ?>" alt="Image" class="project-img"></td>
+                    <td><?= isset($image['image_type']) ? esc(ucwords($image['image_type'])) : '<em>Not set</em>' ?></td>
                     <td><?= esc($image['caption']) ?></td>
                     <td>
                         <form action="<?= site_url('admin/projects/deleteImage/' . $image['id']) ?>" method="post" onsubmit="return confirm('Delete this image?');">
@@ -234,6 +250,7 @@
                 </tr>
             <?php endforeach; ?>
         </tbody>
+
     </table>
 
     <!-- Bootstrap JS Bundle -->
