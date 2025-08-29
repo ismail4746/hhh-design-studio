@@ -15,7 +15,14 @@ export default function Footer() {
                 {/* Logo and Description */}
                 <div className="flex flex-col space-y-4">
                     <div className="flex items-center space-x-3">
-                        <img src={logo} alt="Logo" className="h-10 w-auto" />
+                        <img
+                            src={logo}
+                            alt="Logo"
+                            className="h-10 w-auto relative z-10"
+                            style={{
+                                filter: 'drop-shadow(0 0 6px rgba(212, 175, 55, 0.8))',
+                            }}
+                        />
                         <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>
                             HHH Design
                         </span>
@@ -27,50 +34,50 @@ export default function Footer() {
                     {/* Social Media Links */}
                     <div className="flex space-x-4 mt-4 text-xl">
                         {/* Facebook */}
-                        <a 
-                            href="https://www.facebook.com/share/1AygEBaNnx/" 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
+                        <a
+                            href="https://www.facebook.com/share/1AygEBaNnx/"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="text-yellow-400 hover:text-white transition"
                         >
                             <Facebook />
                         </a>
 
                         {/* Instagram */}
-                        <a 
-                            href="https://www.instagram.com/hhhdesign_studio1?igsh=a3cycThveGVhc2k%3D&utm_source=qr" 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
+                        <a
+                            href="https://www.instagram.com/hhhdesign_studio1?igsh=a3cycThveGVhc2k%3D&utm_source=qr"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="text-yellow-400 hover:text-white transition"
                         >
                             <Instagram />
                         </a>
 
                         {/* LinkedIn */}
-                        <a 
-                            href="http://www.linkedin.com/in/hhh-design-studio-083619379" 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
+                        <a
+                            href="http://www.linkedin.com/in/hhh-design-studio-083619379"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="text-yellow-400 hover:text-white transition"
                         >
                             <Linkedin />
                         </a>
 
                         {/* TikTok */}
-                        <a 
-                            href="https://www.tiktok.com/@hhh.design.studio?_t=ZS-8yz7zVfTR4S&_r=1" 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
+                        <a
+                            href="https://www.tiktok.com/@hhh.design.studio?_t=ZS-8yz7zVfTR4S&_r=1"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="text-yellow-400 hover:text-white transition"
                         >
                             <FaTiktok />
                         </a>
 
                         {/* YouTube */}
-                        <a 
-                            href="https://youtube.com/@hhhdesignstudio01?si=3_LGtAyGCgM-iIpc" 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
+                        <a
+                            href="https://youtube.com/@hhhdesignstudio01?si=3_LGtAyGCgM-iIpc"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="text-yellow-400 hover:text-white transition"
                         >
                             <FaYoutube />

@@ -43,7 +43,7 @@ export default function Ceo() {
           className="relative"
         >
           <p
-            className="text-lg text-gray-400 mb-2 tracking-wide font-medium"
+            className="text-lg text-white mb-2 tracking-wide font-medium"
             style={{ fontFamily: "'Poppins',sans-serif" }}
           >
             Muhammad Azeem
