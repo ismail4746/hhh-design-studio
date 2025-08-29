@@ -189,7 +189,7 @@ export default function ProjectDetails() {
       <AnimatePresence>
         {selected && (
           <motion.div
-            key="modal"
+          key={selected?.id} 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -214,11 +214,15 @@ export default function ProjectDetails() {
               </button>
 
               {/* Image Section (80%) */}
-              <div className="flex-1 relative bg-black/70 flex items-center justify-center">
+              <div className="h-[70%] relative bg-black/70 flex items-center justify-center">
                 {selected?.images?.length ? (
                   <motion.img
-                    key={selected.images[0].id ?? selected.images[0].image_url}
-                    src={`http://localhost:8080/${selected.images[0].image_url}`}
+                    key={selected.images?.[0]?.id ?? selected.images?.[0]?.image_url}
+                    src={
+                      selected.images?.[0]?.image_url
+                        ? `http://localhost:8080/${selected.images[0].image_url}`
+                        : ""
+                    }
                     alt={selected.name || "Project image"}
                     className="max-h-full max-w-full object-contain rounded-xl shadow-lg"
                     initial={{ opacity: 0 }}
