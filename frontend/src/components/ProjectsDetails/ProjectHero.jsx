@@ -44,13 +44,18 @@ export default function ProjectHero() {
             visible: { opacity: 1, y: 0, scale: 1 },
           }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-6"
-          style={{ fontFamily: "'Poppins', sans-serif" }}
+          className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-6 px-6 py-3 rounded-lg"
+          style={{
+            fontFamily: "'Poppins', sans-serif",
+            backgroundColor: "rgba(0, 0, 0, 0.35)",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+            textShadow: "0 2px 4px rgba(0,0,0,0.7)",
+          }}
         >
-          Discover a curated selection of our architectural and interior
-          design projects, showcasing creativity, functionality, and
-          timeless elegance in every space.
+          Discover a curated selection of our architectural and interior design projects, showcasing creativity, functionality, and timeless elegance in every space.
         </motion.p>
+
 
         <motion.div
           initial={{ opacity: 0, y: -10 }}

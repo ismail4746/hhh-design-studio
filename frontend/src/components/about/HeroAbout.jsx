@@ -70,7 +70,7 @@ export default function HeroAbout() {
             visible: { opacity: 1, y: 0 },
           }}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="text-xs sm:text-sm md:text-lg text-gray-400 max-w-md sm:max-w-xl md:max-w-2xl mx-auto leading-relaxed"
+          className="text-xs sm:text-sm md:text-lg text-white max-w-md sm:max-w-xl md:max-w-2xl mx-auto leading-relaxed"
           style={{ fontFamily: "'Poppins', sans-serif" }}
         >
           From inspiring architecture to bespoke interiors and seamless project

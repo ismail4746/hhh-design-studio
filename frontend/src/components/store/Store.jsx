@@ -30,11 +30,11 @@ export default function Store() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h3 className="text-sm uppercase tracking-[6px] text-gray-400">Our Store</h3>
+          <h3 className="text-sm uppercase tracking-[6px] text-white">Our Store</h3>
           <h2 className="text-4xl md:text-5xl font-extrabold mb-5 bg-gradient-to-r from-[#D4AF37] to-[#b8902d] bg-clip-text text-transparent">
             Where Design Meets Excellence
           </h2>
-          <p className="text-gray-400 mb-8 leading-relaxed text-lg">
+          <p className="text-white mb-8 leading-relaxed text-lg">
             Step into our creative space where modern architecture, innovative interiors,
             and professional project management come together to craft iconic, timeless environments.
             Our store is not just a workspace — it’s an experience of luxury & design perfection.
