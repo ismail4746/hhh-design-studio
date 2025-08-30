@@ -193,14 +193,14 @@ const Blog = () => {
                   <div className="flex flex-wrap gap-4 justify-center sm:justify-between items-center text-sm px-6 pt-6">
                     {/* Date */}
                     <span className="inline-flex items-center gap-2 bg-[#1a1a1a] border border-[#3a3a3a] px-4 py-1 rounded-full text-gray-300 shadow-sm hover:shadow-md transition">
-                      📅{" "}
-                      <span className="text-sm">
+                      {/* 📅{" "} */}
+                      {/* <span className="text-sm">
                         {new Date(selectedBlog.created_at).toLocaleDateString("en-US", {
                           month: "long",
                           day: "numeric",
                           year: "numeric",
                         })}
-                      </span>
+                      </span> */}
                     </span>
 
                     {/* Category */}

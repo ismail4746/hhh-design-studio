@@ -35,7 +35,7 @@ export default function Hero() {
           className="text-4xl md:text-6xl font-bold text-white tracking-wide mb-4"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
-          Crafting <span className="text-yellow-500">Spaces</span> That Inspire
+          Designing  <span className="text-yellow-500">Spaces</span> That Ignite Creativity
         </motion.h1>
 
         <motion.p

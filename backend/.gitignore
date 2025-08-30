@@ -126,5 +126,5 @@ _modules/*
 /phpunit*.xml
 
 
-/backend/public/uploads/projects/*
-/backend/public/uploads/blogs/*
+/uploads/projects/*
+/uploads/blogs/*
