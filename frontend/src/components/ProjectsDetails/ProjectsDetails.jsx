@@ -7,8 +7,8 @@ export default function ProjectDetails() {
   const [error, setError] = useState(null);
   const [visibleCount, setVisibleCount] = useState(9);
   const [selected, setSelected] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  // category states
   const [category, setCategory] = useState("All");
   const categories = [
     "All",
@@ -45,17 +45,16 @@ export default function ProjectDetails() {
   if (error)
     return <p className="p-10 text-red-500 text-center">{error}</p>;
 
-  
   const filteredProjects =
     category === "All"
       ? projects
       : projects.filter((p) =>
-        p.images?.some(
-          (img) =>
-            img.image_type &&
-            img.image_type.toLowerCase() === category.toLowerCase()
-        )
-      );
+          p.images?.some(
+            (img) =>
+              img.image_type &&
+              img.image_type.toLowerCase() === category.toLowerCase()
+          )
+        );
 
   const toggleShow = () => {
     if (visibleCount >= filteredProjects.length) {
@@ -92,10 +91,11 @@ export default function ProjectDetails() {
                 setCategory(cat);
                 setVisibleCount(9); // reset show count
               }}
-              className={`px-6 py-2 rounded-full font-semibold transition-all ${category === cat
+              className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                category === cat
                   ? "bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black shadow-lg scale-105"
                   : "bg-[#1a1a1a]/60 text-gray-300 border border-gray-600 hover:border-[#D4AF37] hover:text-yellow-400"
-                }`}
+              }`}
             >
               {cat}
             </button>
@@ -107,15 +107,14 @@ export default function ProjectDetails() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {filteredProjects.slice(0, visibleCount).map((p, index) => {
-              // Show first matching image
               const firstImage =
                 category === "All"
                   ? p.images?.[0]
                   : p.images?.find(
-                    (img) =>
-                      img.image_type &&
-                      img.image_type.toLowerCase() === category.toLowerCase()
-                  );
+                      (img) =>
+                        img.image_type &&
+                        img.image_type.toLowerCase() === category.toLowerCase()
+                    );
 
               return (
                 <motion.div
@@ -156,7 +155,10 @@ export default function ProjectDetails() {
                     </p>
 
                     <motion.button
-                      onClick={() => setSelected(p)}
+                      onClick={() => {
+                        setSelected(p);
+                        setCurrentIndex(0); // start from first image
+                      }}
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.3 }}
                       className="mt-auto w-full px-6 py-2 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black font-semibold hover:shadow-[0_0_30px_#D4AF37]/40 transition"
@@ -189,7 +191,7 @@ export default function ProjectDetails() {
       <AnimatePresence>
         {selected && (
           <motion.div
-          key={selected?.id} 
+            key={selected?.id}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -213,28 +215,53 @@ export default function ProjectDetails() {
                 ✕
               </button>
 
-              {/* Image Section (80%) */}
+              {/* Image Section with Slider */}
               <div className="h-[70%] relative bg-black/70 flex items-center justify-center">
                 {selected?.images?.length ? (
-                  <motion.img
-                    key={selected.images?.[0]?.id ?? selected.images?.[0]?.image_url}
-                    src={
-                      selected.images?.[0]?.image_url
-                        ? `http://localhost:8080/${selected.images[0].image_url}`
-                        : ""
-                    }
-                    alt={selected.name || "Project image"}
-                    className="max-h-full max-w-full object-contain rounded-xl shadow-lg"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.35 }}
-                  />
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    <motion.img
+                      src={`http://localhost:8080/${selected.images[currentIndex]?.image_url}`}
+                      alt={selected.name || "Project image"}
+                      className="max-h-full max-w-full object-contain rounded-xl shadow-lg"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.35 }}
+                    />
+
+                    {/* Prev Button */}
+                    <button
+                      onClick={() =>
+                        setCurrentIndex((prev) =>
+                          prev === 0
+                            ? selected.images.length - 1
+                            : prev - 1
+                        )
+                      }
+                      className="absolute left-4 bg-black/50 text-white px-3 py-2 rounded-full hover:bg-black/80 transition"
+                    >
+                      ◀
+                    </button>
+
+                    {/* Next Button */}
+                    <button
+                      onClick={() =>
+                        setCurrentIndex((prev) =>
+                          prev === selected.images.length - 1 ? 0 : prev + 1
+                        )
+                      }
+                      className="absolute right-4 bg-black/50 text-white px-3 py-2 rounded-full hover:bg-black/80 transition"
+                    >
+                      ▶
+                    </button>
+                  </div>
                 ) : (
-                  <div className="text-gray-400 text-sm">No image available</div>
+                  <div className="text-gray-400 text-sm">
+                    No image available
+                  </div>
                 )}
               </div>
 
-              {/* Info Section (20%) */}
+              {/* Details Section */}
               <div className="h-[30%] bg-black/40 backdrop-blur-md border-t border-[#D4AF37]/30 p-6 flex flex-col">
                 <h3 className="text-2xl md:text-3xl font-extrabold tracking-wide bg-gradient-to-r from-[#D4AF37] to-[#caa84a] bg-clip-text text-transparent drop-shadow-lg">
                   {selected?.name}
@@ -247,8 +274,6 @@ export default function ProjectDetails() {
           </motion.div>
         )}
       </AnimatePresence>
-
-
     </section>
   );
 }

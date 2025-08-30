@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import member1 from "../../assets/team2.jpg";
-import member2 from "../../assets/draft2.jpg";
+import member2 from "../../assets/draft.jpg";
 import member3 from "../../assets/interiorDesign.jpg";
 import member4 from "../../assets/site.jpg";
 import member5 from "../../assets/architect.jpg";  
