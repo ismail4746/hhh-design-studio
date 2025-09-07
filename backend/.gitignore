@@ -125,6 +125,3 @@ _modules/*
 /results/
 /phpunit*.xml
 
-
-/uploads/projects/*
-/uploads/blogs/*
