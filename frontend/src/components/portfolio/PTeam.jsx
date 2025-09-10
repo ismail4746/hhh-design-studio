@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import member1 from "../../assets/team2.jpg";
-import member2 from "../../assets/draft2.jpg";
+import member2 from "../../assets/draft.jpg";
 import member3 from "../../assets/interiorDesign.jpg";
 import member4 from "../../assets/site.jpg";
 import member5 from "../../assets/architect.jpg";  
+import member6 from "../../assets/site2.jpg";  
 import { X } from "lucide-react";
 
 const teamMembers = [
@@ -37,6 +38,12 @@ const teamMembers = [
     role: "Architect",
     desc: "Creates innovative architectural concepts, balancing aesthetics, functionality, and sustainability.",
     img: member5,
+  },
+  {
+    name: "Naeem",
+    role: "Site Supervisor",
+    desc:"Oversees construction projects with precision, ensuring quality, safety, and timely execution while maintaining coordination between design and site work.",
+    img: member6,
   },
 ];
 
