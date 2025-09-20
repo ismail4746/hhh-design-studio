@@ -57,7 +57,9 @@ class Session extends BaseConfig
      *
      * IMPORTANT: You are REQUIRED to set a valid save path!
      */
-    public string $savePath = WRITEPATH . 'session';
+    // Use absolute path on Hostinger to avoid WRITEPATH resolution issues
+    // Update this to match your hosting writable/session path if different
+    public string $savePath = '/home/u932945605/domains/hhhdesignstudio.com/public_html/ci4-backend/backend/writable/session';
 
     /**
      * --------------------------------------------------------------------------
