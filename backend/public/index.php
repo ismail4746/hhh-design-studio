@@ -59,8 +59,8 @@ if (getcwd() . DIRECTORY_SEPARATOR !== FCPATH) {
 
 // LOAD OUR PATHS CONFIG FILE
 // This is the line that might need to be changed, depending on your folder structure.
-require FCPATH . '../app/Config/Paths.php';
-// ^^^ Change this line if you move your application folder
+require FCPATH . 'app/Config/Paths.php';
+// ^^^ Changed for Option 2: all files in public_html
 
 $paths = new Paths();
 
