@@ -12,7 +12,8 @@ export default function Project() {
   const [currentIndex, setCurrentIndex] = useState(0); // image slider index
 
   useEffect(() => {
-    fetch("http://localhost:8080/admin/projects", {
+    const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8080";
+    fetch(`${apiBase.replace(/\/$/, '')}/admin/projects`, {
       headers: { Accept: "application/json" },
     })
       .then((res) => {
@@ -88,7 +89,7 @@ export default function Project() {
                   <img
                     src={
                       p.images && p.images[0]
-                        ? `http://localhost:8080/${p.images[0].image_url}`
+                        ? `${(import.meta.env.VITE_API_URL || "http://localhost:8080").replace(/\/$/, '')}/${p.images[0].image_url}`
                         : "https://via.placeholder.com/400x300?text=No+Image"
                     }
                     alt={p.name}
@@ -162,7 +163,7 @@ export default function Project() {
           {/* Image */}
           {selected.images && selected.images.length > 0 ? (
             <img
-              src={`http://localhost:8080/${selected.images[currentIndex].image_url}`}
+              src={`${(import.meta.env.VITE_API_URL || "http://localhost:8080").replace(/\/$/, '')}/${selected.images[currentIndex].image_url}`}
               alt={selected.name}
               className="max-h-[80vh] object-contain mx-auto rounded-lg"
             />

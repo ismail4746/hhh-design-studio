@@ -38,7 +38,7 @@ const Contact = () => {
     <section className="relative min-h-screen flex mt-20 items-center justify-center overflow-hidden">
       {/* Background Image */}
       <img
-        src={bgImg}
+        src={`${import.meta.env.VITE_API_URL}/assets/contact.jpg`}
         alt="Background"
         className="absolute inset-0 w-full h-full object-cover"
       />

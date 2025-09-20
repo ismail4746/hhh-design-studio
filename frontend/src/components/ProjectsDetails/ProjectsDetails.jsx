@@ -21,7 +21,8 @@ export default function ProjectDetails() {
   ];
 
   useEffect(() => {
-    fetch("http://localhost:8080/admin/projects", {
+    const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8080";
+    fetch(`${apiBase.replace(/\/$/, '')}/admin/projects`, {
       headers: { Accept: "application/json" },
     })
       .then((res) => {
@@ -133,7 +134,7 @@ export default function ProjectDetails() {
                   <div className="rounded-3xl overflow-hidden">
                     {firstImage ? (
                       <motion.img
-                        src={`http://localhost:8080/${firstImage.image_url}`}
+                        src={`${(import.meta.env.VITE_API_URL || "http://localhost:8080").replace(/\/$/, '')}/${firstImage.image_url}`}
                         alt={p.name}
                         loading="lazy"
                         className="w-full h-72 object-cover"
@@ -220,7 +221,7 @@ export default function ProjectDetails() {
                     key={selected.images?.[0]?.id ?? selected.images?.[0]?.image_url}
                     src={
                       selected.images?.[0]?.image_url
-                        ? `http://localhost:8080/${selected.images[0].image_url}`
+                        ? `${(import.meta.env.VITE_API_URL || "http://localhost:8080").replace(/\/$/, '')}/${selected.images[0].image_url}`
                         : ""
                     }
                     alt={selected.name || "Project image"}

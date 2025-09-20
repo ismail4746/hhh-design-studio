@@ -8,7 +8,8 @@ const Blog = () => {
   const [selectedBlog, setSelectedBlog] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8080/admin/blogs", {
+    const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8080";
+    fetch(`${apiBase.replace(/\/$/, '')}/admin/blogs`, {
       headers: { Accept: "application/json" },
     })
       .then((res) => res.json())
