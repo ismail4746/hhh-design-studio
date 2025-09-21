@@ -2,8 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome to CodeIgniter 4!</title>
-    <meta name="description" content="The small framework with powerful features">
+    <title>HHH Design Studio</title>
+    <meta name="description" content="HHH Design Studio — Architecture, interior design, and project management. We design modern, sustainable spaces tailored to your vision.">
+    <meta name="keywords" content="architecture, interior design, design studio, HHH Design Studio, sustainable design">
+    <meta name="author" content="HHH Design Studio">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="HHH Design Studio" />
+    <meta property="og:description" content="Architecture, interior design, and project management. We design modern, sustainable spaces tailored to your vision." />
+    <meta property="og:url" content="https://hhhdesignstudio.com/" />
+    <meta property="og:image" content="https://hhhdesignstudio.com/public/abouthero.jpg" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@hhhdesignstudio" />
+    <meta name="twitter:title" content="HHH Design Studio" />
+    <meta name="twitter:description" content="Architecture, interior design, and project management. We design modern, sustainable spaces tailored to your vision." />
+    <meta name="twitter:image" content="https://hhhdesignstudio.com/public/abouthero.jpg" />
+        <link rel="canonical" href="https://hhhdesignstudio.com/" />
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "HHH Design Studio",
+            "url": "https://hhhdesignstudio.com",
+            "logo": "https://hhhdesignstudio.com/public/logomm.png",
+            "sameAs": [
+                "https://www.facebook.com/hhhdesignstudio",
+                "https://www.instagram.com/hhhdesignstudio",
+                "https://twitter.com/hhhdesignstudio"
+            ]
+        }
+        </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="/favicon.ico">
 
