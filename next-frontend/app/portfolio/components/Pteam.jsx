@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+"use client";
+
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import member1 from "../../assets/team2.jpg";
-import member2 from "../../assets/draft.jpg";
-import member3 from "../../assets/interiorDesign.jpg";
-import member4 from "../../assets/site.jpg";
-import member5 from "../../assets/architect.jpg";  
-import member6 from "../../assets/site2.jpg";  
+import Image from "next/image";
 import { X } from "lucide-react";
 
 const teamMembers = [
@@ -13,41 +10,41 @@ const teamMembers = [
     name: "MUHAMMAD MATEEN",
     role: "3D Designer",
     desc: "Specializes in creating photorealistic 3D models, walkthroughs, and architectural visualizations.",
-    img: member1,
+    img: "/team2.jpg", 
   },
   {
     name: "MUHAMMAD AHMAD",
     role: "Draftsman",
     desc: "Expert in preparing precise technical drawings, detailed layouts, and construction-ready plans.",
-    img: member2,
+    img: "/draft.jpg",
   },
   {
     name: "MUHAMMAD AWAIS",
     role: "Interior Designer",
     desc: "Designs modern and functional interior spaces with creative 3D concepts and detailed layouts.",
-    img: member3,
+    img: "/interiorDesign.jpg",
   },
   {
     name: "AHAD SADDIQUE",
     role: "Site Incharge",
     desc: "Supervises on-site activities, ensuring quality control, safety, and timely project completion.",
-    img: member4,
+    img: "/site.jpg",
   },
   {
     name: "NOMAN WARIS",
     role: "Architect",
     desc: "Creates innovative architectural concepts, balancing aesthetics, functionality, and sustainability.",
-    img: member5,
+    img: "/architect.jpg",
   },
   {
     name: "Naeem",
     role: "Site Supervisor",
-    desc:"Oversees construction projects with precision, ensuring quality, safety, and timely execution while maintaining coordination between design and site work.",
-    img: member6,
+    desc: "Oversees construction projects with precision, ensuring quality, safety, and timely execution while maintaining coordination between design and site work.",
+    img: "/site2.jpg",
   },
 ];
 
-export default function PTeam() {
+export default function Pteam() {
   const [selected, setSelected] = useState(null);
 
   return (
@@ -85,23 +82,23 @@ export default function PTeam() {
               initial={{ y: 50, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
-              className={`relative overflow-hidden rounded-3xl p-[2px] bg-gradient-to-tr from-[#D4AF37] to-[#b8902d] h-full group`}
+              className="relative overflow-hidden rounded-3xl p-[2px] bg-gradient-to-tr from-[#D4AF37] to-[#b8902d] h-full group"
             >
               <div className="bg-[#101010]/90 rounded-3xl backdrop-blur-xl p-8 shadow-xl group-hover:-translate-y-3 group-hover:shadow-[0_0_45px_#D4AF37]/40 transition transform h-full flex flex-col items-center text-center">
                 {/* Image */}
                 <div className="relative">
                   <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#D4AF37] to-[#b8902d] blur-md opacity-40 group-hover:opacity-70 transition"></div>
-                  <img
+                  <Image
                     src={member.img}
                     alt={member.name}
+                    width={128}
+                    height={128}
                     className="w-32 h-32 rounded-full object-cover border-4 border-[#D4AF37] relative z-10 transition duration-500 group-hover:scale-110"
                   />
                 </div>
 
                 {/* Name & Role */}
-                <h4 className="mt-6 text-xl font-semibold text-[#D4AF37]">
-                  {member.name}
-                </h4>
+                <h4 className="mt-6 text-xl font-semibold text-[#D4AF37]">{member.name}</h4>
                 <p className="uppercase tracking-[3px] text-gray-400 text-xs mb-4">
                   {member.role}
                 </p>
@@ -142,9 +139,11 @@ export default function PTeam() {
             >
               {/* Left - Image */}
               <div className="relative">
-                <img
+                <Image
                   src={selected.img}
                   alt={selected.name}
+                  width={600}
+                  height={600}
                   className="w-full h-full object-cover"
                 />
                 <button
@@ -166,13 +165,13 @@ export default function PTeam() {
                 {/* Social Links */}
                 <div className="flex gap-4 mt-auto">
                   <a href="#" className="text-gray-400 hover:text-[#D4AF37] transition">
-                    <i className="fab fa-facebook-f"></i>
+                    Facebook
                   </a>
                   <a href="#" className="text-gray-400 hover:text-[#D4AF37] transition">
-                    <i className="fab fa-instagram"></i>
+                    Instagram
                   </a>
                   <a href="#" className="text-gray-400 hover:text-[#D4AF37] transition">
-                    <i className="fab fa-linkedin-in"></i>
+                    LinkedIn
                   </a>
                 </div>
               </div>
