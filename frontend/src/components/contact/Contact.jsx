@@ -39,7 +39,7 @@ const Contact = () => {
       {/* Background Image */}
       <img
         src={`${import.meta.env.VITE_API_URL}/assets/contact.jpg`}
-        alt="Background"
+        alt="Contact Background"
         className="absolute inset-0 w-full h-full object-cover"
       />
       <div className="absolute inset-0 bg-black/60"></div>
