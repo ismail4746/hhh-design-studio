@@ -1,0 +1,74 @@
+"use client";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { ChevronDown } from "lucide-react";
+
+export default function ProjectHero() {
+  return (
+    <section className="relative h-screen flex items-center justify-center bg-black overflow-hidden">
+      {/* Background Image */}
+      <Image
+        src="/img35.jpg" // public/img35.jpg
+        alt="Projects Hero"
+        fill
+        priority
+        className="object-cover"
+      />
+
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-black/25"></div>
+
+      {/* Content */}
+      <motion.div
+        initial="hidden"
+        animate="visible" // animate immediately on mount
+        variants={{
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.2, delayChildren: 0.1 } },
+        }}
+        className="relative z-10 text-center px-4"
+      >
+        <motion.h1
+          variants={{
+            hidden: { opacity: 0, y: 40, scale: 0.95 },
+            visible: { opacity: 1, y: 0, scale: 1 },
+          }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-4xl md:text-6xl font-bold text-white tracking-wide mb-4"
+          style={{ fontFamily: "'Playfair Display', serif" }}
+        >
+          Our <span className="text-yellow-500">Projects</span>
+        </motion.h1>
+
+        <motion.p
+          variants={{
+            hidden: { opacity: 0, y: 40, scale: 0.95 },
+            visible: { opacity: 1, y: 0, scale: 1 },
+          }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-6 px-6 py-3 rounded-lg"
+          style={{
+            fontFamily: "'Poppins', sans-serif",
+            backgroundColor: "rgba(0, 0, 0, 0.35)",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+            textShadow: "0 2px 4px rgba(0,0,0,0.7)",
+          }}
+        >
+          Discover a curated selection of our architectural and interior design projects,
+          showcasing creativity, functionality, and timeless elegance in every space.
+        </motion.p>
+
+        {/* Scroll Down Icon */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6, repeat: Infinity, repeatType: "mirror" }}
+          className="flex justify-center"
+        >
+          <ChevronDown className="text-white w-8 h-8 animate-bounce" />
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+}

@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function ProjectDetails() {
   const [projects, setProjects] = useState([]);
@@ -7,8 +10,8 @@ export default function ProjectDetails() {
   const [error, setError] = useState(null);
   const [visibleCount, setVisibleCount] = useState(9);
   const [selected, setSelected] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
+  // category states
   const [category, setCategory] = useState("All");
   const categories = [
     "All",
@@ -21,8 +24,7 @@ export default function ProjectDetails() {
   ];
 
   useEffect(() => {
-    const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8080";
-    fetch(`${apiBase.replace(/\/$/, '')}/admin/projects`, {
+    fetch("http://localhost:8080/admin/projects", {
       headers: { Accept: "application/json" },
     })
       .then((res) => {
@@ -30,7 +32,6 @@ export default function ProjectDetails() {
         return res.json();
       })
       .then((data) => {
-        console.log("✅ API Response:", data);
         if (data.status) setProjects(data.data);
         else setError("Failed to load projects");
         setLoading(false);
@@ -90,7 +91,7 @@ export default function ProjectDetails() {
               key={cat}
               onClick={() => {
                 setCategory(cat);
-                setVisibleCount(9); // reset show count
+                setVisibleCount(9);
               }}
               className={`px-6 py-2 rounded-full font-semibold transition-all ${
                 category === cat
@@ -132,14 +133,15 @@ export default function ProjectDetails() {
                 >
                   <div className="rounded-3xl overflow-hidden">
                     {firstImage ? (
-                      <motion.img
-                        src={`${(import.meta.env.VITE_API_URL || "http://localhost:8080").replace(/\/$/, '')}/${firstImage.image_url}`}
-                        alt={p.name}
-                        loading="lazy"
-                        className="w-full h-72 object-cover"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ duration: 0.5 }}
-                      />
+                      <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.5 }}>
+                        <Image
+                          src={`http://localhost:8080/${firstImage.image_url}`}
+                          alt={p.name}
+                          width={600}
+                          height={400}
+                          className="w-full h-72 object-cover"
+                        />
+                      </motion.div>
                     ) : (
                       <div className="w-full h-72 flex items-center justify-center text-gray-500">
                         No Image
@@ -156,10 +158,7 @@ export default function ProjectDetails() {
                     </p>
 
                     <motion.button
-                      onClick={() => {
-                        setSelected(p);
-                        setCurrentIndex(0); // start from first image
-                      }}
+                      onClick={() => setSelected(p)}
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.3 }}
                       className="mt-auto w-full px-6 py-2 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black font-semibold hover:shadow-[0_0_30px_#D4AF37]/40 transition"
@@ -173,16 +172,13 @@ export default function ProjectDetails() {
           </div>
         )}
 
-        {/* Show More / Show Less Button */}
         {filteredProjects.length > 9 && (
           <div className="text-center mt-12">
             <button
               onClick={toggleShow}
               className="px-8 py-3 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black font-semibold hover:scale-105 hover:shadow-[0_0_40px_#D4AF37]/50 transition duration-300"
             >
-              {visibleCount >= filteredProjects.length
-                ? "Show Less"
-                : "Show More"}
+              {visibleCount >= filteredProjects.length ? "Show Less" : "Show More"}
             </button>
           </div>
         )}
@@ -205,9 +201,6 @@ export default function ProjectDetails() {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="relative w-full max-w-5xl h-[88vh] rounded-3xl overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.7)] border border-[#D4AF37]/40 bg-gradient-to-br from-[#0a0a0a] via-[#141414] to-[#0a0a0a] flex flex-col"
             >
-              {/* Gold glow top edge */}
-              <div className="pointer-events-none absolute inset-x-0 -top-32 h-52 bg-[radial-gradient(ellipse_at_top,#D4AF37_0%,transparent_70%)] opacity-20" />
-
               {/* Close Button */}
               <button
                 onClick={() => setSelected(null)}
@@ -216,53 +209,22 @@ export default function ProjectDetails() {
                 ✕
               </button>
 
-              {/* Image Section with Slider */}
+              {/* Image Section */}
               <div className="h-[70%] relative bg-black/70 flex items-center justify-center">
                 {selected?.images?.length ? (
-                  <div className="relative w-full h-full flex items-center justify-center">
-                    <motion.img
-                      src={`http://localhost:8080/${selected.images[currentIndex]?.image_url}`}
-                      alt={selected.name || "Project image"}
-                      className="max-h-full max-w-full object-contain rounded-xl shadow-lg"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.35 }}
-                    />
-
-                    {/* Prev Button */}
-                    <button
-                      onClick={() =>
-                        setCurrentIndex((prev) =>
-                          prev === 0
-                            ? selected.images.length - 1
-                            : prev - 1
-                        )
-                      }
-                      className="absolute left-4 bg-black/50 text-white px-3 py-2 rounded-full hover:bg-black/80 transition"
-                    >
-                      ◀
-                    </button>
-
-                    {/* Next Button */}
-                    <button
-                      onClick={() =>
-                        setCurrentIndex((prev) =>
-                          prev === selected.images.length - 1 ? 0 : prev + 1
-                        )
-                      }
-                      className="absolute right-4 bg-black/50 text-white px-3 py-2 rounded-full hover:bg-black/80 transition"
-                    >
-                      ▶
-                    </button>
-                  </div>
+                  <Image
+                    src={`http://localhost:8080/${selected.images[0].image_url}`}
+                    alt={selected.name || "Project image"}
+                    width={1000}
+                    height={700}
+                    className="max-h-full max-w-full object-contain rounded-xl shadow-lg"
+                  />
                 ) : (
-                  <div className="text-gray-400 text-sm">
-                    No image available
-                  </div>
+                  <div className="text-gray-400 text-sm">No image available</div>
                 )}
               </div>
 
-              {/* Details Section */}
+              {/* Info Section */}
               <div className="h-[30%] bg-black/40 backdrop-blur-md border-t border-[#D4AF37]/30 p-6 flex flex-col">
                 <h3 className="text-2xl md:text-3xl font-extrabold tracking-wide bg-gradient-to-r from-[#D4AF37] to-[#caa84a] bg-clip-text text-transparent drop-shadow-lg">
                   {selected?.name}
