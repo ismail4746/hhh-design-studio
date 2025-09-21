@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import bgImg from "../../assets/contact.jpg"; // apna image import karo
+import bgImg from "../../assets/contact.jpg"; 
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -34,12 +34,12 @@ const Contact = () => {
     }
   };
 
-  return (
+   return (
     <section className="relative min-h-screen flex mt-20 items-center justify-center overflow-hidden">
       {/* Background Image */}
       <img
-        src={`${import.meta.env.VITE_API_URL}/assets/contact.jpg`}
-        alt="Contact Background"
+        src={bgImg}
+        alt="Background"
         className="absolute inset-0 w-full h-full object-cover"
       />
       <div className="absolute inset-0 bg-black/60"></div>
