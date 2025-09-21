@@ -15,16 +15,29 @@
  */
 
 // Handle CORS for API requests
-if (isset($_SERVER['REQUEST_METHOD'])) {
-    // Allow requests from your frontend domain
-    header('Access-Control-Allow-Origin: https://hhhdesignstudio.com');
-    header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
-    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
-    header('Access-Control-Allow-Credentials: true');
-    
-    // Handle preflight OPTIONS requests
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-        http_response_code(200);
-        exit();
-    }
+// Use an allowlist so requests from Google (www) and direct site work.
+$allowedOrigins = [
+    'https://hhhdesignstudio.com',
+    'https://www.hhhdesignstudio.com',
+];
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if ($origin && in_array($origin, $allowedOrigins, true)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+    // Tell caches that responses vary by Origin
+    header('Vary: Origin');
+} elseif (empty($origin)) {
+    // No Origin header (direct navigation or same-origin). Do not set Access-Control-Allow-Origin
+    // so browsers treat it as same-origin for navigation. API fetches should send Origin.
+}
+
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+header('Access-Control-Allow-Credentials: true');
+
+// Handle preflight OPTIONS requests
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // A preflight should return quickly
+    http_response_code(200);
+    exit();
 }
