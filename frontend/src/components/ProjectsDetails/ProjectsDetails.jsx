@@ -2,6 +2,17 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function ProjectDetails() {
+  // Normalize API base and helper to build image URLs safely
+  const apiBase = (import.meta.env.VITE_API_URL || "http://localhost:8080").replace(/\/+$/, '');
+
+  const getImageUrl = (imageUrl) => {
+    if (!imageUrl) return '';
+    // If already an absolute URL, return as-is
+    if (/^https?:\/\//i.test(imageUrl)) return imageUrl;
+    // Trim leading slashes and join with apiBase
+    return `${apiBase}/${imageUrl.replace(/^\/+/, '')}`;
+  };
+
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,8 +32,7 @@ export default function ProjectDetails() {
   ];
 
   useEffect(() => {
-    const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8080";
-    fetch(`${apiBase.replace(/\/$/, '')}/admin/projects`, {
+    fetch(`${apiBase}/admin/projects`, {
       headers: { Accept: "application/json" },
     })
       .then((res) => {
@@ -133,7 +143,7 @@ export default function ProjectDetails() {
                   <div className="rounded-3xl overflow-hidden">
                     {firstImage ? (
                       <motion.img
-                        src={`${(import.meta.env.VITE_API_URL || "http://localhost:8080").replace(/\/$/, '')}/${firstImage.image_url}`}
+                        src={getImageUrl(firstImage.image_url)}
                         alt={p.name}
                         loading="lazy"
                         className="w-full h-72 object-cover"
@@ -221,7 +231,7 @@ export default function ProjectDetails() {
                 {selected?.images?.length ? (
                   <div className="relative w-full h-full flex items-center justify-center">
                     <motion.img
-                      src={`http://localhost:8080/${selected.images[currentIndex]?.image_url}`}
+                      src={getImageUrl(selected.images[currentIndex]?.image_url)}
                       alt={selected.name || "Project image"}
                       className="max-h-full max-w-full object-contain rounded-xl shadow-lg"
                       initial={{ opacity: 0 }}
