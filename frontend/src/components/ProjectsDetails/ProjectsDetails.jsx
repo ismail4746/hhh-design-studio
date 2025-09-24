@@ -239,31 +239,34 @@ export default function ProjectDetails() {
                       transition={{ duration: 0.35 }}
                     />
 
-                    {/* Prev Button */}
-                    <button
-                      onClick={() =>
-                        setCurrentIndex((prev) =>
-                          prev === 0
-                            ? selected.images.length - 1
-                            : prev - 1
-                        )
-                      }
-                      className="absolute left-4 bg-black/50 text-white px-3 py-2 rounded-full hover:bg-black/80 transition"
-                    >
-                      ◀
-                    </button>
+                    {/* Prev/Next Buttons: show only when there are multiple images */}
+                    {selected?.images && selected.images.length > 1 && (
+                      <>
+                        <button
+                          onClick={() =>
+                            setCurrentIndex((prev) =>
+                              prev === 0
+                                ? selected.images.length - 1
+                                : prev - 1
+                            )
+                          }
+                          className="absolute left-4 bg-black/50 text-white px-3 py-2 rounded-full hover:bg-black/80 transition"
+                        >
+                          ◀
+                        </button>
 
-                    {/* Next Button */}
-                    <button
-                      onClick={() =>
-                        setCurrentIndex((prev) =>
-                          prev === selected.images.length - 1 ? 0 : prev + 1
-                        )
-                      }
-                      className="absolute right-4 bg-black/50 text-white px-3 py-2 rounded-full hover:bg-black/80 transition"
-                    >
-                      ▶
-                    </button>
+                        <button
+                          onClick={() =>
+                            setCurrentIndex((prev) =>
+                              prev === selected.images.length - 1 ? 0 : prev + 1
+                            )
+                          }
+                          className="absolute right-4 bg-black/50 text-white px-3 py-2 rounded-full hover:bg-black/80 transition"
+                        >
+                          ▶
+                        </button>
+                      </>
+                    )}
                   </div>
                 ) : (
                   <div className="text-gray-400 text-sm">
