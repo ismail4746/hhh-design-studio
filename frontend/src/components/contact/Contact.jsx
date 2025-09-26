@@ -34,7 +34,7 @@ const Contact = () => {
     }
   };
 
-   return (
+  return (
     <section className="relative min-h-screen flex mt-20 items-center justify-center overflow-hidden">
       {/* Background Image */}
       <img
@@ -45,7 +45,7 @@ const Contact = () => {
       <div className="absolute inset-0 bg-black/60"></div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-6 lg:px-12 grid md:grid-cols-2 gap-12 items-center">
+  <div className="relative z-10 container mx-auto px-6 lg:px-12 grid md:grid-cols-2 gap-12 items-center py-12 md:py-0">
         {/* Left Content */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}

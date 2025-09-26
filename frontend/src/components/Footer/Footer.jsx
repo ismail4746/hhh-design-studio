@@ -100,8 +100,8 @@ export default function Footer() {
                     <h4 className="text-yellow-400 font-semibold mb-4">Contact</h4>
                     <p className="text-gray-300 text-sm">Address: FF 138,139 First Floor Defence Shopping Mall Main Boulevard Dha Lahore Pakistan</p>
                     <p className="text-gray-300 text-sm">Email: hhhdesignstudio@outlook.com</p>
-                    <p className="text-gray-300 text-sm">Phone: +92 302-4599748</p>
                     <p className="text-gray-300 text-sm">Phone: +92 321-7500253</p>
+                    <p className="text-gray-300 text-sm">Phone: +92 302-4599748</p>
                     <button
                         onClick={() => navigate("/contactDetails")}
                         className="mt-8 px-3 py-1.5 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-semibold hover:scale-105 hover:shadow-lg transition-all duration-300"
