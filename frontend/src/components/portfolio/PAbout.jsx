@@ -10,6 +10,7 @@ import {
   FaTiktok ,
 } from "react-icons/fa";
 import clientImg from "../../assets/azeemCeo1.jpg";
+import OptimizedImg from "../common/OptimizedImg";
 
 export default function PAbout() {
   const [counters, setCounters] = useState({ years: 0, projects: 0, clients: 0 });
@@ -100,10 +101,11 @@ export default function PAbout() {
             <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37] to-[#b8902d] blur-3xl opacity-30 rounded-3xl"></div>
             <div className="relative group rounded-3xl p-[4px] bg-gradient-to-tr from-[#D4AF37] to-[#b8902d] shadow-2xl">
               <div className="bg-white/10 backdrop-blur-md rounded-3xl overflow-hidden shadow-xl transform transition duration-500 group-hover:scale-105 group-hover:shadow-[#D4AF37]/50">
-                <img
+                <OptimizedImg
                   src={clientImg}
                   alt="Client"
                   className="rounded-3xl object-cover w-[350px] h-[450px] transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
               </div>
             </div>

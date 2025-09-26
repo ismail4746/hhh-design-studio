@@ -2,6 +2,7 @@ import { Facebook, Instagram, Linkedin } from "lucide-react";
 import { FaTiktok, FaYoutube } from "react-icons/fa"; // Added for TikTok & YouTube
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logomm.png";
+import OptimizedImg from "../common/OptimizedImg";
 
 export default function Footer() {
     const navigate = useNavigate();
@@ -15,13 +16,12 @@ export default function Footer() {
                 {/* Logo and Description */}
                 <div className="flex flex-col space-y-4">
                     <div className="flex items-center space-x-3">
-                        <img
+                        <OptimizedImg
                             src={logo}
                             alt="Logo"
                             className="h-10 w-auto relative z-10"
-                            style={{
-                                filter: 'drop-shadow(0 0 6px rgba(212, 175, 55, 0.8))',
-                            }}
+                            loading="lazy"
+                            style={{ filter: 'drop-shadow(0 0 6px rgba(212, 175, 55, 0.8))' }}
                         />
                         <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>
                             HHH Design Studio

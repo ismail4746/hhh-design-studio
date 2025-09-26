@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import OptimizedImg from "../common/OptimizedImg";
 
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -58,12 +59,13 @@ const Blog = () => {
             transition={{ delay: i * 0.1, duration: 0.6, ease: "easeOut" }}
             className="rounded-3xl overflow-hidden bg-gradient-to-tr from-[#1e1e1e] to-[#111111] border-2 border-transparent hover:border-yellow-400 shadow-lg hover:shadow-yellow-500/40 transition-transform hover:-translate-y-3 duration-500 cursor-pointer"
           >
-            {blog.thumbnail && (
+                {blog.thumbnail && (
               <div className="relative w-full h-56 bg-black overflow-hidden rounded-t-3xl">
-                <img
+                <OptimizedImg
                   src={blog.thumbnail}
                   alt={blog.title}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               </div>
@@ -178,12 +180,13 @@ const Blog = () => {
 
 
                 {/* Thumbnail */}
-                {selectedBlog.thumbnail && (
+                    {selectedBlog.thumbnail && (
                   <div className="w-full flex justify-center items-center bg-[#000] py-6 px-4 border-b border-[#333]">
-                    <img
+                    <OptimizedImg
                       src={selectedBlog.thumbnail}
                       alt={selectedBlog.title}
                       className="max-h-[400px] w-auto object-contain rounded-xl shadow-md"
+                      loading="eager"
                     />
                   </div>
                 )}

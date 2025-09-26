@@ -1,17 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 import heroImg from "../../assets/lc2.jpg";
+import OptimizedImg from "../common/OptimizedImg";
 import { ChevronDown } from "lucide-react";
 
 export default function HeroAbout() {
   return (
     <section className="relative min-h-screen flex items-center justify-center">
       {/* Background Image */}
-      <img
-        src={heroImg}
-        alt="Hero"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+      <OptimizedImg src={heroImg} alt="Hero" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/40"></div>
 

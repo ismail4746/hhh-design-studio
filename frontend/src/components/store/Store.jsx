@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { FaDraftingCompass, FaCouch, FaProjectDiagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import storeImg from "../../assets/architecture.jpg";
+import OptimizedImg from "../common/OptimizedImg";
 
 export default function Store() {
   return (
@@ -20,7 +21,7 @@ export default function Store() {
           className="relative"
         >
           <div className="border-[6px] border-[#D4AF37]/40 rounded-3xl shadow-2xl overflow-hidden">
-            <img src={storeImg} alt="Our Store" className="w-full h-[500px] object-cover" />
+            <OptimizedImg src={storeImg} alt="Our Store" className="w-full h-[500px] object-cover" loading="lazy" />
           </div>
         </motion.div>
 

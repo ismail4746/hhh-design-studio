@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import ceoImg from "../../assets/azeemCeo1.jpg";
+import OptimizedImg from "../common/OptimizedImg";
 import { Link } from "react-router-dom";
 
 export default function Ceo() {
@@ -25,10 +26,11 @@ export default function Ceo() {
           <div className="absolute -inset-12 bg-gradient-to-tr from-[#D4AF37]/40 via-transparent to-[#b8902d]/30 rounded-3xl blur-3xl opacity-60 group-hover:opacity-90 transition-all duration-1000"></div>
           <div className="absolute -inset-16 bg-gradient-to-br from-[#b8902d]/25 via-transparent to-[#D4AF37]/25 rounded-3xl blur-[120px] opacity-50 group-hover:opacity-80 transition-all duration-1000"></div>
 
-          <img
+          <OptimizedImg
             src={ceoImg}
             alt="Chief Executive Officer"
             className="relative w-full h-[450px] sm:h-[520px] object-cover rounded-3xl transform transition-transform duration-[6000ms] group-hover:scale-105 group-hover:rotate-[1deg] shadow-[0_0_80px_rgba(212,175,55,0.25)]"
+            loading="lazy"
           />
 
           {/* shimmer overlay */}

@@ -2,15 +2,17 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import heroImg from "../../assets/services.jpg";
+import OptimizedImg from "../common/OptimizedImg";
 
 export default function ServicesHero() {
   return (
     <section className="relative h-screen flex items-center justify-center bg-black overflow-hidden">
       {/* Background Image */}
-      <img
+      <OptimizedImg
         src={heroImg}
         alt="Services Hero"
         className="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
       />
 
       {/* Dark Overlay */}

@@ -9,6 +9,7 @@ import project3 from "../../assets/bedroom/bd2.jpg";
 import project4 from "../../assets/bedroom3.jpg";
 import project5 from "../../assets/interior/interior15.jpg";
 import project6 from "../../assets/lobby1.jpg";
+import OptimizedImg from "../common/OptimizedImg";
 
 const allProjects = [
   { id: 1, img: project1, title: "Luxury Villa" },
@@ -68,7 +69,7 @@ export default function PProjects() {
                          hover:shadow-[0_0_25px_#D4AF37]/40 transition"
             >
               <div className="rounded-3xl overflow-hidden">
-                <img
+                <OptimizedImg
                   src={p.img}
                   alt={p.title}
                   loading="lazy"
@@ -140,10 +141,11 @@ export default function PProjects() {
                 </button>
 
                 {/* Image */}
-                <img
+                <OptimizedImg
                   src={allProjects[selectedIndex].img}
                   alt={allProjects[selectedIndex].title}
                   className="max-h-[80vh] object-contain mx-auto rounded-lg"
+                  loading="eager"
                 />
 
                 {/* Right Arrow */}

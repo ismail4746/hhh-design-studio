@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import bgImg from "../../assets/contact.jpg"; 
+import OptimizedImg from "../common/OptimizedImg";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -37,11 +38,7 @@ const Contact = () => {
   return (
     <section className="relative min-h-screen flex mt-20 items-center justify-center overflow-hidden">
       {/* Background Image */}
-      <img
-        src={bgImg}
-        alt="Background"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+      <OptimizedImg src={bgImg} alt="Background" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
       <div className="absolute inset-0 bg-black/60"></div>
 
       {/* Content */}

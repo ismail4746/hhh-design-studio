@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import OptimizedImg from "../common/OptimizedImg";
 
 export default function Project() {
   const [projects, setProjects] = useState([]);
@@ -86,7 +87,7 @@ export default function Project() {
                 }}
               >
                 <div className="rounded-3xl overflow-hidden">
-                  <img
+                  <OptimizedImg
                     src={
                       p.images && p.images[0]
                         ? `${(import.meta.env.VITE_API_URL || "http://localhost:8080").replace(/\/$/, '')}/${p.images[0].image_url}`
@@ -162,10 +163,12 @@ export default function Project() {
 
           {/* Image */}
           {selected.images && selected.images.length > 0 ? (
-            <img
+            <OptimizedImg
               src={`${(import.meta.env.VITE_API_URL || "http://localhost:8080").replace(/\/$/, '')}/${selected.images[currentIndex].image_url}`}
               alt={selected.name}
               className="max-h-[80vh] object-contain mx-auto rounded-lg"
+              loading="eager"
+              priority={true}
             />
           ) : (
             <p className="text-gray-400 py-20">No images available</p>

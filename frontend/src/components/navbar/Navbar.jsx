@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import logo from "../../assets/logomm.png";
+import OptimizedImg from "../common/OptimizedImg";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -39,7 +40,7 @@ function Navbar() {
 
         {/* Center Logo */}
         <div className="flex flex-col items-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
-          <img src={logo} alt="Logo" className="h-12 w-auto" />
+          <OptimizedImg src={logo} alt="Logo" className="h-12 w-auto" loading="lazy" />
           <p
             className="text-md font-bold text-black dark:text-white tracking-wide"
             style={{ fontFamily: "'Playfair Display', serif" }}

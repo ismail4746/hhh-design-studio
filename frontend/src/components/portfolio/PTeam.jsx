@@ -7,6 +7,7 @@ import member4 from "../../assets/site.jpg";
 import member5 from "../../assets/architect.jpg";  
 import member6 from "../../assets/site2.jpg";  
 import { X } from "lucide-react";
+import OptimizedImg from "../common/OptimizedImg";
 
 const teamMembers = [
   {
@@ -91,10 +92,11 @@ export default function PTeam() {
                 {/* Image */}
                 <div className="relative">
                   <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#D4AF37] to-[#b8902d] blur-md opacity-40 group-hover:opacity-70 transition"></div>
-                  <img
+                  <OptimizedImg
                     src={member.img}
                     alt={member.name}
                     className="w-32 h-32 rounded-full object-cover border-4 border-[#D4AF37] relative z-10 transition duration-500 group-hover:scale-110"
+                    loading="lazy"
                   />
                 </div>
 
@@ -142,10 +144,11 @@ export default function PTeam() {
             >
               {/* Left - Image */}
               <div className="relative">
-                <img
+                <OptimizedImg
                   src={selected.img}
                   alt={selected.name}
                   className="w-full h-full object-cover"
+                  loading="eager"
                 />
                 <button
                   onClick={() => setSelected(null)}

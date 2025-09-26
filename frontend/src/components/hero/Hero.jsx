@@ -1,16 +1,18 @@
 import React from "react";
 import { motion } from "framer-motion";
 import heroImg from "../../assets/hero.jpg";
+import OptimizedImg from "../common/OptimizedImg";
 import { Link } from "react-router-dom";
 
 export default function Hero() {
   return (
     <section className="relative h-screen flex items-center justify-center bg-black overflow-hidden">
       {/* Background Image */}
-      <img
+      <OptimizedImg
         src={heroImg}
         alt="Hero"
         className="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
       />
 
       {/* Dark Overlay */}

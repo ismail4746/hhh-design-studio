@@ -1,16 +1,18 @@
 import React from "react";
 import { motion } from "framer-motion";
 import heroImg from "../../assets/img35.jpg";
+import OptimizedImg from "../common/OptimizedImg";
 import { ChevronDown } from "lucide-react";
 
 export default function ProjectHero() {
   return (
     <section className="relative h-screen flex items-center justify-center bg-black overflow-hidden">
       {/* Background Image */}
-      <img
+      <OptimizedImg
         src={heroImg}
         alt="Projects Hero"
         className="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
       />
 
       {/* Dark Overlay */}

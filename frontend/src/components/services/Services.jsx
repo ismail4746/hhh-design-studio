@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import archImg from "../../assets/architecture/ar5.jpg";
 import interiorImg from "../../assets/interior/interior14.jpg";
 import projectImg from "../../assets/pro.jpg";
+import OptimizedImg from "../common/OptimizedImg";
 
 export default function Services() {
   const services = [
@@ -85,10 +86,11 @@ export default function Services() {
                   index % 2 === 1 ? "md:order-2" : "md:order-1"
                 }`}
               >
-                <img
+                <OptimizedImg
                   src={service.img}
                   alt={service.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
                 <div className="absolute inset-0 border-2 border-yellow-400/40 rounded-3xl group-hover:border-yellow-400 transition"></div>
