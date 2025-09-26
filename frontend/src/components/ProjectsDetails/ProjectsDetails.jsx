@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import OptimizedImg from "../common/OptimizedImg";
 
 export default function ProjectDetails() {
   // Normalize API base and helper to build image URLs safely
@@ -68,6 +69,33 @@ export default function ProjectDetails() {
       setPendingSrc(starting);
     }
   }, [currentIndex, selected?.id]);
+
+  // Prefetch adjacent images (previous and next) to make slider navigation instant.
+  useEffect(() => {
+    if (!selected || !selected.images || selected.images.length <= 1) return;
+    const len = selected.images.length;
+    const prev = (currentIndex - 1 + len) % len;
+    const next = (currentIndex + 1) % len;
+
+    const urls = [
+      getImageUrl(selected.images[prev]?.image_url),
+      getImageUrl(selected.images[next]?.image_url),
+    ].filter(Boolean);
+
+    const links = urls.map((u) => {
+      const l = document.createElement('link');
+      l.rel = 'preload';
+      l.as = 'image';
+      l.href = u;
+      l.crossOrigin = 'anonymous';
+      document.head.appendChild(l);
+      return l;
+    });
+
+    return () => {
+      links.forEach((l) => l.parentNode && l.parentNode.removeChild(l));
+    };
+  }, [selected?.id, currentIndex]);
 
   if (loading)
     return <p className="p-10 text-gray-500 text-center">Loading projects...</p>;
@@ -160,14 +188,14 @@ export default function ProjectDetails() {
                 >
                   <div className="rounded-3xl overflow-hidden">
                     {firstImage ? (
-                      <motion.img
-                        src={getImageUrl(firstImage.image_url)}
-                        alt={p.name}
-                        loading="lazy"
-                        className="w-full h-72 object-cover"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ duration: 0.5 }}
-                      />
+                      <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.5 }}>
+                        <OptimizedImg
+                          src={getImageUrl(firstImage.image_url)}
+                          alt={p.name}
+                          loading="lazy"
+                          className="w-full h-72 object-cover"
+                        />
+                      </motion.div>
                     ) : (
                       <div className="w-full h-72 flex items-center justify-center text-gray-500">
                         No Image
@@ -251,10 +279,12 @@ export default function ProjectDetails() {
                     <div className="relative w-full flex items-center justify-center">
                       {/* Always show the last successfully loaded image as the base layer */}
                       {lastLoadedSrc ? (
-                        <img
+                        <OptimizedImg
                           src={lastLoadedSrc}
                           alt={selected.name || 'Project image'}
                           className="max-h-full max-w-full object-contain rounded-xl shadow-lg"
+                          loading={isImageLoading ? 'eager' : 'lazy'}
+                          priority={true}
                         />
                       ) : (
                         <div className="w-full h-64 flex items-center justify-center text-gray-400">Loading…</div>
@@ -262,25 +292,25 @@ export default function ProjectDetails() {
 
                       {/* Pending image loads on top and crossfades in when ready */}
                       {pendingSrc && (
-                        <motion.img
-                          src={pendingSrc}
-                          alt={selected.name || 'Project image'}
-                          className="absolute inset-0 m-auto max-h-full max-w-full object-contain rounded-xl shadow-lg"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ duration: 0.25 }}
-                          onLoad={() => {
-                            // once pending finishes loading, make it the new lastLoadedSrc
-                            setLastLoadedSrc(pendingSrc);
-                            setPendingSrc(null);
-                            setIsImageLoading(false);
-                          }}
-                          onError={() => {
-                            // on error, clear the pending image and keep the previous image
-                            setPendingSrc(null);
-                            setIsImageLoading(false);
-                          }}
-                        />
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }} className="absolute inset-0 m-auto max-h-full max-w-full">
+                          <OptimizedImg
+                            src={pendingSrc}
+                            alt={selected.name || 'Project image'}
+                            className="absolute inset-0 m-auto max-h-full max-w-full object-contain rounded-xl shadow-lg"
+                            loading="eager"
+                            onLoad={() => {
+                              // once pending finishes loading, make it the new lastLoadedSrc
+                              setLastLoadedSrc(pendingSrc);
+                              setPendingSrc(null);
+                              setIsImageLoading(false);
+                            }}
+                            onError={() => {
+                              // on error, clear the pending image and keep the previous image
+                              setPendingSrc(null);
+                              setIsImageLoading(false);
+                            }}
+                          />
+                        </motion.div>
                       )}
                     </div>
 
