@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function ProjectDetails() {
   // Normalize API base and helper to build image URLs safely
@@ -19,6 +20,9 @@ export default function ProjectDetails() {
   const [visibleCount, setVisibleCount] = useState(9);
   const [selected, setSelected] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isImageLoading, setIsImageLoading] = useState(false);
+  const [lastLoadedSrc, setLastLoadedSrc] = useState('');
+  const [pendingSrc, setPendingSrc] = useState(null);
 
   const [category, setCategory] = useState("All");
   const categories = [
@@ -50,6 +54,20 @@ export default function ProjectDetails() {
         setLoading(false);
       });
   }, []);
+
+  // When the selected project or currentIndex changes, mark the image as loading
+  // until the image's onLoad/onError fires. This prevents users rapidly clicking
+  // arrows and causing the slider to render into a bad state.
+  useEffect(() => {
+    if (selected) {
+      const starting = getImageUrl(selected.images?.[currentIndex]?.image_url);
+      // start by loading the current image into the pending buffer; once it loads
+      // it will become the lastLoadedSrc. This ensures the UI always shows an image
+      // while new images are loading and prevents layout collapse.
+      setIsImageLoading(true);
+      setPendingSrc(starting);
+    }
+  }, [currentIndex, selected?.id]);
 
   if (loading)
     return <p className="p-10 text-gray-500 text-center">Loading projects...</p>;
@@ -157,8 +175,8 @@ export default function ProjectDetails() {
                     )}
                   </div>
 
-                  <div className="p-5 flex flex-col">
-                    <h4 className="text-xl mb-1 font-semibold text-[#D4AF37]">
+                    <div className="p-5 flex flex-col">
+                    <h4 className="text-xl mb-1 font-semibold text-[#D4AF37] truncate w-full">
                       {p.name}
                     </h4>
                     <p className="text-xs uppercase text-gray-500 mb-3">
@@ -206,14 +224,14 @@ export default function ProjectDetails() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xl p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xl p-4 overflow-y-auto"
           >
             <motion.div
               initial={{ scale: 0.96, y: 8 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.96, y: 8 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative w-full max-w-5xl h-[88vh] rounded-3xl overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.7)] border border-[#D4AF37]/40 bg-gradient-to-br from-[#0a0a0a] via-[#141414] to-[#0a0a0a] flex flex-col"
+              className="relative w-full max-w-5xl rounded-3xl overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.7)] border border-[#D4AF37]/40 bg-gradient-to-br from-[#0a0a0a] via-[#141414] to-[#0a0a0a] flex flex-col"
             >
               {/* Gold glow top edge */}
               <div className="pointer-events-none absolute inset-x-0 -top-32 h-52 bg-[radial-gradient(ellipse_at_top,#D4AF37_0%,transparent_70%)] opacity-20" />
@@ -227,43 +245,88 @@ export default function ProjectDetails() {
               </button>
 
               {/* Image Section with Slider */}
-              <div className="h-[70%] relative bg-black/70 flex items-center justify-center">
+              <div className="relative bg-black/70 flex items-center justify-center max-h-[70vh]">
                 {selected?.images?.length ? (
-                  <div className="relative w-full h-full flex items-center justify-center">
-                    <motion.img
-                      src={getImageUrl(selected.images[currentIndex]?.image_url)}
-                      alt={selected.name || "Project image"}
-                      className="max-h-full max-w-full object-contain rounded-xl shadow-lg"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.35 }}
-                    />
+                  <div className="relative w-full flex items-center justify-center">
+                    <div className="relative w-full flex items-center justify-center">
+                      {/* Always show the last successfully loaded image as the base layer */}
+                      {lastLoadedSrc ? (
+                        <img
+                          src={lastLoadedSrc}
+                          alt={selected.name || 'Project image'}
+                          className="max-h-full max-w-full object-contain rounded-xl shadow-lg"
+                        />
+                      ) : (
+                        <div className="w-full h-64 flex items-center justify-center text-gray-400">Loading…</div>
+                      )}
+
+                      {/* Pending image loads on top and crossfades in when ready */}
+                      {pendingSrc && (
+                        <motion.img
+                          src={pendingSrc}
+                          alt={selected.name || 'Project image'}
+                          className="absolute inset-0 m-auto max-h-full max-w-full object-contain rounded-xl shadow-lg"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.25 }}
+                          onLoad={() => {
+                            // once pending finishes loading, make it the new lastLoadedSrc
+                            setLastLoadedSrc(pendingSrc);
+                            setPendingSrc(null);
+                            setIsImageLoading(false);
+                          }}
+                          onError={() => {
+                            // on error, clear the pending image and keep the previous image
+                            setPendingSrc(null);
+                            setIsImageLoading(false);
+                          }}
+                        />
+                      )}
+                    </div>
 
                     {/* Prev/Next Buttons: show only when there are multiple images */}
                     {selected?.images && selected.images.length > 1 && (
                       <>
                         <button
-                          onClick={() =>
-                            setCurrentIndex((prev) =>
-                              prev === 0
-                                ? selected.images.length - 1
-                                : prev - 1
-                            )
-                          }
-                          className="absolute left-4 bg-black/50 text-white px-3 py-2 rounded-full hover:bg-black/80 transition"
+                          onClick={() => {
+                              if (isImageLoading) return;
+                              const len = selected.images.length || 1;
+                              const next = (currentIndex - 1 + len) % len;
+                              // compute the next image URL and set it as pending so the
+                              // UI keeps showing the lastLoadedSrc until the new image is ready
+                              setPendingSrc(getImageUrl(selected.images[next]?.image_url));
+                              setCurrentIndex(next);
+                          }}
+                          aria-label="Previous image"
+                          aria-disabled={isImageLoading}
+                          disabled={isImageLoading}
+                          className={`absolute left-4 z-30 flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 shadow-lg border-2 border-transparent ${
+                            isImageLoading
+                              ? "bg-black/40 text-gray-400 cursor-not-allowed"
+                              : "bg-black/70 text-white hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#b8902d] hover:text-black hover:border-black"
+                          }`}
                         >
-                          ◀
+                          <ChevronLeft size={20} />
                         </button>
 
                         <button
-                          onClick={() =>
-                            setCurrentIndex((prev) =>
-                              prev === selected.images.length - 1 ? 0 : prev + 1
-                            )
-                          }
-                          className="absolute right-4 bg-black/50 text-white px-3 py-2 rounded-full hover:bg-black/80 transition"
+                          onClick={() => {
+                            if (isImageLoading) return;
+                            const len = selected.images.length || 1;
+                            const next = (currentIndex + 1) % len;
+                            setPendingSrc(getImageUrl(selected.images[next]?.image_url));
+                            setCurrentIndex(next);
+                          }}
+                          aria-label="Next image"
+                          aria-disabled={isImageLoading}
+                          disabled={isImageLoading}
+                          className={`absolute right-4 z-30 flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 shadow-lg border-2 border-transparent ${
+                            isImageLoading
+                              ? "bg-black/40 text-gray-400 cursor-not-allowed"
+                              : "bg-black/70 text-white hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#b8902d] hover:text-black hover:border-black"
+                          }`}
                         >
-                          ▶
+                          <ChevronRight size={20} />
                         </button>
                       </>
                     )}
@@ -276,11 +339,11 @@ export default function ProjectDetails() {
               </div>
 
               {/* Details Section */}
-              <div className="h-[30%] bg-black/40 backdrop-blur-md border-t border-[#D4AF37]/30 p-6 flex flex-col">
+              <div className="bg-black/40 backdrop-blur-md border-t border-[#D4AF37]/30 p-6 flex flex-col">
                 <h3 className="text-2xl md:text-3xl font-extrabold tracking-wide bg-gradient-to-r from-[#D4AF37] to-[#caa84a] bg-clip-text text-transparent drop-shadow-lg">
                   {selected?.name}
                 </h3>
-                <div className="mt-2 flex-1 overflow-y-auto pr-2 text-gray-300 text-sm md:text-base leading-relaxed">
+                <div className="mt-2 pr-2 text-gray-300 text-sm md:text-base leading-relaxed">
                   {selected?.description || "No description available."}
                 </div>
               </div>
