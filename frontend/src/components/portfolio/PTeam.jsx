@@ -30,7 +30,7 @@ const teamMembers = [
   },
   {
     name: "AHAD SADDIQUE",
-    role: "Site Incharge",
+    role: "Construction Manager",
     desc: "Supervises on-site activities, ensuring quality control, safety, and timely project completion.",
     img: member4,
   },
