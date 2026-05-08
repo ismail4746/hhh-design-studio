@@ -23,7 +23,7 @@ export default function Project() {
       })
       .then((data) => {
         if (data.status) {
-          setProjects(data.data);
+          setProjects([...data.data].sort((a, b) => b.id - a.id));
         } else {
           setError("Failed to load projects");
         }

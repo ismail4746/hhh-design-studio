@@ -46,7 +46,7 @@ export default function ProjectDetails() {
       })
       .then((data) => {
         console.log("✅ API Response:", data);
-        if (data.status) setProjects(data.data);
+        if (data.status) setProjects([...data.data].sort((a, b) => b.id - a.id));
         else setError("Failed to load projects");
         setLoading(false);
       })
