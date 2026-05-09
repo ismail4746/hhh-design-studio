@@ -19,6 +19,7 @@
     <meta name="twitter:description" content="Get in touch with HHH Design Studio for consultations, project inquiries, and collaboration opportunities." />
     <meta name="twitter:image" content="https://hhhdesignstudio.com/src/assets/contact-Ccs7W-uU.jpg" />
     <link rel="canonical" href="https://hhhdesignstudio.com/contactDetails" />
+    <meta http-equiv="refresh" content="0; url=/?spa=/contactDetails" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -38,6 +39,18 @@
     </script>
   </head>
   <body>
-    <p>Contact page placeholder. <a href="/">Open site</a></p>
+    <script>
+      (function () {
+        try {
+          var target = '/?spa=' + encodeURIComponent('/contactDetails');
+          window.location.replace(target);
+        } catch (e) {
+          window.location.href = '/';
+        }
+      })();
+    </script>
+    <noscript>
+      <p>Contact page. <a href="/?spa=/contactDetails">Open site</a></p>
+    </noscript>
   </body>
 </html>

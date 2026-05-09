@@ -1,19 +1,80 @@
-import { Routes, Route } from "react-router-dom";
+import React, { Suspense, lazy, useEffect, useState } from "react";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
-import Hero from "./components/hero/Hero";
-import About from "./components/about/About";
-import Portfolio from "./components/portfolio/Portfolio";
-import Blog from "./components/blog/Blog";
-import Project from "./components/projects/Project";
-import Store from "./components/store/Store";
-import ContactDetails from "./components/contact/ContactDetails";
-import ProjectDetails from "./components/ProjectsDetails/ProjectsDetails";
 import Footer from "./components/Footer/Footer";
-import Projectsmain from "./components/ProjectsDetails/Projectsmain";
-import ServicesMain from "./components/services/ServicesMain";
 import Meta from "./components/Meta/Meta";
 
+const Hero = lazy(() => import("./components/hero/Hero"));
+const Store = lazy(() => import("./components/store/Store"));
+const Project = lazy(() => import("./components/projects/Project"));
+const Blog = lazy(() => import("./components/blog/Blog"));
+
+const Portfolio = lazy(() => import("./components/portfolio/Portfolio"));
+const About = lazy(() => import("./components/about/About"));
+const ContactDetails = lazy(() => import("./components/contact/ContactDetails"));
+const Projectsmain = lazy(() => import("./components/ProjectsDetails/Projectsmain"));
+const ServicesMain = lazy(() => import("./components/services/ServicesMain"));
+
+function RouteFallback() {
+  return <div className="p-10 text-gray-500 text-center">Loading…</div>;
+}
+
+function useIdle(readyDelayMs = 700) {
+  const [isIdle, setIsIdle] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    let timeoutId;
+    let idleId;
+
+    const markReady = () => {
+      if (cancelled) return;
+      setIsIdle(true);
+    };
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      // @ts-ignore
+      idleId = window.requestIdleCallback(markReady, { timeout: 1500 });
+    } else {
+      timeoutId = window.setTimeout(markReady, readyDelayMs);
+    }
+
+    return () => {
+      cancelled = true;
+      if (idleId && typeof window !== "undefined" && "cancelIdleCallback" in window) {
+        // @ts-ignore
+        window.cancelIdleCallback(idleId);
+      }
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
+  }, [readyDelayMs]);
+
+  return isIdle;
+}
+
+function useSpaQueryRedirect() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const spaTarget = params.get("spa");
+    if (!spaTarget) return;
+
+    // Only allow internal absolute paths
+    if (typeof spaTarget !== "string" || !spaTarget.startsWith("/")) return;
+
+    params.delete("spa");
+    const remaining = params.toString();
+    const next = `${spaTarget}${remaining ? `?${remaining}` : ""}${location.hash || ""}`;
+    navigate(next, { replace: true });
+  }, [location.search, location.hash, navigate]);
+}
+
 export default function App() {
+  const idleReady = useIdle();
+  useSpaQueryRedirect();
+
   return (
     <>
       <Navbar />
@@ -31,10 +92,18 @@ export default function App() {
                   url="https://hhhdesignstudio.com/"
                   image="https://hhhdesignstudio.com/src/assets/abouthero.jpg"
                 />
-                <Hero />
-                <Store/>
-                <Project />
-                <Blog/>
+                <Suspense fallback={<RouteFallback />}>
+                  <Hero />
+                </Suspense>
+
+                {/* Defer below-the-fold mounts for faster first paint */}
+                {idleReady && (
+                  <Suspense fallback={null}>
+                    <Store />
+                    <Project />
+                    <Blog />
+                  </Suspense>
+                )}
               
               </>
             }
@@ -52,7 +121,9 @@ export default function App() {
                 url="https://hhhdesignstudio.com/portfolio"
                 image="https://hhhdesignstudio.com/src/assets/architecture1.jpg"
               />
-              <Portfolio />
+              <Suspense fallback={<RouteFallback />}>
+                <Portfolio />
+              </Suspense>
             </>
           }
         />
@@ -67,7 +138,9 @@ export default function App() {
                 url="https://hhhdesignstudio.com/about"
                 image="https://hhhdesignstudio.com/src/assets/azeemCeo1.jpg"
               />
-              <About/>
+              <Suspense fallback={<RouteFallback />}>
+                <About />
+              </Suspense>
             </>
           }
         />
@@ -82,7 +155,9 @@ export default function App() {
                 url="https://hhhdesignstudio.com/contact"
                 image="https://hhhdesignstudio.com/src/assets/about.jpg"
               />
-              <ContactDetails/>
+              <Suspense fallback={<RouteFallback />}>
+                <ContactDetails />
+              </Suspense>
             </>
           }
         />
@@ -97,7 +172,9 @@ export default function App() {
                 url="https://hhhdesignstudio.com/project"
                 image="https://hhhdesignstudio.com/src/assets/architecture3.jpg"
               />
-              <Projectsmain/>
+              <Suspense fallback={<RouteFallback />}>
+                <Projectsmain />
+              </Suspense>
             </>
           }
         />
@@ -112,7 +189,9 @@ export default function App() {
                 url="https://hhhdesignstudio.com/services"
                 image="https://hhhdesignstudio.com/src/assets/architecture2.jpg"
               />
-              <ServicesMain/>
+              <Suspense fallback={<RouteFallback />}>
+                <ServicesMain />
+              </Suspense>
             </>
           }
         />

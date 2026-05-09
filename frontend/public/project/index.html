@@ -19,6 +19,7 @@
     <meta name="twitter:description" content="Project highlights and case studies by HHH Design Studio. Explore our detailed project pages for design insights." />
     <meta name="twitter:image" content="https://hhhdesignstudio.com/src/assets/architecture3.jpg" />
     <link rel="canonical" href="https://hhhdesignstudio.com/project" />
+    <meta http-equiv="refresh" content="0; url=/?spa=/project" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -38,6 +39,18 @@
     </script>
   </head>
   <body>
-    <p>Project page placeholder. <a href="/">Open site</a></p>
+    <script>
+      (function () {
+        try {
+          var target = '/?spa=' + encodeURIComponent('/project');
+          window.location.replace(target);
+        } catch (e) {
+          window.location.href = '/';
+        }
+      })();
+    </script>
+    <noscript>
+      <p>Project page. <a href="/?spa=/project">Open site</a></p>
+    </noscript>
   </body>
 </html>

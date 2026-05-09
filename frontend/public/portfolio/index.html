@@ -19,6 +19,7 @@
     <meta name="twitter:description" content="Our portfolio showcases residential and commercial projects highlighting our design philosophy and expertise." />
     <meta name="twitter:image" content="https://hhhdesignstudio.com/src/assets/architecture1.jpg" />
     <link rel="canonical" href="https://hhhdesignstudio.com/portfolio" />
+    <meta http-equiv="refresh" content="0; url=/?spa=/portfolio" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -38,6 +39,18 @@
     </script>
   </head>
   <body>
-    <p>Portfolio page placeholder. <a href="/">Open site</a></p>
+    <script>
+      (function () {
+        try {
+          var target = '/?spa=' + encodeURIComponent('/portfolio');
+          window.location.replace(target);
+        } catch (e) {
+          window.location.href = '/';
+        }
+      })();
+    </script>
+    <noscript>
+      <p>Portfolio page. <a href="/?spa=/portfolio">Open site</a></p>
+    </noscript>
   </body>
 </html>

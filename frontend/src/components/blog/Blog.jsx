@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import OptimizedImg from "../common/OptimizedImg";
+import { getCachedJson, setCachedJson } from "../../utils/storageCache";
+
+const BLOGS_CACHE_KEY = "hhh.blogs.v1";
+const BLOGS_CACHE_TTL_MS = 2 * 60 * 1000;
 
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -10,21 +14,38 @@ const Blog = () => {
 
   useEffect(() => {
     const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8080";
+    const cached = getCachedJson(BLOGS_CACHE_KEY, BLOGS_CACHE_TTL_MS);
+    if (cached) {
+      setBlogs(cached);
+      setLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
     fetch(`${apiBase.replace(/\/$/, '')}/admin/blogs`, {
       headers: { Accept: "application/json" },
+      signal: controller.signal,
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => {
-        const sorted = data.sort(
+        const list = Array.isArray(data) ? data : (data?.data ?? []);
+        const sorted = [...list].sort(
           (a, b) => new Date(b.created_at) - new Date(a.created_at)
         );
         setBlogs(sorted);
+        setCachedJson(BLOGS_CACHE_KEY, sorted);
         setLoading(false);
       })
       .catch((err) => {
+        if (err?.name === "AbortError") return;
         console.error(err);
         setLoading(false);
       });
+
+    return () => controller.abort();
   }, []);
 
   const showMore = () => setVisibleCount((prev) => prev + 2);

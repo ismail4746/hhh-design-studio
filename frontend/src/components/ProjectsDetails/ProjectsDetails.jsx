@@ -1,7 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import OptimizedImg from "../common/OptimizedImg";
+
+const PROJECTS_CACHE_KEY = "hhh.projects.v1";
+const PROJECTS_CACHE_TTL_MS = 2 * 60 * 1000; // 2 minutes
+
+function readProjectsCache() {
+  try {
+    const raw = sessionStorage.getItem(PROJECTS_CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed.t !== "number") return null;
+    if (Date.now() - parsed.t > PROJECTS_CACHE_TTL_MS) return null;
+    return Array.isArray(parsed.v) ? parsed.v : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeProjectsCache(projects) {
+  try {
+    sessionStorage.setItem(
+      PROJECTS_CACHE_KEY,
+      JSON.stringify({ t: Date.now(), v: projects })
+    );
+  } catch {
+    // ignore quota / private mode
+  }
+}
+
+function canPrefetchImages() {
+  try {
+    const c = navigator.connection;
+    if (c?.saveData) return false;
+    const t = c?.effectiveType;
+    if (t === "slow-2g" || t === "2g") return false;
+    return true;
+  } catch {
+    return true;
+  }
+}
 
 export default function ProjectDetails() {
   // Normalize API base and helper to build image URLs safely
@@ -37,23 +76,39 @@ export default function ProjectDetails() {
   ];
 
   useEffect(() => {
+    const cached = readProjectsCache();
+    if (cached) {
+      setProjects(cached);
+      setLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
     fetch(`${apiBase}/admin/projects`, {
       headers: { Accept: "application/json" },
+      signal: controller.signal,
     })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         return res.json();
       })
       .then((data) => {
-        console.log("✅ API Response:", data);
-        if (data.status) setProjects([...data.data].sort((a, b) => b.id - a.id));
-        else setError("Failed to load projects");
+        if (data.status) {
+          const sorted = [...data.data].sort((a, b) => b.id - a.id);
+          setProjects(sorted);
+          writeProjectsCache(sorted);
+        } else {
+          setError("Failed to load projects");
+        }
         setLoading(false);
       })
       .catch((err) => {
+        if (err?.name === "AbortError") return;
         setError(err.message || "Something went wrong");
         setLoading(false);
       });
+
+    return () => controller.abort();
   }, []);
 
   // When the selected project or currentIndex changes, mark the image as loading
@@ -73,6 +128,7 @@ export default function ProjectDetails() {
   // Prefetch adjacent images (previous and next) to make slider navigation instant.
   useEffect(() => {
     if (!selected || !selected.images || selected.images.length <= 1) return;
+    if (!canPrefetchImages()) return;
     const len = selected.images.length;
     const prev = (currentIndex - 1 + len) % len;
     const next = (currentIndex + 1) % len;
@@ -82,36 +138,29 @@ export default function ProjectDetails() {
       getImageUrl(selected.images[next]?.image_url),
     ].filter(Boolean);
 
-    const links = urls.map((u) => {
-      const l = document.createElement('link');
-      l.rel = 'preload';
-      l.as = 'image';
-      l.href = u;
-      l.crossOrigin = 'anonymous';
-      document.head.appendChild(l);
-      return l;
+    const imgs = urls.map((u) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = u;
+      return img;
     });
 
-    return () => {
-      links.forEach((l) => l.parentNode && l.parentNode.removeChild(l));
-    };
+    // No cleanup necessary: no DOM nodes were added. Let GC collect.
+    void imgs;
   }, [selected?.id, currentIndex]);
+
+  const filteredProjects = useMemo(() => {
+    if (category === "All") return projects;
+    const c = category.toLowerCase();
+    return projects.filter((p) =>
+      p.images?.some((img) => img.image_type && img.image_type.toLowerCase() === c)
+    );
+  }, [projects, category]);
 
   if (loading)
     return <p className="p-10 text-gray-500 text-center">Loading projects...</p>;
   if (error)
     return <p className="p-10 text-red-500 text-center">{error}</p>;
-
-  const filteredProjects =
-    category === "All"
-      ? projects
-      : projects.filter((p) =>
-          p.images?.some(
-            (img) =>
-              img.image_type &&
-              img.image_type.toLowerCase() === category.toLowerCase()
-          )
-        );
 
   const toggleShow = () => {
     if (visibleCount >= filteredProjects.length) {

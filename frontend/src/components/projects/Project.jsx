@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import OptimizedImg from "../common/OptimizedImg";
+import { getCachedJson, setCachedJson } from "../../utils/storageCache";
+
+const PROJECTS_CACHE_KEY = "hhh.home.projects.v1";
+const PROJECTS_CACHE_TTL_MS = 2 * 60 * 1000;
 
 export default function Project() {
   const [projects, setProjects] = useState([]);
@@ -14,8 +18,18 @@ export default function Project() {
 
   useEffect(() => {
     const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
+    const cached = getCachedJson(PROJECTS_CACHE_KEY, PROJECTS_CACHE_TTL_MS);
+    if (cached) {
+      setProjects(cached);
+      setLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
     fetch(`${apiBase.replace(/\/$/, '')}/admin/projects`, {
       headers: { Accept: "application/json" },
+      signal: controller.signal,
     })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -23,16 +37,21 @@ export default function Project() {
       })
       .then((data) => {
         if (data.status) {
-          setProjects([...data.data].sort((a, b) => b.id - a.id));
+          const sorted = [...data.data].sort((a, b) => b.id - a.id);
+          setProjects(sorted);
+          setCachedJson(PROJECTS_CACHE_KEY, sorted);
         } else {
           setError("Failed to load projects");
         }
         setLoading(false);
       })
       .catch((err) => {
+        if (err?.name === "AbortError") return;
         setError(err.message || "Something went wrong");
         setLoading(false);
       });
+
+    return () => controller.abort();
   }, []);
 
   if (loading) return <p className="p-10 text-gray-500">Loading projects...</p>;
@@ -114,7 +133,7 @@ export default function Project() {
 
         <div className="text-center mt-16">
           <Link
-            to="/Project"
+            to="/project"
             className="inline-block px-10 py-3 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black font-semibold tracking-wide hover:scale-105 hover:shadow-[0_0_45px_#D4AF37]/50 transition duration-300"
           >
             Explore More Projects

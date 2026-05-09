@@ -21,6 +21,7 @@
     <meta name="twitter:description" content="Learn about HHH Design Studio: our team, approach, and commitment to sustainable, client-driven design." />
     <meta name="twitter:image" content="https://hhhdesignstudio.com/src/assets/azeemCeo1.jpg" />
     <link rel="canonical" href="https://hhhdesignstudio.com/about" />
+    <meta http-equiv="refresh" content="0; url=/?spa=/about" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -40,6 +41,18 @@
     </script>
   </head>
   <body>
-    <p>This is the About page for HHH Design Studio. <a href="/">Open site</a></p>
+    <script>
+      (function () {
+        try {
+          var target = '/?spa=' + encodeURIComponent('/about');
+          window.location.replace(target);
+        } catch (e) {
+          window.location.href = '/';
+        }
+      })();
+    </script>
+    <noscript>
+      <p>About page. <a href="/?spa=/about">Open site</a></p>
+    </noscript>
   </body>
 </html>

@@ -19,6 +19,7 @@
     <meta name="twitter:description" content="Our services include architectural design, interior design, project management, and consultancy for residential and commercial projects." />
     <meta name="twitter:image" content="https://hhhdesignstudio.com/src/assets/services-BLfdjLEH.jpg" />
     <link rel="canonical" href="https://hhhdesignstudio.com/services" />
+    <meta http-equiv="refresh" content="0; url=/?spa=/services" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -38,6 +39,18 @@
     </script>
   </head>
   <body>
-    <p>Services page placeholder. <a href="/">Open site</a></p>
+    <script>
+      (function () {
+        try {
+          var target = '/?spa=' + encodeURIComponent('/services');
+          window.location.replace(target);
+        } catch (e) {
+          window.location.href = '/';
+        }
+      })();
+    </script>
+    <noscript>
+      <p>Services page. <a href="/?spa=/services">Open site</a></p>
+    </noscript>
   </body>
 </html>

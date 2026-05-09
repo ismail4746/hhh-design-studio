@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import heroImg from "../../assets/img35.jpg";
+import heroJpgSrcSet from "../../assets/img35.jpg?w=480;960;1440&format=jpg&as=srcset";
+import heroWebpSrcSet from "../../assets/img35.jpg?w=480;960;1440&format=webp&as=srcset";
 import OptimizedImg from "../common/OptimizedImg";
 import { ChevronDown } from "lucide-react";
 
@@ -8,12 +10,17 @@ export default function ProjectHero() {
   return (
     <section className="relative h-screen flex items-center justify-center bg-black overflow-hidden">
       {/* Background Image */}
-      <OptimizedImg
-        src={heroImg}
-        alt="Projects Hero"
-        className="absolute inset-0 w-full h-full object-cover"
-        loading="lazy"
-      />
+      <picture>
+        <source type="image/webp" srcSet={heroWebpSrcSet} sizes="100vw" />
+        <source type="image/jpeg" srcSet={heroJpgSrcSet} sizes="100vw" />
+        <OptimizedImg
+          src={heroImg}
+          alt="Projects Hero"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+          priority={true}
+        />
+      </picture>
 
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/25"></div>
