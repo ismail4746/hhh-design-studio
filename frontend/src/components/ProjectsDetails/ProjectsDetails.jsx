@@ -65,6 +65,7 @@ export default function ProjectDetails() {
   const [pendingSrc, setPendingSrc] = useState(null);
 
   const [category, setCategory] = useState("All");
+  const [sortOrder, setSortOrder] = useState("newest");
   const categories = [
     "All",
     "Lobby",
@@ -150,12 +151,16 @@ export default function ProjectDetails() {
   }, [selected?.id, currentIndex]);
 
   const filteredProjects = useMemo(() => {
-    if (category === "All") return projects;
-    const c = category.toLowerCase();
-    return projects.filter((p) =>
-      p.images?.some((img) => img.image_type && img.image_type.toLowerCase() === c)
-    );
-  }, [projects, category]);
+    let result = category === "All"
+      ? projects
+      : projects.filter((p) => {
+          const c = category.toLowerCase();
+          return p.images?.some((img) => img.image_type && img.image_type.toLowerCase() === c);
+        });
+    return sortOrder === "newest"
+      ? [...result].sort((a, b) => b.id - a.id)
+      : [...result].sort((a, b) => a.id - b.id);
+  }, [projects, category, sortOrder]);
 
   if (loading)
     return <p className="p-10 text-gray-500 text-center">Loading projects...</p>;
@@ -189,13 +194,13 @@ export default function ProjectDetails() {
         </h2>
 
         {/* Categories Filter */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        <div className="flex flex-wrap justify-center gap-4 mb-6">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => {
                 setCategory(cat);
-                setVisibleCount(9); // reset show count
+                setVisibleCount(9);
               }}
               className={`px-6 py-2 rounded-full font-semibold transition-all ${
                 category === cat
@@ -204,6 +209,30 @@ export default function ProjectDetails() {
               }`}
             >
               {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Sort Filter */}
+        <div className="flex justify-end items-center gap-3 mb-8">
+          <span className="text-gray-400 text-sm font-medium">Sort:</span>
+          {[
+            { label: "Newest First", value: "newest" },
+            { label: "Oldest First", value: "oldest" },
+          ].map((opt) => (
+            <button
+              key={opt.value}
+              onClick={() => {
+                setSortOrder(opt.value);
+                setVisibleCount(9);
+              }}
+              className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${
+                sortOrder === opt.value
+                  ? "bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black shadow-md scale-105"
+                  : "bg-[#1a1a1a]/60 text-gray-300 border border-gray-600 hover:border-[#D4AF37] hover:text-yellow-400"
+              }`}
+            >
+              {opt.label}
             </button>
           ))}
         </div>
