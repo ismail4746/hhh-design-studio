@@ -214,27 +214,37 @@ export default function ProjectDetails() {
         </div>
 
         {/* Sort Filter */}
-        <div className="flex justify-end items-center gap-3 mb-8">
-          <span className="text-gray-400 text-sm font-medium">Sort:</span>
-          {[
-            { label: "Newest First", value: "newest" },
-            { label: "Oldest First", value: "oldest" },
-          ].map((opt) => (
-            <button
-              key={opt.value}
-              onClick={() => {
-                setSortOrder(opt.value);
-                setVisibleCount(9);
-              }}
-              className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${
-                sortOrder === opt.value
-                  ? "bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black shadow-md scale-105"
-                  : "bg-[#1a1a1a]/60 text-gray-300 border border-gray-600 hover:border-[#D4AF37] hover:text-yellow-400"
-              }`}
-            >
-              {opt.label}
-            </button>
-          ))}
+        <div className="flex justify-center sm:justify-end mb-8">
+          <div className="inline-flex w-full sm:w-auto items-center gap-1 rounded-full border border-[#D4AF37]/25 bg-[#0f0f0f]/75 p-1 shadow-[0_10px_30px_rgba(0,0,0,0.35)] backdrop-blur-md">
+            <span className="hidden sm:inline-flex px-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-gray-500">
+              Sort
+            </span>
+
+            {[
+              { label: "Newest", value: "newest" },
+              { label: "Oldest", value: "oldest" },
+            ].map((opt) => {
+              const active = sortOrder === opt.value;
+
+              return (
+                <button
+                  key={opt.value}
+                  onClick={() => {
+                    setSortOrder(opt.value);
+                    setVisibleCount(9);
+                  }}
+                  aria-pressed={active}
+                  className={`relative min-w-0 flex-1 sm:flex-none px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 ${
+                    active
+                      ? "bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black shadow-[0_0_18px_rgba(212,175,55,0.35)]"
+                      : "text-gray-300 hover:text-white"
+                  }`}
+                >
+                  <span className="relative z-10">{opt.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {filteredProjects.length === 0 ? (
