@@ -98,7 +98,7 @@ export default function Footer() {
                 {/* Contact Info */}
                 <div className="flex flex-col space-y-2">
                     <h4 className="text-yellow-400 font-semibold mb-4">Contact</h4>
-                    <p className="text-gray-300 text-sm">Address:DHA, Building 80, Street 6, (DHA) CCA, Phase 5 DHA, C, Sector C Defence Housing Authority, Lahore, 54000</p>
+                    <p className="text-gray-300 text-sm">Address: Building 80, Street 6, (DHA) CCA, Phase V, Defence Housing Authority, Lahore, 54000</p>
                     <p className="text-gray-300 text-sm">Email: hhhdesignstudio@outlook.com</p>
                     <p className="text-gray-300 text-sm">Phone: +92 321-7500253</p>
                     <p className="text-gray-300 text-sm">Phone: +92 302-4599748</p>
