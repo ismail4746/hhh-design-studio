@@ -125,28 +125,37 @@
         <div class="mb-3 mt-3">
             <label class="form-label">Project Images & Types</label>
             <div id="image-upload-wrapper">
-                <div class="row g-2 mb-2 image-upload-group">
-                    <div class="col-md-7">
-                        <input type="file" name="images[]" class="form-control" required>
+                <div class="image-upload-group mb-3 border rounded p-2">
+                    <div class="row g-2 mb-2">
+                        <div class="col-md-6">
+                            <input type="file" name="images[]" class="form-control image-file-input" required>
+                        </div>
+                        <div class="col-md-5">
+                            <select name="image_types[]" class="form-control" required>
+                                <option value="">Select Type</option>
+                                <option value="lobby">Lobby</option>
+                                <option value="bedrooms">Bedrooms</option>
+                                <option value="kitchen">Kitchen</option>
+                                <option value="interior">Interior</option>
+                                <option value="landscape">Landscape</option>
+                                <option value="elevation">Elevation</option>
+                                <option value="ceiling">Ceiling</option>
+                                <option value="lounge">Lounge</option>
+                                <option value="bar">Bar</option>
+                                <option value="top roof">Top Roof</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1 d-flex align-items-center">
+                            <button type="button" class="btn btn-danger btn-sm remove-image">✕</button>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <select name="image_types[]" class="form-control" required>
-                            <option value="">Select Type</option>
-                            <option value="lobby">Lobby</option>
-                            <option value="bedrooms">Bedrooms</option>
-                            <option value="kitchen">Kitchen</option>
-                            <option value="interior">Interior</option>
-                            <option value="landscape">Landscape</option>
-                            <option value="elevation">Elevation</option>
-                            <option value="ceiling">Ceiling</option>
-                            <option value="lounge">Lounge</option>
-                            <option value="bar">Bar</option>
-                            <option value="top roof">Top Roof</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-1 d-flex align-items-center">
-                        <button type="button" class="btn btn-danger btn-sm remove-image">✕</button>
+                    <div class="row g-2">
+                        <div class="col-md-10">
+                            <input type="text" name="captions[]" class="form-control caption-input" placeholder="Caption (optional)">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-outline-primary btn-sm ai-caption-btn w-100 text-nowrap" disabled>AI Generate</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -170,41 +179,121 @@
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('add-image').addEventListener('click', function() {
+        const GROQ_API_KEY = '<?= env('GROQ_API_KEY') ?>';
+
+        document.getElementById('add-image').addEventListener('click', function () {
             const wrapper = document.getElementById('image-upload-wrapper');
             const newGroup = document.createElement('div');
-            newGroup.classList.add('row', 'g-2', 'mb-2', 'image-upload-group');
+            newGroup.classList.add('image-upload-group', 'mb-3', 'border', 'rounded', 'p-2');
             newGroup.innerHTML = `
-            <div class="col-md-7">
-                <input type="file" name="images[]" class="form-control" required>
-            </div>
-            <div class="col-md-4">
-                <select name="image_types[]" class="form-control" required>
-                    <option value="">Select Type</option>
-                    <option value="lobby">Lobby</option>
-                    <option value="bedrooms">Bedrooms</option>
-                    <option value="kitchen">Kitchen</option>
-                    <option value="interior">Interior</option>
-                    <option value="landscape">Landscape</option>
-                    <option value="elevation">Elevation</option>
-                    <option value="ceiling">Ceiling</option>
-                    <option value="lounge">Lounge</option>
-                    <option value="bar">Bar</option>
-                    <option value="top roof">Top Roof</option>
-                </select>
-            </div>
-            <div class="col-md-1 d-flex align-items-center">
-                <button type="button" class="btn btn-danger btn-sm remove-image">✕</button>
-            </div>
-        `;
+                <div class="row g-2 mb-2">
+                    <div class="col-md-6">
+                        <input type="file" name="images[]" class="form-control image-file-input" required>
+                    </div>
+                    <div class="col-md-5">
+                        <select name="image_types[]" class="form-control" required>
+                            <option value="">Select Type</option>
+                            <option value="lobby">Lobby</option>
+                            <option value="bedrooms">Bedrooms</option>
+                            <option value="kitchen">Kitchen</option>
+                            <option value="interior">Interior</option>
+                            <option value="landscape">Landscape</option>
+                            <option value="elevation">Elevation</option>
+                            <option value="ceiling">Ceiling</option>
+                            <option value="lounge">Lounge</option>
+                            <option value="bar">Bar</option>
+                            <option value="top roof">Top Roof</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1 d-flex align-items-center">
+                        <button type="button" class="btn btn-danger btn-sm remove-image">✕</button>
+                    </div>
+                </div>
+                <div class="row g-2">
+                    <div class="col-md-10">
+                        <input type="text" name="captions[]" class="form-control caption-input" placeholder="Caption (optional)">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-outline-primary btn-sm ai-caption-btn w-100 text-nowrap" disabled>AI Generate</button>
+                    </div>
+                </div>
+            `;
             wrapper.appendChild(newGroup);
         });
 
-        document.addEventListener('click', function(e) {
+        document.addEventListener('change', function (e) {
+            if (e.target && e.target.classList.contains('image-file-input')) {
+                const group = e.target.closest('.image-upload-group');
+                const aiBtn = group.querySelector('.ai-caption-btn');
+                aiBtn.disabled = !e.target.files.length;
+            }
+        });
+
+        document.addEventListener('click', function (e) {
             if (e.target && e.target.classList.contains('remove-image')) {
                 e.target.closest('.image-upload-group').remove();
             }
+            if (e.target && e.target.classList.contains('ai-caption-btn')) {
+                handleAiGenerate(e.target);
+            }
         });
+
+        async function handleAiGenerate(btn) {
+            const group = btn.closest('.image-upload-group');
+            const fileInput = group.querySelector('.image-file-input');
+            const captionInput = group.querySelector('.caption-input');
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            btn.disabled = true;
+            const original = btn.textContent;
+            btn.textContent = '...';
+
+            try {
+                const base64 = await fileToBase64(file);
+                const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + GROQ_API_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+                        messages: [{
+                            role: 'user',
+                            content: [
+                                { type: 'image_url', image_url: { url: 'data:' + file.type + ';base64,' + base64 } },
+                                { type: 'text', text: 'This is an interior design project image. Write a short descriptive caption (max 8 words). Reply with ONLY the caption text, nothing else.' }
+                            ]
+                        }],
+                        max_tokens: 30
+                    })
+                });
+
+                const data = await res.json();
+                if (data.choices && data.choices[0]) {
+                    captionInput.value = data.choices[0].message.content.trim();
+                    btn.textContent = 'Done!';
+                    setTimeout(function () { btn.textContent = original; btn.disabled = false; }, 1500);
+                    return;
+                } else {
+                    throw new Error((data.error && data.error.message) || 'No response from AI');
+                }
+            } catch (err) {
+                alert('AI Error: ' + err.message);
+                btn.textContent = original;
+                btn.disabled = false;
+            }
+        }
+
+        function fileToBase64(file) {
+            return new Promise(function (resolve, reject) {
+                const reader = new FileReader();
+                reader.onload = function () { resolve(reader.result.split(',')[1]); };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
     </script>
 
 </body>

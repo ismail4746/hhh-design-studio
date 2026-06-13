@@ -86,7 +86,8 @@ class ProjectsController extends BaseController
         $projectId = $this->projectModel->insert($projectData);
 
         $images = $this->request->getFiles();
-        $imageTypes = $this->request->getPost('image_types'); // Get image types from form
+        $imageTypes = $this->request->getPost('image_types');
+        $captions   = $this->request->getPost('captions');
 
         if (isset($images['images']) && is_array($images['images'])) {
             foreach ($images['images'] as $index => $image) {
@@ -99,11 +100,13 @@ class ProjectsController extends BaseController
                         $savedName = $this->convertToWebP(FCPATH . 'uploads/projects/' . $newName) ?? $newName;
 
                         $imageType = isset($imageTypes[$index]) ? $imageTypes[$index] : null;
+                        $caption   = isset($captions[$index]) ? $captions[$index] : null;
 
                         $this->projectImageModel->insert([
                             'project_id' => $projectId,
                             'image_url'  => 'uploads/projects/' . $savedName,
                             'image_type' => $imageType,
+                            'caption'    => $caption,
                         ]);
                     }
                 }

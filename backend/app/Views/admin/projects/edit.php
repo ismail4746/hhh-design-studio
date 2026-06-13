@@ -223,7 +223,11 @@
 
         <div class="mb-3">
             <label for="caption" class="form-label">Caption (optional)</label>
-            <input type="text" name="caption" id="caption" class="form-control" placeholder="Enter image caption">
+            <div class="input-group">
+                <input type="text" name="caption" id="caption" class="form-control" placeholder="Enter image caption">
+                <button type="button" id="ai-btn" class="btn btn-outline-primary" disabled>AI Generate</button>
+            </div>
+            <small id="ai-status" class="text-muted d-block mt-1"></small>
         </div>
 
 
@@ -259,6 +263,75 @@
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const GROQ_API_KEY = '<?= env('GROQ_API_KEY') ?>';
+
+        const imageInput = document.getElementById('image');
+        const aiBtn = document.getElementById('ai-btn');
+        const captionInput = document.getElementById('caption');
+        const aiStatus = document.getElementById('ai-status');
+
+        imageInput.addEventListener('change', function () {
+            aiBtn.disabled = !this.files.length;
+            aiStatus.textContent = '';
+            aiStatus.className = 'text-muted d-block mt-1';
+        });
+
+        aiBtn.addEventListener('click', async function () {
+            const file = imageInput.files[0];
+            if (!file) return;
+
+            aiBtn.disabled = true;
+            aiBtn.textContent = 'Generating...';
+            aiStatus.textContent = '';
+
+            try {
+                const base64 = await fileToBase64(file);
+                const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + GROQ_API_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+                        messages: [{
+                            role: 'user',
+                            content: [
+                                { type: 'image_url', image_url: { url: 'data:' + file.type + ';base64,' + base64 } },
+                                { type: 'text', text: 'This is an interior design project image. Write a short descriptive caption (max 8 words). Reply with ONLY the caption text, nothing else.' }
+                            ]
+                        }],
+                        max_tokens: 30
+                    })
+                });
+
+                const data = await res.json();
+                if (data.choices && data.choices[0]) {
+                    captionInput.value = data.choices[0].message.content.trim();
+                    aiStatus.textContent = 'Caption generated!';
+                    aiStatus.className = 'text-success d-block mt-1';
+                } else {
+                    throw new Error((data.error && data.error.message) || 'No response from AI');
+                }
+            } catch (err) {
+                aiStatus.textContent = 'Error: ' + err.message;
+                aiStatus.className = 'text-danger d-block mt-1';
+            } finally {
+                aiBtn.disabled = false;
+                aiBtn.textContent = 'AI Generate';
+            }
+        });
+
+        function fileToBase64(file) {
+            return new Promise(function (resolve, reject) {
+                const reader = new FileReader();
+                reader.onload = function () { resolve(reader.result.split(',')[1]); };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+    </script>
 </body>
 
 </html>
