@@ -74,6 +74,10 @@ export default function ProjectDetails() {
     "Interior",
     "Landscape",
     "Kitchen",
+    "Ceiling",
+    "Lounge",
+    "Bar",
+    "Top Roof",
   ];
 
   useEffect(() => {

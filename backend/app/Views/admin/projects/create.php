@@ -138,6 +138,10 @@
                             <option value="interior">Interior</option>
                             <option value="landscape">Landscape</option>
                             <option value="elevation">Elevation</option>
+                            <option value="ceiling">Ceiling</option>
+                            <option value="lounge">Lounge</option>
+                            <option value="bar">Bar</option>
+                            <option value="top roof">Top Roof</option>
                         </select>
                     </div>
 
@@ -183,6 +187,10 @@
                     <option value="interior">Interior</option>
                     <option value="landscape">Landscape</option>
                     <option value="elevation">Elevation</option>
+                    <option value="ceiling">Ceiling</option>
+                    <option value="lounge">Lounge</option>
+                    <option value="bar">Bar</option>
+                    <option value="top roof">Top Roof</option>
                 </select>
             </div>
             <div class="col-md-1 d-flex align-items-center">

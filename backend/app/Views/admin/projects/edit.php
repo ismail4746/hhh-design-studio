@@ -208,12 +208,16 @@
             <label for="type" class="form-label">Image Type</label>
             <select name="image_type" id="type" class="form-control" required>
                 <option value="">-- Select Type --</option>
-                <option value="Lobby">Lobby</option>
-                <option value="Bedrooms">Bedrooms</option>
-                <option value="Kitchen">Kitchen</option>
-                <option value="Interior">Interior</option>
-                <option value="Elevation">Elevation</option>
-                <option value="Landscape">Landscape</option>
+                <option value="lobby">Lobby</option>
+                <option value="bedrooms">Bedrooms</option>
+                <option value="kitchen">Kitchen</option>
+                <option value="interior">Interior</option>
+                <option value="elevation">Elevation</option>
+                <option value="landscape">Landscape</option>
+                <option value="ceiling">Ceiling</option>
+                <option value="lounge">Lounge</option>
+                <option value="bar">Bar</option>
+                <option value="top roof">Top Roof</option>
             </select>
         </div>
 
