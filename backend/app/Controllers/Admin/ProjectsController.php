@@ -96,11 +96,13 @@ class ProjectsController extends BaseController
                         $newName = $image->getRandomName();
                         $image->move(FCPATH . 'uploads/projects', $newName);
 
+                        $savedName = $this->convertToWebP(FCPATH . 'uploads/projects/' . $newName) ?? $newName;
+
                         $imageType = isset($imageTypes[$index]) ? $imageTypes[$index] : null;
 
                         $this->projectImageModel->insert([
                             'project_id' => $projectId,
-                            'image_url'  => 'uploads/projects/' . $newName,
+                            'image_url'  => 'uploads/projects/' . $savedName,
                             'image_type' => $imageType,
                         ]);
                     }
@@ -309,9 +311,11 @@ class ProjectsController extends BaseController
             $newName = $img->getRandomName();
             $img->move(FCPATH . 'uploads/projects', $newName);
 
+            $savedName = $this->convertToWebP(FCPATH . 'uploads/projects/' . $newName) ?? $newName;
+
             $this->projectImageModel->save([
                 'project_id' => $projectId,
-                'image_url'  => 'uploads/projects/' . $newName,
+                'image_url'  => 'uploads/projects/' . $savedName,
                 'caption'    => $this->request->getPost('caption'),
                 'image_type' => $imageType, // New: store image type
             ]);
@@ -353,5 +357,40 @@ class ProjectsController extends BaseController
         }
 
         return redirect()->back()->with('success', 'Image deleted successfully');
+    }
+
+    // Convert uploaded image to WebP and return the new filename, or null on failure
+    private function convertToWebP(string $sourcePath, int $quality = 82): ?string
+    {
+        $mime = mime_content_type($sourcePath);
+
+        if ($mime === 'image/webp') {
+            return basename($sourcePath);
+        }
+
+        if ($mime === 'image/jpeg') {
+            $src = imagecreatefromjpeg($sourcePath);
+        } elseif ($mime === 'image/png') {
+            $src = imagecreatefrompng($sourcePath);
+            imagepalettetotruecolor($src);
+            imagealphablending($src, true);
+            imagesavealpha($src, true);
+        } elseif ($mime === 'image/gif') {
+            $src = imagecreatefromgif($sourcePath);
+        } else {
+            return null;
+        }
+
+        if (!$src) return null;
+
+        $webpPath = preg_replace('/\.[^.]+$/', '.webp', $sourcePath);
+        $ok = imagewebp($src, $webpPath, $quality);
+        imagedestroy($src);
+
+        if (!$ok) return null;
+
+        @unlink($sourcePath);
+
+        return basename($webpPath);
     }
 }
