@@ -112,6 +112,14 @@ export default function ProjectDetails() {
     return () => controller.abort();
   }, []);
 
+  // Reset lastLoadedSrc when switching to a different project so the stale
+  // previous-project image doesn't flash while the new one loads.
+  useEffect(() => {
+    if (selected?.id !== undefined) {
+      setLastLoadedSrc('');
+    }
+  }, [selected?.id]);
+
   // When the selected project or currentIndex changes, mark the image as loading
   // until the image's onLoad/onError fires. This prevents users rapidly clicking
   // arrows and causing the slider to render into a bad state.
