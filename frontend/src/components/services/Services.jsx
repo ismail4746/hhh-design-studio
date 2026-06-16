@@ -4,6 +4,8 @@ import archImg from "../../assets/architecture/ar5.jpg";
 import interiorImg from "../../assets/interior/interior14.jpg";
 import projectImg from "../../assets/pro.jpg";
 import OptimizedImg from "../common/OptimizedImg";
+import constructionImg from "../../assets/construction.png";
+import renovationImg from "../../assets/revenew.png";
 
 export default function Services() {
   const services = [
@@ -22,6 +24,17 @@ export default function Services() {
       desc: "From concept to completion, we ensure efficiency, precision, and on-time delivery in every project. Our team coordinates every phase with transparency and professionalism to keep clients stress-free. We integrate advanced tools and methods for seamless execution and quality control. With a client-first approach, we guarantee smooth collaboration, timely progress, and successful outcomes every time.",
       img: projectImg,
     },
+
+    {
+      title: "Construction",
+      desc: "Our construction services are built on a foundation of quality, reliability, and craftsmanship. We manage every aspect of the construction process with precision and care, ensuring that each project is executed to the highest standards. From groundbreaking to finishing touches, we prioritize safety, efficiency, and client satisfaction. Our experienced team works closely with architects and designers to bring visions to life while maintaining strict timelines and budgets.",
+      img: constructionImg,
+    },
+    {
+      title: "Renovation",
+      desc: "Our renovation services breathe new life into existing spaces, blending modern design with timeless elegance. We specialize in transforming homes and commercial spaces while preserving their unique character. Our team handles every aspect of the renovation process with meticulous attention to detail, ensuring a seamless blend of aesthetics and functionality. Whether it's a complete overhaul or a subtle refresh, we deliver exceptional results that exceed expectations.",
+      img: renovationImg,
+    }
   ];
 
   // Variants for framer-motion
