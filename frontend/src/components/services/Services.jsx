@@ -1,8 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
-import archImg from "../../assets/architecture/ar5.jpg";
-import interiorImg from "../../assets/interior/interior14.jpg";
-import projectImg from "../../assets/pro.jpg";
+import archImg from "../../assets/jk.png";
+import interiorImg from "../../assets/iiii.png";
+import projectImg from "../../assets/prr.png";
 import OptimizedImg from "../common/OptimizedImg";
 import constructionImg from "../../assets/construction.png";
 import renovationImg from "../../assets/revenew.png";

@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import heroBg from "../../assets/hero11.jpg";
+import heroBg from "../../assets/sha.png";
 import logo from "../../assets/logomm.png";
 
 export default function PHero() {
