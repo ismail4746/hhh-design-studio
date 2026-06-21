@@ -3,21 +3,21 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { X, ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 
-import project1 from "../../assets/architecture/ar5.jpg";
-import project2 from "../../assets/architecture/ar13.jpg";
-import project3 from "../../assets/bedroom/bd2.jpg";
-import project4 from "../../assets/bedroom3.jpg";
-import project5 from "../../assets/interior/interior15.jpg";
-import project6 from "../../assets/lobby1.jpg";
+import project1 from "../../assets/pp1.webp";
+import project2 from "../../assets/pp2.webp";
+import project3 from "../../assets/pp3.webp";
+import project4 from "../../assets/pp4.webp";
+import project5 from "../../assets/pp5.webp";
+import project6 from "../../assets/pp6.webp";
 import OptimizedImg from "../common/OptimizedImg";
 
 const allProjects = [
-  { id: 1, img: project1, title: "Luxury Villa",      category: "Architecture" },
-  { id: 2, img: project2, title: "Luxury Villa",      category: "Architecture" },
-  { id: 3, img: project3, title: "King Size Bedroom", category: "Interior"     },
-  { id: 4, img: project4, title: "Luxury Bedroom",    category: "Interior"     },
-  { id: 5, img: project5, title: "Luxury Lobby",      category: "Interior"     },
-  { id: 6, img: project6, title: "Lobby",             category: "Interior"     },
+  { id: 1, img: project1, title: "Luxury Bedroom",      category: "Bedroom" },
+  { id: 2, img: project2, title: "King Size Bedroom",      category: "Bedroom" },
+  { id: 3, img: project3, title: "Lounging Area", category: "Lounge"     },
+  { id: 4, img: project4, title: "Modern Bedroom",    category: "Bedroom"     },
+  { id: 5, img: project5, title: "Luxury King Size Bedroom",      category: "Bedroom"     },
+  { id: 6, img: project6, title: "Premium Bedroom",             category: "Bedroom"     },
 ];
 
 export default function PProjects() {
