@@ -54,8 +54,8 @@ export default function Project() {
     return () => controller.abort();
   }, []);
 
-  if (loading) return <p className="p-10 text-gray-500">Loading projects...</p>;
-  if (error) return <p className="p-10 text-red-500">{error}</p>;
+  if (loading) return <p className="p-6 md:p-10 text-gray-500">Loading projects...</p>;
+  if (error) return <p className="p-6 md:p-10 text-red-500">{error}</p>;
 
   // Modal image change functions
   const nextImage = () => {
@@ -74,7 +74,7 @@ export default function Project() {
 
   return (
     <section
-      className="relative py-20 text-white overflow-hidden"
+      className="relative py-14 md:py-20 text-white overflow-hidden"
       style={{
         background:
           "radial-gradient(circle at top left, #1a1a1a, #0d0d0d), url('https://www.transparenttextures.com/patterns/asfalt-dark.png')",
@@ -83,15 +83,15 @@ export default function Project() {
     >
       <div className="absolute inset-0 bg-gradient-to-b from-[#0d0d0d]/50 via-transparent to-[#0d0d0d]/80 pointer-events-none"></div>
 
-      <div className="relative max-w-6xl mx-auto px-6">
-        <h2 className="text-4xl md:text-5xl text-center font-extrabold mb-12 bg-gradient-to-r from-[#D4AF37] to-[#b8902d] bg-clip-text text-transparent">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl text-center font-extrabold mb-12 bg-gradient-to-r from-[#D4AF37] to-[#b8902d] bg-clip-text text-transparent">
           Featured Projects
         </h2>
 
         {projects.length === 0 ? (
           <p className="text-gray-400">No projects found.</p>
         ) : (
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-8">
             {projects.slice(0, 6).map((p, index) => (
               <motion.div
                 key={p.id}
@@ -114,7 +114,7 @@ export default function Project() {
                     }
                     alt={p.name}
                     loading="lazy"
-                    className="w-full h-72 object-cover transform group-hover:scale-105 transition duration-500"
+                    className="w-full h-48 sm:h-56 md:h-60 object-cover transform group-hover:scale-105 transition duration-500"
                   />
                 </div>
 

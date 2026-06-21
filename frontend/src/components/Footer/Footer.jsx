@@ -12,7 +12,7 @@ export default function Footer() {
             {/* Decorative Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-tr from-[#0a1f2f] via-transparent to-[#0d2a45] opacity-70 pointer-events-none"></div>
 
-            <div className="relative max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-10">
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10">
                 {/* Logo and Description */}
                 <div className="flex flex-col space-y-4">
                     <div className="flex items-center space-x-3">

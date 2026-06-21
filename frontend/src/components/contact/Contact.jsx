@@ -38,7 +38,7 @@ const Contact = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex mt-20 items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex mt-16 md:mt-20 items-center justify-center overflow-hidden">
       {/* Background Image */}
       <picture>
         <source type="image/webp" srcSet={bgWebpSrcSet} sizes="100vw" />
@@ -54,7 +54,7 @@ const Contact = () => {
       <div className="absolute inset-0 bg-black/60"></div>
 
       {/* Content */}
-  <div className="relative z-10 container mx-auto px-6 lg:px-12 grid md:grid-cols-2 gap-12 items-center py-12 md:py-0">
+  <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-12 grid md:grid-cols-2 gap-8 md:gap-12 items-center py-10 md:py-0">
         {/* Left Content */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
@@ -63,7 +63,7 @@ const Contact = () => {
           className="text-white"
         >
           <h2
-            className="text-5xl font-extrabold mb-6 text-yellow-400"
+            className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 md:mb-6 text-yellow-400"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Get in Touch
@@ -86,7 +86,7 @@ const Contact = () => {
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="relative max-w-lg w-full p-10 bg-black/50 backdrop-blur-xl border border-yellow-500/20 rounded-3xl shadow-[0_0_60px_rgba(212,175,55,0.4)]"
+          className="relative max-w-lg w-full p-6 sm:p-8 md:p-10 bg-black/50 backdrop-blur-xl border border-yellow-500/20 rounded-3xl shadow-[0_0_60px_rgba(212,175,55,0.4)]"
         >
           <h3
             className="text-3xl font-bold mb-6 text-center text-yellow-400"

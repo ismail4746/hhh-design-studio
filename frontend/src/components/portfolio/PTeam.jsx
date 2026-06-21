@@ -183,23 +183,23 @@ export default function PTeam() {
               exit={{ opacity: 0, y: 40, scale: 0.96 }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-3xl bg-[#0b0b0b] border border-white/8 rounded-3xl overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.9)]"
+              className="relative w-full max-w-3xl bg-[#0b0b0b] border border-white/8 rounded-3xl overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.9)] max-h-[90vh] overflow-y-auto"
             >
               {/* Gold top line */}
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/70 to-transparent z-30" />
+              <div className="sticky top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/70 to-transparent z-30" />
 
-              {/* Close button */}
+              {/* Close button — sticky on mobile so always visible */}
               <button
                 onClick={() => setSelected(null)}
-                className="absolute top-5 right-5 z-40 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 border border-white/15 hover:border-white/30 backdrop-blur-sm flex items-center justify-center transition-all duration-300"
+                className="sticky top-3 float-right mr-3 z-40 w-9 h-9 rounded-full bg-black/70 hover:bg-black border border-white/20 hover:border-white/40 backdrop-blur-sm flex items-center justify-center transition-all duration-300 -mb-9"
               >
-                <X size={14} className="text-white/60 hover:text-white transition-colors duration-300" />
+                <X size={14} className="text-white/70 hover:text-white transition-colors duration-300" />
               </button>
 
               <div className="grid grid-cols-1 md:grid-cols-[1.1fr_1fr]">
 
                 {/* ── Left: Full Image ── */}
-                <div className="relative overflow-hidden" style={{ minHeight: "480px" }}>
+                <div className="relative overflow-hidden h-[260px] sm:h-[320px] md:h-auto md:min-h-[480px]">
                   <OptimizedImg
                     src={selected.img}
                     alt={selected.name}
@@ -210,29 +210,29 @@ export default function PTeam() {
                   {/* Gradient blending into right panel on desktop */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0b0b0b] hidden md:block" />
                   {/* Gradient bottom on mobile */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b0b] via-[#0b0b0b]/20 to-transparent md:hidden" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b0b] via-[#0b0b0b]/30 to-transparent md:hidden" />
 
                   {/* Tag badge — top left */}
-                  <div className="absolute top-5 left-5 z-10 px-3 py-1.5 rounded-full bg-black/60 border border-[#D4AF37]/30 backdrop-blur-md">
+                  <div className="absolute top-4 left-4 z-10 px-3 py-1.5 rounded-full bg-black/60 border border-[#D4AF37]/30 backdrop-blur-md">
                     <span className="text-[9px] uppercase tracking-[3px] text-[#D4AF37]/80 font-medium">
                       {selected.tag}
                     </span>
                   </div>
 
                   {/* Number watermark — bottom left */}
-                  <div className="absolute bottom-5 left-5 z-10">
-                    <span className="text-7xl font-black text-white/6 select-none leading-none">
+                  <div className="absolute bottom-4 left-4 z-10">
+                    <span className="text-5xl md:text-7xl font-black text-white/6 select-none leading-none">
                       {selected.num}
                     </span>
                   </div>
                 </div>
 
                 {/* ── Right: Details ── */}
-                <div className="relative flex flex-col justify-between p-8 md:p-10">
+                <div className="relative flex flex-col justify-between p-5 sm:p-7 md:p-10">
 
                   <div>
                     {/* Line + tag label */}
-                    <div className="flex items-center gap-3 mb-7">
+                    <div className="flex items-center gap-3 mb-4 md:mb-7">
                       <div className="h-px w-8 bg-gradient-to-r from-[#D4AF37] to-[#b8902d]" />
                       <span className="text-[9px] uppercase tracking-[5px] text-[#D4AF37]/55 font-medium">
                         {selected.role}
@@ -240,21 +240,21 @@ export default function PTeam() {
                     </div>
 
                     {/* Name */}
-                    <h2 className="text-3xl md:text-4xl font-black text-white leading-tight tracking-tight mb-8">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-tight tracking-tight mb-4 md:mb-8">
                       {selected.name}
                     </h2>
 
                     {/* Divider */}
-                    <div className="h-px bg-gradient-to-r from-[#D4AF37]/25 via-[#D4AF37]/10 to-transparent mb-7" />
+                    <div className="h-px bg-gradient-to-r from-[#D4AF37]/25 via-[#D4AF37]/10 to-transparent mb-4 md:mb-7" />
 
                     {/* Description */}
-                    <p className="text-white/45 text-sm leading-[1.95]">
+                    <p className="text-white/45 text-sm leading-[1.85]">
                       {selected.desc}
                     </p>
                   </div>
 
                   {/* Bottom: socials */}
-                  <div className="mt-10 pt-7 border-t border-white/6">
+                  <div className="mt-6 md:mt-10 pt-5 md:pt-7 border-t border-white/6">
                     <p className="text-[8px] uppercase tracking-[5px] text-white/20 mb-4">
                       Connect
                     </p>

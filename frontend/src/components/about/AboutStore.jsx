@@ -13,7 +13,7 @@ export default function AboutStore() {
           className="text-5xl font-extrabold tracking-wider mb-6 bg-gradient-to-r from-[#D4AF37] to-[#b8902d] bg-clip-text text-transparent"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
-          Our Store
+          The Vision Behind HHH Design Studio
         </motion.h2>
 
         <motion.p

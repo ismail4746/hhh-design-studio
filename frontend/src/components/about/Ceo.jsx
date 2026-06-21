@@ -13,7 +13,7 @@ export default function Ceo() {
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#b8902d]/10 rounded-full blur-[200px]" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
         
         {/* CEO Image */}
         <motion.div

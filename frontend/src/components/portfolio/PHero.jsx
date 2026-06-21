@@ -7,7 +7,7 @@ export default function PHero() {
   return (
       <section
           id="home"
-          className="relative h-screen w-full bg-cover bg-center md:bg-top md:bg-fixed pt-24"
+          className="relative h-screen w-full bg-cover bg-top pt-20 md:pt-24"
           style={{ backgroundImage: `url(${heroBg})` }}
       >
       {/* Hero Content */}

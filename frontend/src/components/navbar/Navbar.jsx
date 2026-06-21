@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import logo from "../../assets/logomm.png";
 import OptimizedImg from "../common/OptimizedImg";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => { if (window.innerWidth >= 768) setMenuOpen(false); };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const leftLinks = [
     { name: "Home", path: "/" },
@@ -77,35 +84,43 @@ function Navbar() {
       </div>
 
       {/* Mobile Dropdown Menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-white/95 dark:bg-black/95 backdrop-blur-xl shadow-xl border-t border-gray-300/20 dark:border-gray-700/30 animate-slideDown">
-          <div className="flex flex-col space-y-6 justify-center items-center py-5">
-            {[...leftLinks, ...rightLinks].map((link, index) => (
-              <NavLink
-                key={index}
-                to={link.path}
-                className={({ isActive }) =>
-                  `text-lg ${
-                    isActive ? "text-yellow-500" : "text-gray-800 dark:text-gray-200"
-                  } hover:text-yellow-500 transition-all duration-300`
-                }
-                onClick={() => setMenuOpen(false)}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="md:hidden overflow-hidden bg-white/95 dark:bg-black/95 backdrop-blur-xl shadow-xl border-t border-gray-300/20 dark:border-gray-700/30"
+          >
+            <div className="flex flex-col space-y-5 justify-center items-center py-6 px-4">
+              {[...leftLinks, ...rightLinks].map((link, index) => (
+                <NavLink
+                  key={index}
+                  to={link.path}
+                  className={({ isActive }) =>
+                    `text-base font-medium ${
+                      isActive ? "text-yellow-500" : "text-gray-800 dark:text-gray-200"
+                    } hover:text-yellow-500 transition-all duration-300`
+                  }
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {link.name}
+                </NavLink>
+              ))}
+              <button
+                onClick={() => {
+                  navigate("/contactDetails");
+                  setMenuOpen(false);
+                }}
+                className="w-full max-w-xs px-5 py-3 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-semibold hover:scale-105 hover:shadow-lg transition-all duration-300"
               >
-                {link.name}
-              </NavLink>
-            ))}
-            <button
-              onClick={() => {
-                navigate("/contactDetails");
-                setMenuOpen(false);
-              }}
-              className="px-5 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-semibold hover:scale-105 hover:shadow-lg transition-all duration-300"
-            >
-              Design Your Vision
-            </button>
-          </div>
-        </div>
-      )}
+                Design Your Vision
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
