@@ -4,8 +4,8 @@ import archImg from "../../assets/jk.png";
 import interiorImg from "../../assets/iiii.png";
 import projectImg from "../../assets/prr.png";
 import OptimizedImg from "../common/OptimizedImg";
-import constructionImg from "../../assets/construction.png";
-import renovationImg from "../../assets/revenew.png";
+import constructionImg from "../../assets/cccc.png";
+import renovationImg from "../../assets/rio.png";
 
 export default function Services() {
   const services = [

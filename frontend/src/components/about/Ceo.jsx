@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import ceoImg from "../../assets/azeemCeo1.jpg";
+import ceoImg from "../../assets/aZ.jpeg";
 import OptimizedImg from "../common/OptimizedImg";
 import { Link } from "react-router-dom";
 

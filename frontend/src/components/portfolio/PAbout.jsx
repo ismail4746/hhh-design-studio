@@ -9,7 +9,7 @@ import {
   FaLinkedin,
   FaTiktok ,
 } from "react-icons/fa";
-import clientImg from "../../assets/azeemCeo1.jpg";
+import clientImg from "../../assets/aZ.jpeg";
 import OptimizedImg from "../common/OptimizedImg";
 
 export default function PAbout() {
