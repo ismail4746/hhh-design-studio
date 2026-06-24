@@ -3,7 +3,7 @@ import PHero from './PHero'
 import PAbout from './PAbout'
 import PProjects from './PProject'
 import PServices from './PServices'
-import PTeam from './PTeam'
+// import PTeam from './PTeam'
 
 const Portfolio = () => {
   return (
@@ -12,7 +12,7 @@ const Portfolio = () => {
     <PAbout/>
     <PProjects/>
     <PServices/>
-    <PTeam/>
+    {/* <PTeam/> */}
 
 
     </>
