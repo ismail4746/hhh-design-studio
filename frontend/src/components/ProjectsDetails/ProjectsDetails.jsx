@@ -166,9 +166,9 @@ export default function ProjectDetails() {
     let result = category === "All"
       ? projects
       : projects.filter((p) => {
-          const c = category.toLowerCase();
-          return p.images?.some((img) => img.image_type && img.image_type.toLowerCase() === c);
-        });
+        const c = category.toLowerCase();
+        return p.images?.some((img) => img.image_type && img.image_type.toLowerCase() === c);
+      });
     return sortOrder === "newest"
       ? [...result].sort((a, b) => b.id - a.id)
       : [...result].sort((a, b) => a.id - b.id);
@@ -214,11 +214,10 @@ export default function ProjectDetails() {
                 setCategory(cat);
                 setVisibleCount(9);
               }}
-              className={`px-6 py-2 rounded-full font-semibold transition-all ${
-                category === cat
+              className={`px-6 py-2 rounded-full font-semibold transition-all ${category === cat
                   ? "bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black shadow-lg scale-105"
                   : "bg-[#1a1a1a]/60 text-gray-300 border border-gray-600 hover:border-[#D4AF37] hover:text-yellow-400"
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -246,11 +245,10 @@ export default function ProjectDetails() {
                     setVisibleCount(9);
                   }}
                   aria-pressed={active}
-                  className={`relative min-w-0 flex-1 sm:flex-none px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 ${
-                    active
+                  className={`relative min-w-0 flex-1 sm:flex-none px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 ${active
                       ? "bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black shadow-[0_0_18px_rgba(212,175,55,0.35)]"
                       : "text-gray-300 hover:text-white"
-                  }`}
+                    }`}
                 >
                   <span className="relative z-10">{opt.label}</span>
                 </button>
@@ -268,10 +266,10 @@ export default function ProjectDetails() {
                 category === "All"
                   ? p.images?.[0]
                   : p.images?.find(
-                      (img) =>
-                        img.image_type &&
-                        img.image_type.toLowerCase() === category.toLowerCase()
-                    );
+                    (img) =>
+                      img.image_type &&
+                      img.image_type.toLowerCase() === category.toLowerCase()
+                  );
 
               return (
                 <motion.div
@@ -303,7 +301,7 @@ export default function ProjectDetails() {
                     )}
                   </div>
 
-                    <div className="p-5 flex flex-col">
+                  <div className="p-5 flex flex-col">
                     <h4 className="text-xl mb-1 font-semibold text-[#D4AF37] truncate w-full">
                       {p.name}
                     </h4>
@@ -346,141 +344,138 @@ export default function ProjectDetails() {
 
       {/* Project Modal */}
       <AnimatePresence>
-        {selected && (
-          <motion.div
-            key={selected?.id}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xl p-4 overflow-y-auto"
-          >
-            <motion.div
-              initial={{ scale: 0.96, y: 8 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.96, y: 8 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative w-full max-w-5xl rounded-3xl overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.7)] border border-[#D4AF37]/40 bg-gradient-to-br from-[#0a0a0a] via-[#141414] to-[#0a0a0a] flex flex-col"
-            >
-              {/* Gold glow top edge */}
-              <div className="pointer-events-none absolute inset-x-0 -top-32 h-52 bg-[radial-gradient(ellipse_at_top,#D4AF37_0%,transparent_70%)] opacity-20" />
+  {selected && (
+    <motion.div
+      key={selected?.id}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-6"
+    >
+      <motion.div
+        initial={{ scale: 0.96, y: 8 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.96, y: 8 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="relative w-full max-w-6xl h-[90vh] rounded-3xl overflow-hidden bg-[#101010] border border-[#D4AF37]/20 shadow-2xl flex flex-col"
+      >
+        {/* Gold glow top edge */}
+        <div className="pointer-events-none absolute inset-x-0 -top-32 h-52 bg-[radial-gradient(ellipse_at_top,#D4AF37_0%,transparent_70%)] opacity-20" />
 
-              {/* Close Button */}
-              <button
-                onClick={() => setSelected(null)}
-                className="absolute top-4 right-4 z-40 rounded-full px-4 py-2 text-sm font-semibold text-black bg-gradient-to-r from-[#D4AF37] to-[#b8902d] hover:shadow-[0_0_28px_#D4AF37]/70 transition"
-              >
-                ✕
-              </button>
+        {/* Close Button */}
+        <button
+          onClick={() => setSelected(null)}
+          className="absolute top-4 right-4 z-40 rounded-full px-4 py-2 text-sm font-semibold text-black bg-gradient-to-r from-[#D4AF37] to-[#b8902d] hover:shadow-[0_0_28px_#D4AF37]/70 transition"
+        >
+          ✕
+        </button>
 
-              {/* Image Section with Slider */}
-              <div className="relative bg-black/70 flex items-center justify-center max-h-[70vh]">
-                {selected?.images?.length ? (
-                  <div className="relative w-full flex items-center justify-center">
-                    <div className="relative w-full flex items-center justify-center">
-                      {/* Always show the last successfully loaded image as the base layer */}
-                      {lastLoadedSrc ? (
-                        <OptimizedImg
-                          src={lastLoadedSrc}
-                          alt={selected.name || 'Project image'}
-                          className="max-h-full max-w-full object-contain rounded-xl shadow-lg"
-                          loading={isImageLoading ? 'eager' : 'lazy'}
-                          priority={true}
-                        />
-                      ) : (
-                        <div className="w-full h-64 flex items-center justify-center text-gray-400">Loading…</div>
-                      )}
+        {/* Image Section with Slider */}
+        <div className="relative flex-1 min-h-0 bg-black flex items-center justify-center overflow-hidden">
+          {selected?.images?.length ? (
+            <div className="relative w-full h-full flex items-center justify-center">
+              {/* Base layer: last loaded image */}
+              {lastLoadedSrc ? (
+                <OptimizedImg
+                  src={lastLoadedSrc}
+                  alt={selected.name || 'Project image'}
+                  className="w-full h-full object-contain"
+                  loading={isImageLoading ? 'eager' : 'lazy'}
+                  priority={true}
+                />
+              ) : (
+                <div className="w-full h-64 flex items-center justify-center text-gray-400">Loading…</div>
+              )}
 
-                      {/* Pending image loads on top and crossfades in when ready */}
-                      {pendingSrc && (
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25 }} className="absolute inset-0 m-auto max-h-full max-w-full">
-                          <OptimizedImg
-                            src={pendingSrc}
-                            alt={selected.name || 'Project image'}
-                            className="absolute inset-0 m-auto max-h-full max-w-full object-contain rounded-xl shadow-lg"
-                            loading="eager"
-                            onLoad={() => {
-                              // once pending finishes loading, make it the new lastLoadedSrc
-                              setLastLoadedSrc(pendingSrc);
-                              setPendingSrc(null);
-                              setIsImageLoading(false);
-                            }}
-                            onError={() => {
-                              // on error, clear the pending image and keep the previous image
-                              setPendingSrc(null);
-                              setIsImageLoading(false);
-                            }}
-                          />
-                        </motion.div>
-                      )}
-                    </div>
+              {/* Pending image crossfades in when ready */}
+              {pendingSrc && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.25 }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <OptimizedImg
+                    src={pendingSrc}
+                    alt={selected.name || 'Project image'}
+                    className="w-full h-full object-contain rounded-xl shadow-lg"
+                    loading="eager"
+                    onLoad={() => {
+                      setLastLoadedSrc(pendingSrc);
+                      setPendingSrc(null);
+                      setIsImageLoading(false);
+                    }}
+                    onError={() => {
+                      setPendingSrc(null);
+                      setIsImageLoading(false);
+                    }}
+                  />
+                </motion.div>
+              )}
 
-                    {/* Prev/Next Buttons: show only when there are multiple images */}
-                    {selected?.images && selected.images.length > 1 && (
-                      <>
-                        <button
-                          onClick={() => {
-                              if (isImageLoading) return;
-                              const len = selected.images.length || 1;
-                              const next = (currentIndex - 1 + len) % len;
-                              // compute the next image URL and set it as pending so the
-                              // UI keeps showing the lastLoadedSrc until the new image is ready
-                              setPendingSrc(getImageUrl(selected.images[next]?.image_url));
-                              setCurrentIndex(next);
-                          }}
-                          aria-label="Previous image"
-                          aria-disabled={isImageLoading}
-                          disabled={isImageLoading}
-                          className={`absolute left-4 z-30 flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 shadow-lg border-2 border-transparent ${
-                            isImageLoading
-                              ? "bg-black/40 text-gray-400 cursor-not-allowed"
-                              : "bg-black/70 text-white hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#b8902d] hover:text-black hover:border-black"
-                          }`}
-                        >
-                          <ChevronLeft size={20} />
-                        </button>
+              {/* Prev/Next Buttons */}
+              {selected.images.length > 1 && (
+                <>
+                  <button
+                    onClick={() => {
+                      if (isImageLoading) return;
+                      const len = selected.images.length || 1;
+                      const next = (currentIndex - 1 + len) % len;
+                      setPendingSrc(getImageUrl(selected.images[next]?.image_url));
+                      setCurrentIndex(next);
+                    }}
+                    aria-label="Previous image"
+                    aria-disabled={isImageLoading}
+                    disabled={isImageLoading}
+                    className={`absolute left-4 z-30 flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 shadow-lg border-2 border-transparent ${
+                      isImageLoading
+                        ? "bg-black/40 text-gray-400 cursor-not-allowed"
+                        : "bg-black/70 text-white hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#b8902d] hover:text-black hover:border-black"
+                    }`}
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
 
-                        <button
-                          onClick={() => {
-                            if (isImageLoading) return;
-                            const len = selected.images.length || 1;
-                            const next = (currentIndex + 1) % len;
-                            setPendingSrc(getImageUrl(selected.images[next]?.image_url));
-                            setCurrentIndex(next);
-                          }}
-                          aria-label="Next image"
-                          aria-disabled={isImageLoading}
-                          disabled={isImageLoading}
-                          className={`absolute right-4 z-30 flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 shadow-lg border-2 border-transparent ${
-                            isImageLoading
-                              ? "bg-black/40 text-gray-400 cursor-not-allowed"
-                              : "bg-black/70 text-white hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#b8902d] hover:text-black hover:border-black"
-                          }`}
-                        >
-                          <ChevronRight size={20} />
-                        </button>
-                      </>
-                    )}
-                  </div>
-                ) : (
-                  <div className="text-gray-400 text-sm">
-                    No image available
-                  </div>
-                )}
-              </div>
+                  <button
+                    onClick={() => {
+                      if (isImageLoading) return;
+                      const len = selected.images.length || 1;
+                      const next = (currentIndex + 1) % len;
+                      setPendingSrc(getImageUrl(selected.images[next]?.image_url));
+                      setCurrentIndex(next);
+                    }}
+                    aria-label="Next image"
+                    aria-disabled={isImageLoading}
+                    disabled={isImageLoading}
+                    className={`absolute right-4 z-30 flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 shadow-lg border-2 border-transparent ${
+                      isImageLoading
+                        ? "bg-black/40 text-gray-400 cursor-not-allowed"
+                        : "bg-black/70 text-white hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#b8902d] hover:text-black hover:border-black"
+                    }`}
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                </>
+              )}
+            </div>
+          ) : (
+            <div className="text-gray-400 text-sm">No image available</div>
+          )}
+        </div>
 
-              {/* Details Section */}
-              <div className="bg-black/40 backdrop-blur-md border-t border-[#D4AF37]/30 p-6 flex flex-col">
-                <h3 className="text-2xl md:text-3xl font-extrabold tracking-wide bg-gradient-to-r from-[#D4AF37] to-[#caa84a] bg-clip-text text-transparent drop-shadow-lg">
-                  {selected?.name}
-                </h3>
-                <div className="mt-2 pr-2 text-gray-300 text-sm md:text-base leading-relaxed">
-                  {selected?.description || "No description available."}
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        {/* Details Section */}
+        <div className="flex-shrink-0 max-h-[35%] overflow-y-auto bg-black/40 backdrop-blur-md border-t border-[#D4AF37]/30 p-6 flex flex-col">
+          <h3 className="text-2xl md:text-3xl font-extrabold tracking-wide bg-gradient-to-r from-[#D4AF37] to-[#caa84a] bg-clip-text text-transparent drop-shadow-lg">
+            {selected?.name}
+          </h3>
+          <p className="mt-3 pr-2 text-gray-300 text-sm md:text-base leading-relaxed whitespace-pre-line">
+            {selected?.description || "No description available."}
+          </p>
+        </div>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
     </section>
   );
 }
