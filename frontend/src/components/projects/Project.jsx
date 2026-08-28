@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, X } from "lucide-react";
 import OptimizedImg from "../common/OptimizedImg";
 import { getCachedJson, setCachedJson } from "../../utils/storageCache";
 
@@ -99,13 +99,23 @@ export default function Project() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.08 }}
-                className="group rounded-3xl overflow-hidden bg-[#1a1a1a]/40 backdrop-blur-lg border border-gray-700 hover:border-[#D4AF37] hover:shadow-[0_0_25px_#D4AF37]/40 transition cursor-pointer"
+                className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-[#161616] to-[#0c0c0c] shadow-[0_10px_30px_-16px_rgba(0,0,0,0.9)] transition-all duration-500 hover:-translate-y-1.5 hover:border-[#D4AF37]/60 hover:shadow-[0_30px_55px_-24px_rgba(0,0,0,0.95)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/70"
+                role="button"
+                tabIndex={0}
+                aria-label={`View project ${p.name}`}
                 onClick={() => {
                   setSelected(p);
                   setCurrentIndex(0);
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelected(p);
+                    setCurrentIndex(0);
+                  }
+                }}
               >
-                <div className="rounded-3xl overflow-hidden">
+                <div className="relative overflow-hidden">
                   <OptimizedImg
                     src={
                       p.images && p.images[0]
@@ -114,17 +124,35 @@ export default function Project() {
                     }
                     alt={p.name}
                     loading="lazy"
-                    className="w-full h-48 sm:h-56 md:h-60 object-cover transform group-hover:scale-105 transition duration-500"
+                    className="h-48 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07] sm:h-56 md:h-60"
                   />
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/60"
+                  />
+                  <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-gray-200 backdrop-blur-md">
+                    <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#D4AF37]" />
+                    {p.status}
+                  </span>
                 </div>
 
-                <div className="p-5">
-                  <h4 className="text-xl mb-1 font-semibold text-[#D4AF37]">
+                <div
+                  aria-hidden="true"
+                  className="h-px w-full bg-gradient-to-r from-transparent via-[#D4AF37]/25 to-transparent transition-all duration-500 group-hover:via-[#D4AF37]/70"
+                />
+
+                <div className="flex flex-1 flex-col p-5">
+                  <h4
+                    className="truncate text-lg font-bold text-white transition-colors duration-300 group-hover:text-[#D4AF37]"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
                     {p.name}
                   </h4>
-                  <p className="text-xs uppercase text-gray-500 mb-3">
-                    Status — {p.status}
-                  </p>
+
+                  <div className="mt-auto flex items-center gap-1.5 pt-4 text-[11px] uppercase tracking-[0.2em] text-gray-500 transition-colors duration-300 group-hover:text-[#D4AF37]">
+                    View Project
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </div>
                 </div>
               </motion.div>
             ))}

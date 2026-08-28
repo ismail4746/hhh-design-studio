@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import OptimizedImg from "../common/OptimizedImg";
 
 const PROJECTS_CACHE_KEY = "hhh.projects.v1";
@@ -282,43 +282,57 @@ export default function ProjectDetails() {
                     delay: index * 0.1,
                     ease: "easeOut",
                   }}
-                  className="group rounded-3xl overflow-hidden bg-[#1a1a1a]/40 backdrop-blur-lg border border-gray-700 hover:border-[#D4AF37] hover:shadow-[0_0_25px_#D4AF37]/40 transition"
+                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-[#161616] to-[#0c0c0c] shadow-[0_10px_30px_-16px_rgba(0,0,0,0.9)] transition-all duration-500 hover:-translate-y-1.5 hover:border-[#D4AF37]/60 hover:shadow-[0_30px_55px_-24px_rgba(0,0,0,0.95)]"
                 >
-                  <div className="rounded-3xl overflow-hidden">
+                  <div className="relative overflow-hidden">
                     {firstImage ? (
-                      <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.5 }}>
-                        <OptimizedImg
-                          src={getImageUrl(firstImage.image_url)}
-                          alt={p.name}
-                          loading="lazy"
-                          className="w-full h-72 object-cover"
-                        />
-                      </motion.div>
+                      <OptimizedImg
+                        src={getImageUrl(firstImage.image_url)}
+                        alt={p.name}
+                        loading="lazy"
+                        className="h-72 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
+                      />
                     ) : (
-                      <div className="w-full h-72 flex items-center justify-center text-gray-500">
+                      <div className="flex h-72 w-full items-center justify-center bg-white/[0.02] text-xs uppercase tracking-[0.2em] text-gray-600">
                         No Image
                       </div>
                     )}
+
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/60"
+                    />
+
+                    <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-gray-200 backdrop-blur-md">
+                      <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#D4AF37]" />
+                      {p.status}
+                    </span>
                   </div>
 
-                  <div className="p-5 flex flex-col">
-                    <h4 className="text-xl mb-1 font-semibold text-[#D4AF37] truncate w-full">
+                  <div
+                    aria-hidden="true"
+                    className="h-px w-full bg-gradient-to-r from-transparent via-[#D4AF37]/25 to-transparent transition-all duration-500 group-hover:via-[#D4AF37]/70"
+                  />
+
+                  <div className="flex flex-1 flex-col gap-5 p-5">
+                    <h4
+                      className="w-full truncate text-lg font-bold text-white transition-colors duration-300 group-hover:text-[#D4AF37]"
+                      style={{ fontFamily: "'Playfair Display', serif" }}
+                    >
                       {p.name}
                     </h4>
-                    <p className="text-xs uppercase text-gray-500 mb-3">
-                      Status — {p.status}
-                    </p>
 
                     <motion.button
                       onClick={() => {
                         setSelected(p);
                         setCurrentIndex(0); // start from first image
                       }}
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.3 }}
-                      className="mt-auto w-full px-6 py-2 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#b8902d] text-black font-semibold hover:shadow-[0_0_30px_#D4AF37]/40 transition"
+                      className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/[0.06] px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#D4AF37] transition-colors duration-300 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-black"
                     >
                       Read More
+                      <ArrowUpRight className="h-3.5 w-3.5" />
                     </motion.button>
                   </div>
                 </motion.div>
