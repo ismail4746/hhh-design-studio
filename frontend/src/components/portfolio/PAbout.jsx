@@ -157,15 +157,15 @@ export default function PAbout() {
                 Contact Me
               </a>
 
-              <a
+              {/* <a
                 href="#team"
                 className="px-8 py-3 border border-[#D4AF37] text-[#D4AF37] rounded-lg hover:bg-[#D4AF37]/30 transition duration-300"
               >
                 Our Team
-              </a>
+              </a> */}
 
               <a
-                href="https://instagram.com/hhhdesign_studio1"
+                href="https://www.instagram.com/hhhdesignstudio?igsi=a3cycThveGVhc2k%3D&utm_source=qr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#D4AF37] text-3xl hover:scale-110 transition"

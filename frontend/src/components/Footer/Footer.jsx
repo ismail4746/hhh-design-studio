@@ -45,7 +45,7 @@ export default function Footer() {
 
                         {/* Instagram */}
                         <a
-                            href="https://www.instagram.com/hhhdesign_studio1?igsh=a3cycThveGVhc2k%3D&utm_source=qr"
+                            href="https://www.instagram.com/hhhdesignstudio?igsi=a3cycThveGVhc2k%3D&utm_source=qr"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-yellow-400 hover:text-white transition"
@@ -54,14 +54,14 @@ export default function Footer() {
                         </a>
 
                         {/* LinkedIn */}
-                        <a
+                        {/* <a
                             href="http://www.linkedin.com/in/hhh-design-studio-083619379"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-yellow-400 hover:text-white transition"
                         >
                             <Linkedin />
-                        </a>
+                        </a> */}
 
                         {/* TikTok */}
                         <a
