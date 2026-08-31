@@ -1,24 +1,80 @@
 RewriteEngine On
 RewriteBase /
 
-# Handle Angular/React/Vue.js client-side routing
-# If the requested file or directory exists, serve it directly
-RewriteCond %{REQUEST_FILENAME} -f [OR]
+# ---------------------------------------------------------------------------
+# 1. Canonical host + scheme
+#    Every page must be reachable at exactly ONE URL. Serving the same content
+#    on http/https and www/non-www splits ranking signals across four copies.
+# ---------------------------------------------------------------------------
+
+# Force HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Force non-www (matches the canonical URLs in src/seo/seo.config.js)
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+# ---------------------------------------------------------------------------
+# 2. Retired URLs -> current URLs (301, so ranking transfers)
+# ---------------------------------------------------------------------------
+
+# Old camelCase contact route
+RewriteRule ^contactDetails/?$ /contact [L,R=301,NC]
+
+# Old SPA bootstrap links (/?spa=/about) left over from the previous
+# prerender approach. Send them to the real page instead of the homepage.
+RewriteCond %{QUERY_STRING} (?:^|&)spa=(?:/|%2F)?([a-zA-Z]+) [NC]
+RewriteRule ^$ /%1? [L,R=301]
+RewriteCond %{QUERY_STRING} (?:^|&)spa=(?:/|%2F)?$ [NC]
+RewriteRule ^$ /? [L,R=301]
+
+# Trailing slash -> no trailing slash (one URL per page), except the root.
+# Directories are deliberately NOT excluded here: /about/ must 301 to /about,
+# because /about (no slash) is what the canonical tags and sitemap.xml declare.
+RewriteRule ^(.+?)/+$ /$1 [L,R=301]
+
+# ---------------------------------------------------------------------------
+# 3. Routing
+#    Every route is prerendered to its own directory (dist/about/index.html,
+#    dist/contact/index.html, ...), so real files answer every valid URL.
+#    Anything else genuinely does not exist and must return 404 — not a
+#    200-with-empty-page, which Google reports as a "soft 404".
+#
+#    NOTE: when you add a route to App.jsx, add it to src/seo/seo.config.js
+#    too, otherwise it will not be prerendered and will 404 here.
+# ---------------------------------------------------------------------------
+# Serve /about from about/index.html WITHOUT a redirect.
+#
+# Left alone, mod_dir answers a directory request such as /about with a
+# 301 to /about/ — which would fight the canonical tag pointing at /about and
+# leave Google with two conflicting signals for the same page. mod_rewrite runs
+# before mod_dir, so mapping the file internally here stops that redirect from
+# ever being issued.
 RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
+RewriteCond %{REQUEST_FILENAME}/index.html -f
+RewriteRule ^(.+?)/?$ /$1/index.html [L]
 
-# Otherwise, redirect all requests to index.html
-RewriteRule ^ index.html [L]
+#    There is deliberately NO catch-all rewrite to index.html here. Without
+#    one, Apache serves the matching file and returns a real 404 for anything
+#    else, which ErrorDocument then answers with the prerendered 404 page.
+ErrorDocument 404 /404.html
 
-# Security headers
+# ---------------------------------------------------------------------------
+# 4. Security headers
+# ---------------------------------------------------------------------------
 <IfModule mod_headers.c>
     Header always set X-Frame-Options DENY
     Header always set X-Content-Type-Options nosniff
-    Header always set X-XSS-Protection "1; mode=block"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
 </IfModule>
 
-# Enable compression
+# ---------------------------------------------------------------------------
+# 5. Compression
+# ---------------------------------------------------------------------------
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/plain
     AddOutputFilterByType DEFLATE text/html
@@ -29,16 +85,52 @@ RewriteRule ^ index.html [L]
     AddOutputFilterByType DEFLATE application/rss+xml
     AddOutputFilterByType DEFLATE application/javascript
     AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE font/woff2
 </IfModule>
 
-# Cache static assets
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/plain text/xml
+    AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json
+    AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# 6. Caching
+#    /assets/* filenames carry a content hash, so they can be cached forever.
+#    HTML must NOT be cached long, or visitors keep seeing the old build.
+# ---------------------------------------------------------------------------
 <IfModule mod_expires.c>
     ExpiresActive on
-    ExpiresByType text/css "access plus 1 month"
-    ExpiresByType application/javascript "access plus 1 month"
-    ExpiresByType image/png "access plus 1 month"
-    ExpiresByType image/jpg "access plus 1 month"
-    ExpiresByType image/jpeg "access plus 1 month"
-    ExpiresByType image/gif "access plus 1 month"
-    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 6 months"
+    ExpiresByType image/jpeg "access plus 6 months"
+    ExpiresByType image/webp "access plus 6 months"
+    ExpiresByType image/avif "access plus 6 months"
+    ExpiresByType image/gif "access plus 6 months"
+    ExpiresByType image/svg+xml "access plus 6 months"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(js|css|woff2)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    <FilesMatch "\.html$">
+        Header set Cache-Control "public, max-age=0, must-revalidate"
+    </FilesMatch>
+    <FilesMatch "\.(xml|txt)$">
+        Header set Cache-Control "public, max-age=3600"
+    </FilesMatch>
+</IfModule>
+
+# Correct MIME types (some shared hosts miss these)
+<IfModule mod_mime.c>
+    AddType image/webp .webp
+    AddType image/avif .avif
+    AddType application/manifest+json .webmanifest
+    AddType font/woff2 .woff2
 </IfModule>

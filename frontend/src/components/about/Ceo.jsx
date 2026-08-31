@@ -28,7 +28,7 @@ export default function Ceo() {
 
           <OptimizedImg
             src={ceoImg}
-            alt="Chief Executive Officer"
+            alt="Muhammad Azeem, Chief Executive Officer of HHH Design Studio"
             className="relative w-full h-[450px] sm:h-[520px] object-cover rounded-3xl transform transition-transform duration-[6000ms] group-hover:scale-105 group-hover:rotate-[1deg] shadow-[0_0_80px_rgba(212,175,55,0.25)]"
             loading="lazy"
           />

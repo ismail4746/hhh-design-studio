@@ -17,7 +17,7 @@ const EXPLORE_LINKS = [
     { name: "Services", path: "/services" },
     { name: "Portfolio", path: "/portfolio" },
     { name: "Projects", path: "/project" },
-    { name: "Contact", path: "/contactDetails" },
+    { name: "Contact", path: "/contact" },
 ];
 
 const SERVICES = [
@@ -127,7 +127,7 @@ export default function Footer() {
 
                     <div className="flex flex-wrap gap-3">
                         <Link
-                            to="/contactDetails"
+                            to="/contact"
                             className="rounded-full bg-gradient-to-r from-[#E7C766] to-[#C9A227] px-7 py-3 text-sm font-semibold text-black transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-10px_rgba(212,175,55,0.8)]"
                         >
                             Start a Conversation
@@ -149,7 +149,7 @@ export default function Footer() {
                     <div className="flex items-center gap-3">
                         <OptimizedImg
                             src={logo}
-                            alt="HHH Design Studio"
+                            alt="HHH Design Studio logo"
                             className="h-11 w-auto"
                             loading="lazy"
                             style={{ filter: "drop-shadow(0 0 8px rgba(212, 175, 55, 0.55))" }}

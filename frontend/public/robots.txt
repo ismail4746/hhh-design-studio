@@ -1,4 +1,0 @@
-User-agent: *
-Disallow:
-
-Sitemap: https://hhhdesignstudio.com/sitemap.xml

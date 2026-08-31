@@ -15,7 +15,7 @@ export default function ProjectHero() {
         <source type="image/jpeg" srcSet={heroJpgSrcSet} sizes="100vw" />
         <OptimizedImg
           src={heroImg}
-          alt="Projects Hero"
+          alt="Architecture and interior design projects by HHH Design Studio"
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
           priority={true}

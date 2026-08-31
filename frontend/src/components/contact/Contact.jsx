@@ -45,7 +45,7 @@ const Contact = () => {
         <source type="image/jpeg" srcSet={bgJpgSrcSet} sizes="100vw" />
         <OptimizedImg
           src={bgImg}
-          alt="Background"
+          alt="Interior space designed by HHH Design Studio, DHA Lahore"
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
           priority={true}
@@ -62,12 +62,14 @@ const Contact = () => {
           transition={{ duration: 0.8 }}
           className="text-white"
         >
-          <h2
+          {/* h1, not h2: this is the contact page's primary heading.
+              Classes and text are unchanged, so nothing moves visually. */}
+          <h1
             className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 md:mb-6 text-yellow-400"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Get in Touch
-          </h2>
+          </h1>
           <p className="text-lg text-gray-200 mb-4 leading-relaxed">
             We design spaces that inspire, blending timeless elegance with
             modern functionality.  

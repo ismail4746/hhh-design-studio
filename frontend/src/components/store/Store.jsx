@@ -26,7 +26,7 @@ export default function Store() {
             <div className="border-[6px] border-[#D4AF37]/40 rounded-3xl shadow-2xl overflow-hidden w-full">
               <OptimizedImg
                 src={MMM}
-                alt="Our Store"
+                alt="HHH Design Studio showroom interior"
                 className="w-full h-[480px] md:h-[540px] object-cover"
                 loading="lazy"
               />

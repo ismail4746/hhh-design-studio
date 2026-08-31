@@ -103,7 +103,7 @@ export default function PAbout() {
               <div className="bg-white/10 backdrop-blur-md rounded-3xl overflow-hidden shadow-xl transform transition duration-500 group-hover:scale-105 group-hover:shadow-[#D4AF37]/50">
                 <OptimizedImg
                   src={clientImg}
-                  alt="Client"
+                  alt="Client project delivered by HHH Design Studio"
                   className="rounded-3xl object-cover w-[350px] h-[450px] transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />

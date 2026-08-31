@@ -15,7 +15,7 @@ export default function Hero() {
         <source type="image/jpeg" srcSet={heroJpgSrcSet} sizes="100vw" />
         <OptimizedImg
           src={heroImg}
-          alt="Hero"
+          alt="Modern interior designed by HHH Design Studio, Lahore"
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
           priority={true}
