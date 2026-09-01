@@ -2,12 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+
+    <link rel="icon" type="image/png" href="/src/assets/logomm.png" />
+    <link rel="apple-touch-icon" href="/og/logo.png" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- Fonts are pulled in from index.css; warming the connection early
+         shaves a round-trip off first paint. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://api.hhhdesignstudio.com" crossorigin />
+    <link rel="dns-prefetch" href="https://api.hhhdesignstudio.com" />
+
+    <title>Architecture &amp; Interior Design Studio in Lahore | HHH</title>
+    <!--seo-head-->
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

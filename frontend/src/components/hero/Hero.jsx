@@ -1,38 +1,77 @@
 import React from "react";
+import { motion } from "framer-motion";
 import heroImg from "../../assets/hero.jpg";
+import heroJpgSrcSet from "../../assets/hero.jpg?w=480;960;1440&format=jpg&as=srcset";
+import heroWebpSrcSet from "../../assets/hero.jpg?w=480;960;1440&format=webp&as=srcset";
+import OptimizedImg from "../common/OptimizedImg";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   return (
-    <section className="relative h-screen flex items-center justify-center bg-black">
-      {/* Background image */}
-      <img
-        src={heroImg}
-        alt="Hero"
-        className="absolute inset-0 w-full h-full object-cover md:object-cover"
-      />
+    <section className="relative h-screen flex items-center justify-center bg-black overflow-hidden">
+      {/* Background Image */}
+      <picture>
+        <source type="image/webp" srcSet={heroWebpSrcSet} sizes="100vw" />
+        <source type="image/jpeg" srcSet={heroJpgSrcSet} sizes="100vw" />
+        <OptimizedImg
+          src={heroImg}
+          alt="Modern interior designed by HHH Design Studio, Lahore"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+          priority={true}
+        />
+      </picture>
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/50 dark:bg-black/70"></div>
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-black/25"></div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-4">
-        <h1
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.2, delayChildren: 0.1 } },
+        }}
+        className="relative z-10 text-center px-4"
+      >
+        <motion.h1
+          variants={{
+            hidden: { opacity: 0, y: 40, scale: 0.95 },
+            visible: { opacity: 1, y: 0, scale: 1 },
+          }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
           className="text-4xl md:text-6xl font-bold text-white tracking-wide mb-4"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
-          Crafting <span className="text-yellow-500">Spaces</span> That Inspire
-        </h1>
-        <p
-          className="text-lg md:text-xl text-gray-200 dark:text-gray-300 max-w-2xl mx-auto mb-6"
+          Designing  <span className="text-yellow-500">Spaces</span> That Ignite Creativity
+        </motion.h1>
+
+        <motion.p
+          variants={{
+            hidden: { opacity: 0, y: 40, scale: 0.95 },
+            visible: { opacity: 1, y: 0, scale: 1 },
+          }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-6"
           style={{ fontFamily: "'Poppins', sans-serif" }}
         >
           Premium Architecture & Interior Design solutions tailored for
           elegance, functionality, and timeless appeal.
-        </p>
-        <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-6 py-3 rounded-lg transition">
-          Explore Our Work
-        </button>
-      </div>
+        </motion.p>
+
+        <motion.button
+          variants={{
+            hidden: { opacity: 0, y: 40, scale: 0.95 },
+            visible: { opacity: 1, y: 0, scale: 1 },
+          }}
+          
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-6 py-3 rounded-lg transition transform hover:scale-105"
+        >
+          <Link to="/project">Explore Our Work</Link>
+        </motion.button>
+      </motion.div>
     </section>
   );
 }
